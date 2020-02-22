@@ -1,0 +1,51 @@
+<view>
+    <view class="banner">
+        <image class="banner-img" src="../../images/banner.png">
+            <view class="banner-des">
+                <image class="banner-des-img" src="../../images/banner-des.png"></image>
+                <view class="banner-time">2020年2月16日-2月23日</view>
+            </view>
+        </image>
+    </view>
+    <view>
+        <van-index-bar
+                scroll-top="{{ scrollTop }}"
+                index-list="{{ indexList }}"
+        >
+            <view wx:for="{{schedule}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+                <van-index-anchor use-slot="true">
+                    <view class="cell-header">
+                        <view class="cell-header-item">
+                            <text class="cell-title">{{item.group.weekday}}</text>
+                            <text class="cell-sub-title">2020年2月18日</text>
+                        </view>
+                    </view>
+                </van-index-anchor>
+                <view class="cell">
+                    <van-cell wx:for="{{item.courses}}" wx:for-index="coursesIndex" wx:for-item="coursesItem" wx:key="coursesIndex">
+                        <view class="cell-item" style="border-bottom : {{ coursesIndex < item.courses.length - 1 ? '1rpx solid #C4B5B5' : ''}}; margin-bottom: {{ coursesIndex === item.courses.length - 1 ? index === schedule.length - 1 ? '160rpx' : '' : '' }}">
+                            <view>
+                                <view class="item-tag-time">
+                                    <view class="tag" style="background-color: {{coursesItem.category.color}}">{{coursesItem.category.name}}</view>
+                                    <view class="item-time">上午10:00-10:40</view>
+                                </view>
+                                <view class="item-title">{{coursesItem.title}}</view>
+                                <view class="item-teacher">{{coursesItem.lecturer.name + ' | ' + coursesItem.lecturer.titles}}</view>
+                            </view>
+                            <view class="cell-item-right">
+                                <view class="booking-btn" bindtap="onBooking">预约</view>
+                            </view>
+                        </view>
+                    </van-cell>
+                </view>
+            </view>
+        </van-index-bar>
+    </view>
+    <view wx:if="{{showShareBtn}}" class="share-info">
+        <view class="share-btn">
+            <image class="wxlogo-img" src="../../images/wxlogo.png"></image>
+            <view class="share-text">分享给好友</view>
+        </view>
+    </view>
+    <van-dialog id="van-dialog" />
+</view>
