@@ -3,6 +3,8 @@ import {http} from "../wx-utils/wx-cloud-utils";
 let singletonPattern = null;
 
 export class HttpUtil {
+    host = 'https://www.hongsong.club';
+
     constructor() {
         if (singletonPattern) {
             return singletonPattern
@@ -10,14 +12,14 @@ export class HttpUtil {
         singletonPattern = this;
     }
 
-    // post(url, param, header = {'content-type': 'application/json'}) {
-    //     http(url, param, 'POST', header).then(res => {
-    //         console.log(res)
-    //     })
-    // }
+    post(url, param) {
+        return http(this.host + url, param, 'POST').then(res => {
+            return res;
+        })
+    }
 
     get(url, param) {
-        return http(url, param, 'GET').then(res => {
+        return http(this.host + url, param, 'GET').then(res => {
             return res.result
         })
     }

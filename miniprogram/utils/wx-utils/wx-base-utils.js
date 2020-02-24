@@ -32,7 +32,10 @@ export function getStorage(key) {
     })
 }
 
-export  function getShareInfo(shareTicket) {
+/**
+ * 分享来源获取
+ */
+export function getShareInfo(shareTicket) {
     return new Promise((resolve, reject) => {
         wx.getShareInfo({
             shareTicket: shareTicket,
@@ -40,6 +43,37 @@ export  function getShareInfo(shareTicket) {
                 resolve(shareInfo)
             },
             fail: (error) => {
+                reject(error)
+            }
+        })
+    })
+}
+
+export function wxLogin() {
+    return new Promise((resolve, reject) => {
+        wx.login({
+            success : res => {
+                if (res.code) {
+                    resolve(res)
+                } else {
+                    reject(res)
+                }
+            },
+            fail: error => {
+                reject(error)
+            }
+        })
+    })
+}
+
+export function wxSubscribeMessage(tmplIds) {
+    return new Promise((resolve, reject) => {
+        wx.requestSubscribeMessage({
+            tmplIds: tmplIds,
+            success: res => {
+                resolve(res)
+            },
+            fail: error => {
                 reject(error)
             }
         })

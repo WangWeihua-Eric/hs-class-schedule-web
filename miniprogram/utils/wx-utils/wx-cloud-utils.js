@@ -13,7 +13,7 @@ export function login() {
     })
 }
 
-export function http(url, param, method, header = {'content-type': 'application/json'}) {
+export function http(url, param, method, header = {'content-type': 'application/x-www-form-urlencoded'}) {
     return new Promise((resolve, reject) => {
         wx.cloud.callFunction({
             name: 'http',
