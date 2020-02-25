@@ -16,6 +16,40 @@ export function getSetting(scope) {
 }
 
 /**
+ * 获取订阅授权
+ */
+export function getSettingWithSubscriptions() {
+    return new Promise((resolve, reject) => {
+        wx.getSetting({
+            withSubscriptions: true,
+            success: res => {
+
+                resolve(res)
+                console.log(res.authSetting)
+                // res.authSetting = {
+                //   "scope.userInfo": true,
+                //   "scope.userLocation": true
+                // }
+                console.log(res.subscriptionsSetting)
+                // res.subscriptionsSetting = {
+                //   mainSwitch: true, // 订阅消息总开关
+                //   itemSettings: {   // 每一项开关
+                //     SYS_MSG_TYPE_INTERACTIVE: 'accept', // 小游戏系统订阅消息
+                //     SYS_MSG_TYPE_RANK: 'accept'
+                //     zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE: 'reject', // 普通一次性订阅消息
+                //     ke_OZC_66gZxALLcsuI7ilCJSP2OJ2vWo2ooUPpkWrw: 'ban',
+                //   }
+                // }
+            },
+            fail: error => {
+                reject(error)
+            }
+        })
+
+    })
+}
+
+/**
  * 获取微信缓存
  */
 export function getStorage(key) {

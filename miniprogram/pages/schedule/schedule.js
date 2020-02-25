@@ -1,8 +1,10 @@
 // pages/schedule/schedule.js
 import {HttpUtil} from "../../utils/http-utils/http-util";
 import Dialog from '@vant/weapp/dialog/dialog';
-import {getStorage, wxLogin, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
+import {getSettingWithSubscriptions, getStorage, wxLogin, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
+
+const app = getApp()
 
 Page({
     scrollTopTimeOut: null,
@@ -21,7 +23,8 @@ Page({
         bannerList: [],
         indicatorDots: false,
         show: false,
-        guide: false
+        guide: false,
+        tempId: []
     },
 
     /**
@@ -47,19 +50,6 @@ Page({
             })
         })
 
-        const url = '/course/api/schedules'
-        const params = {
-            startTime: '2020-02-21',
-            finishTime: '2020-02-28'
-        }
-        this.http.get(url, params).then(pageInfo => {
-            if (pageInfo && pageInfo.state && pageInfo.state.code === "0") {
-                this.formatSchedule(pageInfo.data)
-                this.setData({
-                    schedule: pageInfo.data
-                })
-            }
-        })
 
         wxLogin().then(res => {
             if (res.code) {
@@ -75,6 +65,19 @@ Page({
             }
         })
     },
+    /**
+     * 刷新逻辑
+     */
+    refresh() {
+        //  获取tempId
+        this.getTempId()
+
+        //  获取 pageInfo
+        this.getPageInfo()
+
+        //  获取轮播
+        this.getBanner()
+    },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -87,31 +90,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        getWithWhere('scheduleDay', {type: 'scheduleTime'}).then(res => {
-            if (res.length) {
-                const scheduleTime = res[0]
-                const startTime = scheduleTime.startTime
-                const endTime = scheduleTime.endTime
-                this.setData({
-                    startTime: startTime,
-                    endTime: endTime,
-                    scheduleDay: this.formatDay(startTime) + ' - ' + this.formatDay(endTime)
-                })
-            }
-        })
-
-        getWithWhere('banner', {position: 'schedule'}).then(bannerList => {
-            if (bannerList.length) {
-                this.setData({
-                    bannerList: bannerList,
-                    indicatorDots: true
-                })
-            } else {
-                this.setData({
-                    indicatorDots: false
-                })
-            }
-        })
+        this.refresh()
     },
 
     /**
@@ -174,63 +153,101 @@ Page({
     },
 
     onBooking(event, ownerInstance) {
-        const value = event.currentTarget.dataset.value
-
-        this.setData({
-            show: true
-        })
 
         const tmplIds = ['x-n31sOLSk_HUxJc8nEl5KKLCE1rD-etooS43BB1w0I', 'Mf31Q0Lz5ke63fEkQmO_31jWPRyJfb_XuoRMAx_fQUI']
+        const status = {}
+        const value = event.currentTarget.dataset.value
 
-        wxSubscribeMessage(tmplIds).then(res => {
-            Dialog.alert({
-                title: '订阅回调',
-                message: JSON.stringify(res)
-            }).then(() => {
-                this.setData({
-                    show: false
-                })
+        getSettingWithSubscriptions().then(res => {
 
-                const param = {
-                    sessionId:'test',
-                    courseCode:'c000001',
-                    appSign:'hongsongkebiao',
-                    templateId:'Mf31Q0Lz5ke63fEkQmO_31jWPRyJfb_XuoRMAx_fQUI'
+            const sendTempId = []
+            const inSettingId = []
+
+            tmplIds.forEach(id => {
+                if(!res.subscriptionsSetting[id]) {
+                    sendTempId.push(id)
+                } else {
+                    inSettingId.push(id)
+                    status[id] = res.subscriptionsSetting[id]
                 }
-                this.http.post('/subscribe/api/subscribecourse', param).then(res => {
-                    Dialog.alert({
-                        title: 'res',
-                        message: JSON.stringify(Date.parse(res))
-                    }).then(() => {});
+            })
+
+            if (sendTempId.length) {
+                this.setData({
+                    show: true
                 })
 
-            });
+                wxSubscribeMessage(sendTempId).then((res) => {
+
+                    this.setData({
+                        show: false
+                    })
+
+                    sendTempId.forEach(id => {
+                        status[id] = res[id]
+                    })
+
+                    this.sendSubscribecourse(tmplIds, status, value)
+
+
+
+
+                }).catch((error) => {})
+            } else {
+                // 已经总是允许
+
+                Dialog.alert({
+                    title: '订阅结果',
+                    message: '已经总是允许'
+                }).then(() => {
+                });
+                this.sendSubscribecourse(tmplIds, status, value)
+            }
+
+
+
+
         }).catch(error => {
-            // Dialog.alert({
-            //     title: '订阅出错',
-            //     message: JSON.stringify(error)
-            // }).then(() => {
-            //     this.setData({
-            //         show: false
-            //     })
-            //
-            //
-            //
-            //     // const param = {
-            //     //     sessionId:'test',
-            //     //     courseCode:'c000001',
-            //     //     appSign:'hongsongkebiao',
-            //     //     templateId:'Mf31Q0Lz5ke63fEkQmO_31jWPRyJfb_XuoRMAx_fQUI'
-            //     // }
-            //     // this.http.post('/subscribe/api/subscribecourse', param).then(res => {
-            //     //     console.log(res);
-            //     //     Dialog.alert({
-            //     //         title: 'res',
-            //     //         message: JSON.stringify(Date.parse(res))
-            //     //     }).then(() => {});
-            //     // })
-            // });
+
         })
+
+
+    },
+    sendSubscribecourse(tmplIds, status, value){
+        const readySendData = []
+        tmplIds.forEach(id => {
+            if (status[id] === 'accept') {
+                readySendData.push(id)
+            }
+        })
+
+
+
+        if (readySendData.length) {
+
+
+            const param = {
+                sessionId: app.globalData.sessionId,
+                courseCode: value.code,
+                appSign: 'hongsongkebiao',
+                templateIds: readySendData.toString()
+            }
+
+
+            this.http.post('/subscribe/api/subscribecourse', param).then((res) => {
+                Dialog.alert({
+                    title: '订阅结果',
+                    message: JSON.stringify(res)
+                }).then(() => {
+                });
+            }).catch(error => {
+                Dialog.alert({
+                    title: '订阅结果',
+                    message: JSON.stringify(error)
+                }).then(() => {
+                });
+            })
+        }
     },
     formatSchedule(schedule) {
         schedule.forEach((dayItem) => {
@@ -247,41 +264,111 @@ Page({
                 courseItem.time = time
             })
         })
-    },
-    // formatDateTime(date) {
-    //
-    //     Dialog.alert({
-    //         title: '时间转换',
-    //         message: JSON.stringify(Date.parse(date))
-    //     }).then(() => {});
-    //
-    //     let time = new Date(Date.parse(date));
-    //     time.setTime(time.setHours(time.getHours() + 8));
-    //
-    //     let Y = time.getFullYear() + '-';
-    //     let M = this.addZero(time.getMonth() + 1) + '-';
-    //     let D = this.addZero(time.getDate()) + ' ';
-    //     let h = this.addZero(time.getHours()) + ':';
-    //     let m = this.addZero(time.getMinutes());
-    //     let s = this.addZero(time.getSeconds());
-    //     return Y + M + D + h + m;
-    // },
-    // 数字补0操作
-    // addZero(num) {
-    //     return num < 10 ? '0' + num : num;
-    // },
+    }
+    ,
+
     formatDay(timeTemp) {
         const date = new Date(parseInt(timeTemp))
-        return date.getMonth() + '月' + date.getDate() + '日'
-    },
+        return date.getMonth() + 1 + '月' + date.getDate() + '日'
+    }
+    ,
 
     onClickShow() {
-        this.setData({ show: true });
-    },
+        this.setData({show: true});
+    }
+    ,
 
     onClickHide() {
-        this.setData({ show: false });
-    },
+        this.setData({show: false});
+    }
+    ,
 
-    noop() {}
+    noop() {
+    }
+    ,
+
+    /**
+     * 获取 tempId
+     */
+    getTempId() {
+        const url = ''
+        this.http.get(url, null).then(tempInfo => {
+            if (tempInfo && tempInfo.state && tempInfo.state.code === "0") {
+                this.setData({
+                    tempId: tempInfo.data
+                })
+            }
+        })
+    }
+    ,
+
+    /**
+     * 获取 pageInfo
+     */
+    getPageInfo() {
+
+        // getWithWhere('scheduleDay', {type: 'scheduleTime'}).then(res => {
+        //     if (res.length) {
+        //         const scheduleTime = res[0]
+        //         const startTime = scheduleTime.startTime
+        //         const endTime = scheduleTime.endTime
+        //         this.setData({
+        //             startTime: startTime,
+        //             endTime: endTime,
+        //             scheduleDay: this.formatDay(startTime) + ' - ' + this.formatDay(endTime)
+        //         })
+        //     }
+        // })
+
+        const nowDate = new Date()
+        const endDate = new Date(nowDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+        console.log('nowDate: ', nowDate)
+        console.log('endDate: ', endDate)
+        this.setData({
+            scheduleDay: this.formatDay(nowDate.getTime()) + ' - ' + this.formatDay(endDate.getTime())
+        })
+
+
+        const url = '/course/api/schedules'
+        const params = {
+            startTime: this.formatYMD(nowDate),
+            finishTime: this.formatYMD(endDate)
+        }
+        this.http.get(url, params).then(pageInfo => {
+            if (pageInfo && pageInfo.state && pageInfo.state.code === "0") {
+                this.formatSchedule(pageInfo.data)
+                this.setData({
+                    schedule: pageInfo.data
+                })
+            }
+        })
+    }
+    ,
+
+    formatYMD(time) {
+        return time.getFullYear() + '-' + this.addZero(time.getMonth() + 1) + '-' + this.addZero(time.getDate())
+    }
+    ,
+
+    // 数字补0操作
+    addZero(num) {
+        return num < 10 ? '0' + num : num;
+    }
+    ,
+
+    //  获取轮播
+    getBanner() {
+        getWithWhere('banner', {position: 'schedule'}).then(bannerList => {
+            if (bannerList.length) {
+                this.setData({
+                    bannerList: bannerList,
+                    indicatorDots: true
+                })
+            } else {
+                this.setData({
+                    indicatorDots: false
+                })
+            }
+        })
+    }
 })
