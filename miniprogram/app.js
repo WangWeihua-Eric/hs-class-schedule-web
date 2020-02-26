@@ -1,6 +1,5 @@
 //app.js
-import {getStorage, wxLogin} from "./utils/wx-utils/wx-base-utils";
-import {getSessionId} from "./utils/user-utils/user-base-utils";
+import {initSessionId} from "./utils/user-utils/user-base-utils";
 
 App({
     onLaunch: function () {
@@ -19,44 +18,6 @@ App({
         }
 
         this.globalData = {}
-
-        getStorage('sessionId').then(sessionInfo => {
-            this.checkSessionInfo(sessionInfo)
-        }).catch(error => {
-            this.setSessionId()
-        })
-    },
-    setSessionId() {
-        getSessionId().then(res => {
-            if (res && res.result && res.result.state && res.result.state.code === '0') {
-                const sessionId = res.result.data
-                if (sessionId) {
-                    this.globalData.sessionId = sessionId
-                    wx.setStorage({
-                        key:"sessionId",
-                        data: {
-                            sessionId: sessionId,
-                            updateTime: new Date().getTime()
-                        }
-                    })
-
-                }
-            }
-        })
-    },
-    checkSessionInfo(sessionInfo) {
-        console.log('sessionId: ', sessionInfo)
-        const nowTime = new Date().getTime()
-        if (sessionInfo) {
-            const updateTime = sessionInfo.updateTime
-            const sessionId = sessionInfo.sessionId
-            if (sessionId && updateTime && (nowTime - updateTime) < 6 * 60 * 60 * 1000) {
-                this.globalData.sessionId = sessionInfo.sessionId
-            } else {
-                this.setSessionId()
-            }
-        } else {
-            this.setSessionId()
-        }
+        initSessionId()
     }
 })

@@ -1,14 +1,18 @@
 // pages/schedule/schedule.js
 import {HttpUtil} from "../../utils/http-utils/http-util";
 import Dialog from '@vant/weapp/dialog/dialog';
-import {getSettingWithSubscriptions, getStorage, wxLogin, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
+import {getSettingWithSubscriptions, getStorage, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
+import {UserBase} from "../../utils/user-utils/user-base";
+import Toast from '@vant/weapp/toast/toast';
 
-const app = getApp()
+const userBase = new UserBase()
 
 Page({
     scrollTopTimeOut: null,
     http: new HttpUtil(),
+    timeHandler: null,
+    timeHandlerNumber: 0,
 
     /**
      * 页面的初始数据
@@ -24,7 +28,9 @@ Page({
         indicatorDots: false,
         show: false,
         guide: false,
-        tempId: []
+        tempId: [],
+        officialAccountShow: false,
+        officialAccountError: true
     },
 
     /**
@@ -49,26 +55,18 @@ Page({
                 data: true
             })
         })
-
-
-        wxLogin().then(res => {
-            if (res.code) {
-                wx.setClipboardData({
-                    data: res.code,
-                    success(res) {
-                        wx.getClipboardData({
-                            success: (res) => {
-                            }
-                        })
-                    }
-                })
-            }
-        })
     },
     /**
      * 刷新逻辑
      */
     refresh() {
+        if (!this.data.schedule.length) {
+            Toast.loading({
+                mask: true,
+                message: '加载中...',
+                duration: 0,
+            });
+        }
         //  获取tempId
         this.getTempId()
 
@@ -77,6 +75,23 @@ Page({
 
         //  获取轮播
         this.getBanner()
+    },
+    sessionIdReady() {
+        if (this.timeHandler) {
+            clearTimeout(this.timeHandler)
+            this.timeHandler = null
+        }
+        if (userBase.getGlobalData().sessionId) {
+            this.timeHandlerNumber = 0
+            this.refresh()
+        } else {
+            if (this.timeHandlerNumber < 100) {
+                this.timeHandlerNumber++
+                this.timeHandler = setTimeout(() => {
+                    this.sessionIdReady()
+                }, 100)
+            }
+        }
     },
 
     /**
@@ -90,7 +105,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.refresh()
+        this.setData({
+            officialAccountShow: false
+        })
+        this.sessionIdReady()
     },
 
     /**
@@ -154,7 +172,7 @@ Page({
 
     onBooking(event, ownerInstance) {
 
-        const tmplIds = ['x-n31sOLSk_HUxJc8nEl5KKLCE1rD-etooS43BB1w0I', 'Mf31Q0Lz5ke63fEkQmO_31jWPRyJfb_XuoRMAx_fQUI']
+        const tmplIds = this.data.tempId
         const status = {}
         const value = event.currentTarget.dataset.value
 
@@ -195,12 +213,6 @@ Page({
                 }).catch((error) => {})
             } else {
                 // 已经总是允许
-
-                Dialog.alert({
-                    title: '订阅结果',
-                    message: '已经总是允许'
-                }).then(() => {
-                });
                 this.sendSubscribecourse(tmplIds, status, value)
             }
 
@@ -220,33 +232,53 @@ Page({
                 readySendData.push(id)
             }
         })
-
-
-
         if (readySendData.length) {
-
-
             const param = {
-                sessionId: app.globalData.sessionId,
+                sessionId: userBase.getGlobalData().sessionId,
                 courseCode: value.code,
                 appSign: 'hongsongkebiao',
                 templateIds: readySendData.toString()
             }
-
-
-            this.http.post('/subscribe/api/subscribecourse', param).then((res) => {
-                Dialog.alert({
-                    title: '订阅结果',
-                    message: JSON.stringify(res)
-                }).then(() => {
-                });
-            }).catch(error => {
-                Dialog.alert({
-                    title: '订阅结果',
-                    message: JSON.stringify(error)
-                }).then(() => {
-                });
+            this.http.post('/subscribe/api/subscribecourse', param, userBase.getGlobalData().sessionId).then((res) => {
+                if (res && res.result && res.result.state && res.result.state.code === '0') {
+                    this.bookingRes('ok')
+                } else {
+                    this.bookingRes('error')
+                }
+            }).catch(() => {
+                this.bookingRes('error')
             })
+        } else {
+            this.bookingRes('reject')
+        }
+    },
+    bookingRes(type) {
+        switch (type) {
+            case 'ok': {
+                this.getPageInfo()
+                Dialog.alert({
+                    title: '预约结果',
+                    message: '预约成功'
+                }).then(() => {
+                });
+                break
+            }
+            case 'error': {
+                Dialog.alert({
+                    title: '预约结果',
+                    message: '预约失败'
+                }).then(() => {
+                });
+                break
+            }
+            case 'reject': {
+                Dialog.alert({
+                    title: '预约结果',
+                    message: '预约失败，请同意消息订阅'
+                }).then(() => {
+                });
+                break
+            }
         }
     },
     formatSchedule(schedule) {
@@ -291,16 +323,25 @@ Page({
      * 获取 tempId
      */
     getTempId() {
-        const url = ''
-        this.http.get(url, null).then(tempInfo => {
+        const url = '/subscribe/api/templates'
+        const param = {
+            appSign: 'hongsongkebiao',
+            page: 'schedule'
+        }
+        this.http.get(url, param, userBase.getGlobalData().sessionId).then(tempInfo => {
             if (tempInfo && tempInfo.state && tempInfo.state.code === "0") {
-                this.setData({
-                    tempId: tempInfo.data
-                })
+                if (tempInfo.data) {
+                    this.setData({
+                        tempId: tempInfo.data.templateIds
+                    })
+                } else {
+                    this.setData({
+                        tempId: []
+                    })
+                }
             }
         })
-    }
-    ,
+    },
 
     /**
      * 获取 pageInfo
@@ -322,8 +363,6 @@ Page({
 
         const nowDate = new Date()
         const endDate = new Date(nowDate.getTime() + 7 * 24 * 60 * 60 * 1000)
-        console.log('nowDate: ', nowDate)
-        console.log('endDate: ', endDate)
         this.setData({
             scheduleDay: this.formatDay(nowDate.getTime()) + ' - ' + this.formatDay(endDate.getTime())
         })
@@ -334,12 +373,13 @@ Page({
             startTime: this.formatYMD(nowDate),
             finishTime: this.formatYMD(endDate)
         }
-        this.http.get(url, params).then(pageInfo => {
+        this.http.get(url, params, userBase.getGlobalData().sessionId).then(pageInfo => {
             if (pageInfo && pageInfo.state && pageInfo.state.code === "0") {
                 this.formatSchedule(pageInfo.data)
                 this.setData({
                     schedule: pageInfo.data
                 })
+                Toast.clear()
             }
         })
     }
@@ -367,6 +407,59 @@ Page({
             } else {
                 this.setData({
                     indicatorDots: false
+                })
+            }
+        })
+    },
+
+    /**
+     * 跳转公众号文章
+     */
+    toWxLink(){
+        this.setData({
+            officialAccountShow: true
+        })
+    },
+
+    /**
+     * 公众号组件加载成功
+     */
+    officialAccountLoad(e) {
+        // console.log('公众号组件加载成功: ', e)
+        this.setData({
+            officialAccountError: false
+        })
+    },
+
+    /**
+     * 公众号组件加载失败
+     */
+    officialAccountError(e) {
+        // Dialog.alert({
+        //     title: '公众号组件加载失败',
+        //     message: JSON.stringify(e)
+        // }).then(() => {
+        // });
+
+        this.setData({
+            officialAccountError: true
+        })
+        // wx.navigateTo({
+        //     url: '../wxlink/wxlink'
+        // })
+    },
+    onCloseOfficialAccount() {
+        this.setData({
+            officialAccountShow: false
+        })
+    },
+    onCopyCode: function () {
+        wx.setClipboardData({
+            data: '红松学堂',
+            success(res) {
+                wx.getClipboardData({
+                    success: (res) => {
+                    }
                 })
             }
         })

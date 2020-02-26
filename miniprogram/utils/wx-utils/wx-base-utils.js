@@ -25,12 +25,10 @@ export function getSettingWithSubscriptions() {
             success: res => {
 
                 resolve(res)
-                console.log(res.authSetting)
                 // res.authSetting = {
                 //   "scope.userInfo": true,
                 //   "scope.userLocation": true
                 // }
-                console.log(res.subscriptionsSetting)
                 // res.subscriptionsSetting = {
                 //   mainSwitch: true, // 订阅消息总开关
                 //   itemSettings: {   // 每一项开关

@@ -35,18 +35,21 @@
                               style="border-bottom : {{ coursesIndex < item.courses.length - 1 ? '1rpx solid #C4B5B5' : ''}}; margin-bottom: {{ coursesIndex === item.courses.length - 1 ? index === schedule.length - 1 ? '160rpx' : '' : '' }}">
                             <view>
                                 <view class="item-tag-time">
+                                    <view class="item-time">{{coursesItem.time}}</view>
+                                </view>
+                                <view class="item-middle">
                                     <view class="tag" style="background-color: {{coursesItem.category.color}}">
                                         {{coursesItem.category.name}}
                                     </view>
-                                    <view class="item-time">{{coursesItem.time}}</view>
+                                    <view class="item-title">{{coursesItem.title}}</view>
                                 </view>
-                                <view class="item-title">{{coursesItem.title}}</view>
                                 <view class="item-teacher">{{coursesItem.lecturer.name + ' | ' +
                                     coursesItem.lecturer.titles}}
                                 </view>
                             </view>
                             <view class="cell-item-right">
-                                <view class="booking-btn" bindtap="onBooking" data-value="{{coursesItem}}">预约</view>
+                                <view wx:if="{{!coursesItem.booked}}" class="booking-btn" bindtap="onBooking" data-value="{{coursesItem}}">预约</view>
+                                <view wx:else class="booking-booked-btn">已预约</view>
                             </view>
                         </view>
                     </van-cell>
@@ -55,10 +58,16 @@
         </van-index-bar>
     </view>
     <view wx:if="{{showShareBtn}}" class="share-info">
-        <button class="share-btn" open-type='share'>
-            <image class="wxlogo-img" src="../../images/wxlogo.png"></image>
-            <view class="share-text">分享给好友</view>
-        </button>
+        <view class="share-btn">
+            <button class="share-btn-info" open-type='share'>
+                <image class="wxlogo-img" src="../../images/wxlogo.png"></image>
+                <view class="share-text">分享给好友</view>
+            </button>
+        </view>
+        <view open-type='contact' show-message-card='true' class="join-btn" bindtap="toWxLink">
+            <image class="wxlogo-img" src="../../images/join.png"></image>
+            <view class="share-text">加入红松</view>
+        </view>
     </view>
     <van-dialog id="van-dialog"/>
     <van-overlay show="{{ show }}" bind:click="onClickHide">
@@ -81,4 +90,37 @@
             </view>
         </image>
     </view>
+    <van-toast id="van-toast"/>
+    <view hidden="{{!officialAccountShow || officialAccountError}}" class="official-account-info">
+        <van-icon hidden="{{!officialAccountShow || officialAccountError}}" class="onCloseOfficialAccount" name="close" bindtap="onCloseOfficialAccount" />
+        <official-account hidden="{{!officialAccountShow || officialAccountError}}" bindload="officialAccountLoad" binderror="officialAccountError"></official-account>
+    </view>
+
+
+    <van-action-sheet show="{{ officialAccountShow && officialAccountError }}" title="红松学堂，长辈们的直播课堂！" bind:close="onCloseOfficialAccount">
+        <view class="tip-content">
+            <view class="tip-item">
+                <view class="tip-item-content">了解课程和老师介绍</view>
+            </view>
+
+            <view class="tip-item">
+                <view class="tip-item-content">查看课程视频回看</view>
+            </view>
+
+            <view class="tip-item">
+                <view class="tip-item-content">参与更多精彩活动赢奖励哦！</view>
+            </view>
+
+            <view class="tip-qrcode-contnet">
+                <view class="tip-qrcode-title">关注红松学堂公众号加入学习</view>
+                <view class="qrcode-sub-content">
+                    <view class="qrcode-contnet">
+                        <image class="qrcode" src="../../images/qrcode.png"></image>
+                        <view class="qrcode-desc">截屏扫描二维码加入红松学堂</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </van-action-sheet>
+
 </view>

@@ -12,13 +12,25 @@ export class HttpUtil {
         singletonPattern = this;
     }
 
-    post(url, param) {
+    post(url, param, sessionId= '') {
+        if (sessionId) {
+            param = {
+                ...param,
+                sessionId: sessionId
+            }
+        }
         return http(this.host + url, param, 'POST').then(res => {
             return res;
         })
     }
 
-    get(url, param) {
+    get(url, param, sessionId = '') {
+        if (sessionId) {
+            param = {
+                ...param,
+                sessionId: sessionId
+            }
+        }
         return http(this.host + url, param, 'GET').then(res => {
             return res.result
         })
