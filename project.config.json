@@ -60,7 +60,20 @@
 					"id": 1,
 					"name": "pages/schedule/schedule",
 					"pathName": "pages/schedule/schedule",
-					"scene": 1047
+					"scene": 1048
+				},
+				{
+					"id": -1,
+					"name": "小程序模版消息",
+					"pathName": "pages/schedule/schedule",
+					"scene": 1014
+				},
+				{
+					"id": -1,
+					"name": "公众号模版消息",
+					"pathName": "pages/schedule/schedule",
+					"scene": 1043,
+					"referrerInfo": {}
 				}
 			]
 		}

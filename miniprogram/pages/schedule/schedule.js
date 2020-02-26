@@ -361,8 +361,16 @@ Page({
         //     }
         // })
 
-        const nowDate = new Date()
-        const endDate = new Date(nowDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+
+        const now = new Date();
+        const nowTime = now.getTime() ;
+        const day = now.getDay();
+        const oneDayTime = 24 * 60 * 60 * 1000 ;
+        const MondayTime = nowTime - (day-1)*oneDayTime ;//显示周一
+        const SundayTime =  nowTime + (7-day)*oneDayTime ;//显示周日
+
+        const nowDate = new Date(MondayTime)
+        const endDate = new Date(SundayTime)
         this.setData({
             scheduleDay: this.formatDay(nowDate.getTime()) + ' - ' + this.formatDay(endDate.getTime())
         })
