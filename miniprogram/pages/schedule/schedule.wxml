@@ -30,17 +30,15 @@
                 </van-index-anchor>
                 <view class="cell">
                     <van-cell wx:for="{{item.courses}}" wx:for-index="coursesIndex" wx:for-item="coursesItem"
-                              wx:key="coursesIndex">
+                            wx:key="coursesIndex">
                         <view class="cell-item"
-                              style="border-bottom : {{ coursesIndex < item.courses.length - 1 ? '1rpx solid #C4B5B5' : ''}}; margin-bottom: {{ coursesIndex === item.courses.length - 1 ? index === schedule.length - 1 ? '160rpx' : '' : '' }}">
+                                style="border-bottom : {{ coursesIndex < item.courses.length - 1 ? '1rpx solid #C4B5B5' : ''}}; margin-bottom: {{ coursesIndex === item.courses.length - 1 ? index === schedule.length - 1 ? '160rpx' : '' : '' }}">
                             <view>
                                 <view class="item-tag-time">
                                     <view class="item-time">{{coursesItem.time}}</view>
                                 </view>
                                 <view class="item-middle">
-                                    <view class="tag" style="background-color: {{coursesItem.category.color}}">
-                                        {{coursesItem.category.name}}
-                                    </view>
+                                    <view class="tag" style="background-color: {{coursesItem.category.color}}">{{coursesItem.category.name}}</view>
                                     <view class="item-title">{{coursesItem.title}}</view>
                                 </view>
                                 <view class="item-teacher">{{coursesItem.lecturer.name + ' | ' +
@@ -48,7 +46,9 @@
                                 </view>
                             </view>
                             <view class="cell-item-right">
-                                <view wx:if="{{!coursesItem.booked}}" class="booking-btn" bindtap="onBooking" data-value="{{coursesItem}}">预约</view>
+                                <view wx:if="{{coursesItem.isEnd}}" class="booking-booked-btn">已结束</view>
+                                <view wx:elif="{{!coursesItem.booked}}" class="booking-btn" bindtap="onBooking"
+                                        data-value="{{coursesItem}}">预约</view>
                                 <view wx:else class="booking-booked-btn">已预约</view>
                             </view>
                         </view>
@@ -72,7 +72,7 @@
     <van-dialog id="van-dialog"/>
     <van-overlay show="{{ show }}" bind:click="onClickHide">
         <view class="wrapper">
-            <view class="block" catch:tap="noop" >
+            <view class="block" catch:tap="noop">
                 <image class="aways" src="../../images/aways.png"></image>
             </view>
         </view>
@@ -92,8 +92,10 @@
     </view>
     <van-toast id="van-toast"/>
     <view hidden="{{!officialAccountShow || officialAccountError}}" class="official-account-info">
-        <van-icon hidden="{{!officialAccountShow || officialAccountError}}" class="onCloseOfficialAccount" name="close" bindtap="onCloseOfficialAccount" />
-        <official-account hidden="{{!officialAccountShow || officialAccountError}}" bindload="officialAccountLoad" binderror="officialAccountError"></official-account>
+        <van-icon hidden="{{!officialAccountShow || officialAccountError}}" class="onCloseOfficialAccount" name="close"
+                bindtap="onCloseOfficialAccount"/>
+        <official-account hidden="{{!officialAccountShow || officialAccountError}}" bindload="officialAccountLoad"
+                binderror="officialAccountError"></official-account>
     </view>
 
 

@@ -285,6 +285,13 @@ Page({
         schedule.forEach((dayItem) => {
             const courses = dayItem.courses
             courses.forEach(courseItem => {
+                let isEnd = false
+                const nowTime = new Date()
+                const itemDate = dayItem.group.date.split('月')
+                const itemMouth = this.addZero(itemDate[0])
+                const itemDay = this.addZero(itemDate[1].split('日')[0])
+                let endTime = nowTime.getFullYear() + '/' + itemMouth + '/' + itemDay
+
                 let time = '上午'
 
                 const startTime = courseItem.startTime.split(' ')
@@ -294,6 +301,13 @@ Page({
                 }
                 time = time + ' ' + startTime[1] + ' - ' + finishTime[1]
                 courseItem.time = time
+
+                endTime = endTime + ' ' + finishTime[1]
+
+                if (new Date(endTime).getTime() < nowTime.getTime()) {
+                    isEnd = true
+                }
+                courseItem.isEnd = isEnd
             })
         })
     }
