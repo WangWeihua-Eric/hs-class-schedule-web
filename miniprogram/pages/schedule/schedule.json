@@ -1,11 +1,7 @@
 {
   "usingComponents": {
-    "van-index-bar": "@vant/weapp/index-bar/index",
-    "van-index-anchor": "@vant/weapp/index-anchor/index",
-    "van-dialog": "@vant/weapp/dialog/index",
-    "van-overlay": "@vant/weapp/overlay/index",
+    "app-schedule": "../../components/schedule/app-schedule",
     "van-toast": "@vant/weapp/toast/index",
-    "van-icon": "@vant/weapp/icon/index",
-    "van-action-sheet": "@vant/weapp/action-sheet/index"
+    "van-dialog": "@vant/weapp/dialog/index"
   }
 }
