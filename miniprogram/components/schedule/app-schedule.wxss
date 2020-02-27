@@ -1,7 +1,96 @@
+.scroll-btn {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    padding: 29rpx 29rpx;
+    box-sizing: border-box;
+}
+
+.scroll-share-btn {
+    width:160rpx;
+    height:45rpx;
+    background:rgba(27,174,27,1);
+    border-radius:23px;
+    line-height: 45rpx;
+    padding: 0;
+}
+
+.scroll-share-text {
+    font-size:30rpx;
+    font-family:SourceHanSansCN-Normal,SourceHanSansCN;
+    color:rgba(255,255,255,1);
+}
+
+.scroll-join-btn {
+    width:160rpx;
+    height:45rpx;
+    background:rgba(219,88,88,1);
+    border-radius:23px;
+    margin-left: 20rpx;
+    line-height: 45rpx;
+    padding: 0;
+}
+
+.scroll-join-text {
+    font-size:30rpx;
+    font-family:SourceHanSansCN-Normal,SourceHanSansCN;
+    color:rgba(255,255,255,1);
+}
+
 .banner {
     height: 220rpx;
     width: 100%;
     position: relative;
+    z-index: 3;
+}
+
+.tip-btn-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20rpx 0;
+}
+
+.tip-share-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:319rpx;
+    height:77rpx;
+    border-radius:39px;
+    border:1px solid rgba(25,173,25,1);
+    padding: 0;
+}
+
+.tip-join-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:319rpx;
+    height:77rpx;
+    border-radius:39px;
+    border:1px solid rgba(205,75,75,1);
+    margin-left: 56rpx;
+}
+
+.tip-join-text {
+    font-size:36rpx;
+    font-family:SourceHanSansCN-Bold,SourceHanSansCN;
+    font-weight:bold;
+    color:rgba(219,88,88,1);
+    margin-left: 17rpx;
+}
+
+.tip-share-text {
+    font-size:36rpx;
+    font-family:SourceHanSansCN-Bold,SourceHanSansCN;
+    font-weight:bold;
+    color:rgba(27,174,27,1);
+    margin-left: 17rpx;
 }
 
 .banner-swiper {
@@ -137,6 +226,21 @@
     align-items: center;
 }
 
+.look-btn {
+    width: 150rpx;
+    height: 73rpx;
+    border-radius: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36rpx;
+    font-family: SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight: 500;
+    color: rgba(205, 75, 75, 1);
+    padding: 0;
+    border: 1rpx solid rgba(205, 75, 75, 1);
+}
+
 .booking-btn {
     width: 150rpx;
     height: 73rpx;
@@ -165,28 +269,6 @@
     align-items: center;
 }
 
-.share-info {
-    width: 100%;
-    height: 242rpx;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.81) 41%, rgba(255,255,255,1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-}
-
-.share-btn {
-    background: linear-gradient(180deg, rgba(116,206,116,1) 0%, rgba(25,173,25,1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 330rpx;
-    height: 128rpx;
-    border-radius: 100px 0px 0px 100px;
-    box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.15);
-}
-
 .share-btn-info {
     display: flex;
     justify-content: center;
@@ -194,13 +276,6 @@
     width: 100%;
     height: 100%;
     padding: 0;
-}
-
-.share-btn-info
-
-:hover {
-    background:linear-gradient(180deg,rgba(116,206,116,1) 0%,rgba(25,173,25,1) 100%);
-    border-radius:100px 0px 0px 100px;
 }
 
 .join-btn {
@@ -217,14 +292,6 @@
 .wxlogo-img {
     width: 56rpx;
     height: 47rpx;
-}
-
-.share-text {
-    margin-left: 27rpx;
-    font-size:40rpx;
-    font-family:SourceHanSansCN-Bold,SourceHanSansCN;
-    font-weight:bold;
-    color:rgba(255,255,255,1);
 }
 
 .wrapper {
@@ -250,7 +317,7 @@
 
 .official-account-info {
     position: fixed;
-    bottom: 40rpx;
+    bottom: 190rpx;
     width: 100%;
     padding: 0 23rpx;
     box-sizing: border-box;
@@ -326,5 +393,5 @@
     font-size: 32rpx;
     font-family: SourceHanSansCN-Normal, SourceHanSansCN;
     color: rgba(58, 58, 58, 1);
-margin-top: 27rpx;
+    margin-top: 27rpx;
 }

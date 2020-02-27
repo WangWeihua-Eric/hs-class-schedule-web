@@ -58,9 +58,9 @@
 				},
 				{
 					"id": 1,
-					"name": "pages/index/index",
-					"pathName": "pages/index/index",
-					"query": "",
+					"name": "pages/schedule/schedule",
+					"pathName": "pages/schedule/schedule",
+					"query": "from=asw32",
 					"scene": 1047
 				},
 				{

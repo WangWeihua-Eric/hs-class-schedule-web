@@ -19,5 +19,8 @@ App({
 
         this.globalData = {}
         initSessionId()
+    },
+    onShow: function (res) {
+        this.globalData.query = res.query
     }
 })

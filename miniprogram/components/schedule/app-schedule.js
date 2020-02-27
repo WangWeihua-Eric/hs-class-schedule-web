@@ -8,6 +8,7 @@ const http = new HttpUtil()
 
 let timeHandler = null
 let timeHandlerNumber = 0
+const app = getApp()
 
 Component({
     /**
@@ -17,12 +18,7 @@ Component({
         scrollTop: {
             type: Number,
             value: null
-        },
-        showShareBtn: {
-            type: Boolean,
-            value: true
         }
-
     },
 
     /**
@@ -39,11 +35,23 @@ Component({
         show: false,
         tempId: [],
         officialAccountShow: false,
-        officialAccountError: true
+        officialAccountError: true,
+        sessionFrom: 'type=course',
+        serviceImgUrl: '../../images/service.png',
+        scrollBtnShow: true
     },
 
     pageLifetimes: {
         show: function () {
+            if (app && app.globalData && app.globalData.query && app.globalData.query.from) {
+                this.setData({
+                    sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
+                })
+            } else {
+                this.setData({
+                    sessionFrom: 'type=course'
+                })
+            }
             this.setData({
                 officialAccountShow: false
             })
@@ -86,6 +94,7 @@ Component({
                     timeHandlerNumber++
                     timeHandler = setTimeout(() => {
                         this.sessionIdReady()
+                        console.log('1122: ', this.data)
                     }, 100)
                 }
             }
@@ -372,6 +381,16 @@ Component({
             this.setData({
                 officialAccountShow: false
             })
+        },
+        querySessionFrom() {
+            if (app.globalData.query) {
+                const param = {
+                    title: '预约结果',
+                    message: JSON.stringify(app.globalData.query)
+                }
+                this.triggerEvent('dialogEvent', param)
+            }
+            return 'type=course&from=test'
         }
     }
 })

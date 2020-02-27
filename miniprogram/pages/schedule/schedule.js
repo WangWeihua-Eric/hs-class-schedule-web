@@ -3,15 +3,24 @@ import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 
 Page({
-    scrollTopTimeOut: null,
-
     /**
      * 页面的初始数据
      */
     data: {
         guide: false,
-        showShareBtn: true,
-        scrollTop: null
+        scrollTop: null,
+        active: 0,
+        list: [
+            {
+                "text": "课表",
+                "iconPath": "/images/schedule.png",
+                "selectedIconPath": "/images/schedule-active.png"
+            },
+            {
+                "text": "我",
+                "iconPath": "/images/me.png",
+                "selectedIconPath": "/images/me-active.png"
+            }]
     },
 
     /**
@@ -73,18 +82,8 @@ Page({
     },
 
     onPageScroll(event) {
-        if (this.scrollTopTimeOut) {
-            clearTimeout(this.scrollTopTimeOut);
-        }
-        this.scrollTopTimeOut = setTimeout(() => {
-            // 滑动停止的代码，此处半秒内位置不变即为滑动停止。
-            this.setData({
-                showShareBtn: true
-            })
-        }, 100);
         this.setData({
-            scrollTop: event.scrollTop,
-            showShareBtn: false
+            scrollTop: event.scrollTop
         });
     },
 
@@ -99,7 +98,15 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-
+        return {
+            title: '红松课表',
+            imageUrl: '../../images/share.png',
+            success: () => {
+                wx.showShareMenu({
+                    withShareTicket: true
+                })
+            }
+        }
     },
 
     onToastEvent(event) {
@@ -128,5 +135,8 @@ Page({
             message: message
         }).then(() => {
         });
+    },
+    tabChange(event) {
+        this.setData({active: event.detail.index});
     }
 })
