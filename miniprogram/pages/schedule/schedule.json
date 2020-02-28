@@ -3,6 +3,7 @@
     "app-schedule": "../../components/schedule/app-schedule",
     "van-toast": "@vant/weapp/toast/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "mp-tabbar": "../../miniprogram_npm/weui-miniprogram/tabbar/tabbar"
+    "mp-tabbar": "../../miniprogram_npm/weui-miniprogram/tabbar/tabbar",
+    "app-me": "../../components/me/app-me"
   }
 }

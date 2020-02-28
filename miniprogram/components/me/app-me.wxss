@@ -1,0 +1,183 @@
+.me-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.me-info {
+    width: 100%;
+    height: 320rpx;
+    background:linear-gradient(180deg,rgba(249,233,192,1) 0%,rgba(255,255,255,1) 100%);
+    border-radius:4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40rpx 20rpx 40rpx 21rpx;
+    box-sizing: border-box;
+}
+
+.me-info-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user-avatar-url {
+    width:120rpx;
+    height:120rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 30rpx;
+}
+
+.user-name {
+    font-size:36rpx;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    color:rgba(71,71,71,1);
+}
+
+.grade {
+    font-size:30rpx;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    color:rgba(71,71,71,1);
+    margin-top: 15rpx;
+}
+
+.me-info-buttom {
+    position: absolute;
+    top: 191rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.school-card {
+    width: 605rpx;
+    height: 706rpx;
+}
+
+.me-info-desc {
+    position: absolute;
+    top: 277rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 0 141rpx;
+}
+
+.me-info-cell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 78rpx;
+    border-bottom: 1rpx solid #CCCCCC;
+}
+
+.info-title {
+    font-size:34rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(92,92,92,1);
+    width: 170rpx;
+}
+
+.info-des {
+    font-size:34rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(92,92,92,1);
+}
+
+.hs-logo {
+    position: absolute;
+    bottom: 192rpx;
+    right: 120rpx;
+}
+
+.hs-logo-img {
+    width: 209rpx;
+    height: 209rpx;
+}
+
+.share-btn {
+    width:477rpx;
+    height:112rpx;
+    background:rgba(86,180,50,1);
+    border-radius:114px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45rpx;
+}
+
+.wxlogo-img {
+    width: 43rpx;
+    height: 35rpx;
+}
+
+.tip-share-text {
+    font-size:40rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    margin-left: 19rpx;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.block {
+    position: absolute;
+    top: 195rpx;
+    background-color: #fff;
+    width: 568rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.welcome {
+    width: 568rpx;
+    height: 401rpx;
+}
+
+.welcome-title {
+    width: 286rpx;
+    height: 120rpx;
+    margin-top: 16rpx;
+}
+
+.join-btn {
+    width:477rpx;
+    height:112rpx;
+    background:rgba(238,127,22,1);
+    border-radius:114px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:40rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    margin: 88rpx 0;
+}

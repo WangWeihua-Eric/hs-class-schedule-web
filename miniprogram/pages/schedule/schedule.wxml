@@ -1,11 +1,14 @@
 <view>
-    <view class="content" hidden="{{active !== 0}}">
+    <view class="schedule-content" hidden="{{active !== 0}}">
         <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}"
                 bind:toastEvent="onToastEvent"
                 bind:dialogEvent="onDialogEvent">
         </app-schedule>
     </view>
-    <view wx:if="{{false}}">
+<view class="me-content" hidden="{{active !== 1}}">
+<app-me></app-me>
+</view>
+    <view>
         <mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
     </view>
 

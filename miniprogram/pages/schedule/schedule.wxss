@@ -1,3 +1,15 @@
+Page {
+    background:rgba(255,255,255,1);
+}
+
+.schedule-content {
+    padding: 0 0 180rpx 0;
+}
+
+.me-content {
+    padding: 0 0 180rpx 0;
+}
+
 .guide {
     position: fixed;
     top: 0;

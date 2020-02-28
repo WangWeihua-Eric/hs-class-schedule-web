@@ -1,0 +1,53 @@
+<view class="me-content">
+    <view class="me-info">
+        <view class="me-info-left">
+            <view class="user-avatar-url">
+                <open-data type="userAvatarUrl"></open-data>
+            </view>
+            <view class="user-info">
+                <view class="user-name">
+                    <open-data type="userNickName"></open-data>
+                </view>
+                <view class="grade">红松学堂</view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{!show}}" class="me-info-buttom">
+        <image class="school-card" src="../../images/school-card.png"></image>
+        <view class="me-info-desc">
+            <view class="me-info-cell">
+                <view class="info-title">姓名:</view>
+                <view class="info-des">
+                    <open-data type="userNickName"></open-data>
+                </view>
+            </view>
+            <view class="me-info-cell">
+                <view class="info-title">学号:</view>
+                <view class="info-des">NO.000666</view>
+            </view>
+            <view class="me-info-cell">
+                <view class="info-title">入学日期:</view>
+                <view class="info-des">2020年1月6日</view>
+            </view>
+        </view>
+        <view class="hs-logo">
+            <image class="hs-logo-img" src="../../images/hslogo.png"></image>
+        </view>
+        <view>
+            <button class="share-btn" open-type='share'>
+                <image class="wxlogo-img" src="../../images/wxlogo-withe.png"></image>
+                <view class="tip-share-text">分享红松学堂</view>
+            </button>
+        </view>
+    </view>
+
+    <van-overlay show="{{ show }}" bind:click="onClickHide">
+        <view class="wrapper">
+            <view class="block" catch:tap="noop">
+                <image class="welcome" src="../../images/welcome.png"></image>
+                <image class="welcome-title" src="../../images/welcome-title.png"></image>
+                <button class="join-btn">加入红松学堂</button>
+            </view>
+        </view>
+    </van-overlay>
+</view>
