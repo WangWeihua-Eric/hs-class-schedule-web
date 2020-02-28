@@ -94,7 +94,6 @@ Component({
                     timeHandlerNumber++
                     timeHandler = setTimeout(() => {
                         this.sessionIdReady()
-                        console.log('1122: ', this.data)
                     }, 100)
                 }
             }

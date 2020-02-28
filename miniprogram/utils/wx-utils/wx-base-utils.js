@@ -16,6 +16,22 @@ export function getSetting(scope) {
 }
 
 /**
+ * 获取用户信息
+ */
+export function getUserInfo() {
+    return new Promise((resolve, reject) => {
+        wx.getUserInfo({
+            success: res => {
+                resolve(res)
+            },
+            fail: error => {
+                reject(error)
+            }
+        })
+    })
+}
+
+/**
  * 获取订阅授权
  */
 export function getSettingWithSubscriptions() {

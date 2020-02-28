@@ -14,9 +14,9 @@
     <view class="banner">
         <swiper class="banner-swiper" indicator-dots="{{indicatorDots}}" interval="5000" autoplay="true">
             <swiper-item>
-                <image class="banner-img" src="../../images/banner.png">
+                <image class="banner-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/banner.png">
                     <view class="banner-des">
-                        <image class="banner-des-img" src="../../images/banner-des.png"></image>
+                        <image class="banner-des-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/banner-des.png"></image>
                         <view class="banner-time">{{scheduleDay}}</view>
                     </view>
                 </image>
@@ -29,13 +29,13 @@
     <view class="tip-btn-info">
         <view>
             <button class="tip-share-btn" open-type='share'>
-                <image class="wxlogo-img" src="../../images/wxlogo-green.png"></image>
+                <image class="wxlogo-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/wxlogo-green.png"></image>
                 <view class="tip-share-text">分享给好友</view>
             </button>
         </view>
         <view>
             <button class="tip-join-btn" bindtap="toWxLink">
-                <image class="wxlogo-img" src="../../images/join-red.png"></image>
+                <image class="wxlogo-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/join-red.png"></image>
                 <view class="tip-join-text">加入红松</view>
             </button>
         </view>
@@ -88,7 +88,7 @@
     <van-overlay show="{{ show }}" bind:click="onClickHide">
         <view class="wrapper">
             <view class="block" catch:tap="noop">
-                <image class="aways" src="../../images/aways.png"></image>
+                <image class="aways" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/aways.png"></image>
             </view>
         </view>
     </van-overlay>
@@ -118,7 +118,7 @@
                 <view class="tip-qrcode-title">关注红松学堂公众号加入学习</view>
                 <view class="qrcode-sub-content">
                     <view class="qrcode-contnet">
-                        <image class="qrcode" src="../../images/qrcode.png"></image>
+                        <image class="qrcode" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/qrcode.png"></image>
                         <view class="qrcode-desc">截屏扫描二维码加入红松学堂</view>
                     </view>
                 </view>

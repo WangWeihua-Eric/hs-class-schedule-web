@@ -5,9 +5,9 @@
                 bind:dialogEvent="onDialogEvent">
         </app-schedule>
     </view>
-<view class="me-content" hidden="{{active !== 1}}">
-<app-me></app-me>
-</view>
+    <view class="me-content" hidden="{{active !== 1}}">
+        <app-me></app-me>
+    </view>
     <view>
         <mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
     </view>
@@ -17,16 +17,26 @@
     <van-dialog id="van-dialog"/>
 
     <view class="guide" wx:if="{{guide}}">
-        <image class="guide-img" src="../../images/guide.png">
+        <image class="guide-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/guide.png">
             <view class="guide-des">
                 <view class="guide-title">
                     <view class="guide-text">点击</view>
                     <view>
-                        <image class="point" src="../../images/point.png"></image>
+                        <image class="point" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/point.png"></image>
                     </view>
                 </view>
                 <view class="guide-text">“添加到我的小程序”</view>
             </view>
         </image>
     </view>
+
+    <van-overlay z-index="3" show="{{ show }}" bind:click="onClickHide">
+        <view class="wrapper">
+            <view class="block" catch:tap="noop">
+                <image class="welcome" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome.png"></image>
+                <image class="welcome-title" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome-title.png"></image>
+                <button class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">加入红松学堂</button>
+            </view>
+        </view>
+    </van-overlay>
 </view>

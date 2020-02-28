@@ -1,4 +1,4 @@
-import {getStorage} from "../../utils/wx-utils/wx-base-utils";
+import {getSetting, getStorage, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 
@@ -10,6 +10,7 @@ Page({
         guide: false,
         scrollTop: null,
         active: 0,
+        show: false,
         list: [
             {
                 "text": "课表",
@@ -27,6 +28,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.setData({show: true})
         getStorage('first').then(res => {
             // 非首次登陆
         }).catch(() => {
@@ -100,7 +102,7 @@ Page({
     onShareAppMessage: function () {
         return {
             title: '红松课表',
-            imageUrl: '../../images/share.png',
+            imageUrl: 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/share.png',
             success: () => {
                 wx.showShareMenu({
                     withShareTicket: true
@@ -136,7 +138,38 @@ Page({
         }).then(() => {
         });
     },
+
     tabChange(event) {
+        const index = event.detail.index
+        if (index === 1) {
+            this.setData({show: true});
+        }
         this.setData({active: event.detail.index});
+    },
+    onClickHide() {
+        this.setData({show: false});
+    },
+
+    noop() {
+    },
+
+    onGetUserInfo() {
+        getSetting('scope.userInfo').then(scopeRes => {
+            if (scopeRes && scopeRes.authSetting && scopeRes.authSetting['scope.userInfo']) {
+                console.log(scopeRes)
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                getUserInfo().then(userInfo => {
+                    console.log('userInfo: ', userInfo)
+                    this.setData({
+                        show: false
+                    })
+                })
+            } else {
+                // 未授权
+                this.setData({
+                    show: false
+                })
+            }
+        })
     }
 })

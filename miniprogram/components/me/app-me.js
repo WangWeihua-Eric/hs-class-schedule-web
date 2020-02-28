@@ -1,4 +1,6 @@
 // components/me/app-me.js
+import {getSetting, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
+
 Component({
     /**
      * 组件的属性列表
@@ -8,25 +10,14 @@ Component({
     /**
      * 组件的初始数据
      */
-    data: {
-        show: false
-    },
+    data: {},
 
     pageLifetimes: {
-        show: function () {
-            this.setData({show: true});
-        }
+        show: function () {}
     },
 
     /**
      * 组件的方法列表
      */
-    methods: {
-        onClickHide() {
-            this.setData({show: false});
-        },
-
-        noop() {
-        }
-    }
+    methods: {}
 })

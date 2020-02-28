@@ -16,7 +16,7 @@ Page {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    z-index: 1;
+    z-index: 3;
 }
 
 .guide-img {
@@ -55,4 +55,48 @@ Page {
     width: 37rpx;
     height: 13rpx;
     margin-left: 18rpx;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.block {
+    position: absolute;
+    top: 195rpx;
+    background-color: #fff;
+    width: 568rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.welcome {
+    width: 568rpx;
+    height: 401rpx;
+}
+
+.welcome-title {
+    width: 286rpx;
+    height: 120rpx;
+    margin-top: 16rpx;
+}
+
+.join-btn {
+    width:477rpx;
+    height:112rpx;
+    background:rgba(238,127,22,1);
+    border-radius:114px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:40rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    margin: 88rpx 0;
 }
