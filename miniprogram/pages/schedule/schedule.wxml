@@ -2,14 +2,14 @@
     <view class="schedule-content" hidden="{{active !== 0}}">
         <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}"
                 bind:toastEvent="onToastEvent"
-                bind:dialogEvent="onDialogEvent">
+                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent">
         </app-schedule>
     </view>
     <view class="me-content" hidden="{{active !== 1}}">
-        <app-me></app-me>
+        <app-me simpleUserModel="{{simpleUserModel}}"></app-me>
     </view>
     <view>
-        <mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+        <mp-tabbar current="{{active}}" style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
     </view>
 
     <van-toast id="van-toast"/>

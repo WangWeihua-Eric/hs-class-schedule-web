@@ -11,7 +11,7 @@ export function getSessionId() {
     const http = new HttpUtil()
     return wxLogin().then(res => {
         if (res.code) {
-            const url = '/auth/api/weixinlogin'
+            const url = '/auth/api/wechatlogin'
             const param = {
                 appSign: 'hongsongkebiao',
                 code: res.code
@@ -31,14 +31,14 @@ export function initSessionId() {
 
 function setSessionId() {
     getSessionId().then(res => {
-        if (res && res.result && res.result.state && res.result.state.code === '0') {
-            const sessionId = res.result.data
+        if (res && res.result && res.result.state && res.result.state.code === '0' && res.result.data) {
+            const sessionId = res.result.data.sessionId
             if (sessionId) {
-                userBase.setGlobalData({sessionId: sessionId})
+                userBase.setGlobalData(res.result.data)
                 wx.setStorage({
                     key:"sessionId",
                     data: {
-                        sessionId: sessionId,
+                        ...res.result.data,
                         updateTime: new Date().getTime()
                     }
                 })
@@ -53,8 +53,9 @@ function checkSessionInfo(sessionInfo) {
     if (sessionInfo) {
         const updateTime = sessionInfo.updateTime
         const sessionId = sessionInfo.sessionId
+        const authed = sessionInfo.authed
         if (sessionId && updateTime && (nowTime - updateTime) < 6 * 60 * 60 * 1000) {
-            userBase.setGlobalData({sessionId: sessionId})
+            userBase.setGlobalData({sessionId: sessionId, authed: authed})
         } else {
             setSessionId()
         }

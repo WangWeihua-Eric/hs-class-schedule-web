@@ -1,6 +1,11 @@
 import {getSetting, getStorage, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
+import {UserBase} from "../../utils/user-utils/user-base";
+import {HttpUtil} from "../../utils/http-utils/http-util";
+
+const userBase = new UserBase()
+const http = new HttpUtil()
 
 Page({
     /**
@@ -11,6 +16,7 @@ Page({
         scrollTop: null,
         active: 0,
         show: false,
+        simpleUserModel: {},
         list: [
             {
                 "text": "课表",
@@ -27,26 +33,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-        this.setData({show: true})
-        getStorage('first').then(res => {
-            // 非首次登陆
-        }).catch(() => {
-            // 首次登陆
-            this.setData({
-                guide: true
-            })
-            setTimeout(() => {
-                this.setData({
-                    guide: false
-                })
-            }, 10000)
-            wx.setStorage({
-                key: 'first',
-                data: true
-            })
-        })
-    },
+    onLoad: function (options) {},
 
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -139,15 +126,57 @@ Page({
         });
     },
 
+    onOverlayEvent() {
+        this.setData({show: true});
+    },
+
+    closeOverlay() {
+        this.setData({show: false});
+
+        getStorage('first').then(() => {
+            // 非首次登陆
+        }).catch(() => {
+            // 首次登陆
+            this.setData({
+                guide: true
+            })
+            setTimeout(() => {
+                this.setData({
+                    guide: false
+                })
+            }, 15000)
+            wx.setStorage({
+                key: 'first',
+                data: true
+            })
+        })
+    },
+
     tabChange(event) {
         const index = event.detail.index
         if (index === 1) {
-            this.setData({show: true});
+            this.setSimpleUserModel()
+            if (!userBase.getGlobalData().authed) {
+                this.setData({show: true})
+            }
         }
-        this.setData({active: event.detail.index});
+        switch (index) {
+            case 0: {
+                wx.setNavigationBarTitle({
+                    title: '红松课表'
+                })
+                break;
+            }
+            case 1: {
+                wx.setNavigationBarTitle({
+                    title: '我'
+                })
+            }
+        }
+        this.setData({active: event.detail.index})
     },
     onClickHide() {
-        this.setData({show: false});
+        // this.closeOverlay()
     },
 
     noop() {
@@ -155,21 +184,59 @@ Page({
 
     onGetUserInfo() {
         getSetting('scope.userInfo').then(scopeRes => {
-            if (scopeRes && scopeRes.authSetting && scopeRes.authSetting['scope.userInfo']) {
-                console.log(scopeRes)
+            if (scopeRes) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
                 getUserInfo().then(userInfo => {
-                    console.log('userInfo: ', userInfo)
-                    this.setData({
-                        show: false
+                    // 获取用户信息成功
+                    const user = userInfo.userInfo
+                    const params = {
+                        avatar: user.avatarUrl,
+                        nickname: user.nickName
+                    }
+                    http.post('/user/api/update', params, userBase.getGlobalData().sessionId).then(res => {
+
+                        if (res && res.result && res.result.state && res.result.state.code === '0') {
+                            const user = {
+                                ...res.result.data
+                            }
+
+                            userBase.setGlobalData(user)
+
+                            wx.setStorage({
+                                key:"sessionId",
+                                data: {
+                                    ...user,
+                                    updateTime: new Date().getTime()
+                                }
+                            })
+                        }
+
+                        this.setSimpleUserModel()
+                        this.closeOverlay()
+                    }).catch(() => {
+                        this.closeOverlay()
                     })
                 })
             } else {
-                // 未授权
+                // 拒绝
+                this.setData({active: 0})
+                this.closeOverlay()
+            }
+        })
+    },
+    setSimpleUserModel() {
+        http.get('/user/api/query', {sessionId: userBase.getGlobalData().sessionId}).then(simpleUserModel => {
+            if(simpleUserModel && simpleUserModel.state && simpleUserModel.state.code === '0') {
                 this.setData({
-                    show: false
+                    simpleUserModel: this.formatTime(simpleUserModel.data)
                 })
             }
         })
+    },
+    formatTime(simpleUserModel) {
+        return {
+            ...simpleUserModel,
+            start: simpleUserModel.start.split(' ')[0]
+        }
     }
 })

@@ -23,11 +23,11 @@
             </view>
             <view class="me-info-cell">
                 <view class="info-title">学号:</view>
-                <view class="info-des">NO.000666</view>
+                <view class="info-des">NO.{{simpleUserModel.sno}}</view>
             </view>
             <view class="me-info-cell">
                 <view class="info-title">入学日期:</view>
-                <view class="info-des">2020年1月6日</view>
+                <view class="info-des">{{simpleUserModel.start}}</view>
             </view>
         </view>
         <view class="hs-logo">

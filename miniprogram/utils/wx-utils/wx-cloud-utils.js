@@ -33,8 +33,8 @@ export function http(url, param, method, header = {'content-type': 'application/
             success: res => {
                 if (res && res.result && res.result.state && res.result.state.code === '401') {
                     getSessionId().then(sessionInfo => {
-                        if (sessionInfo && sessionInfo.result && sessionInfo.result.state && sessionInfo.result.state.code === '0') {
-                            const sessionId = sessionInfo.result.data
+                        if (sessionInfo && sessionInfo.result && sessionInfo.result.state && sessionInfo.result.state.code === '0' && sessionInfo.result.data) {
+                            const sessionId = sessionInfo.result.data.sessionId
                             if (sessionId) {
                                 wx.cloud.callFunction({
                                     name: 'http',
@@ -55,7 +55,7 @@ export function http(url, param, method, header = {'content-type': 'application/
                                     }
                                 })
                                 const userBase = new UserBase()
-                                userBase.setGlobalData({sessionId: sessionId})
+                                userBase.setGlobalData(sessionInfo.result.data)
                                 wx.setStorage({
                                     key:"sessionId",
                                     data: {

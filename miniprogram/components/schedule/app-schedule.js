@@ -88,6 +88,10 @@ Component({
             }
             if (userBase.getGlobalData().sessionId) {
                 timeHandlerNumber = 0
+                if (!userBase.getGlobalData().authed) {
+                    // 未注册用户，发射引导弹窗
+                    this.triggerEvent('overlayEvent')
+                }
                 this.refresh()
             } else {
                 if (timeHandlerNumber < 100) {
@@ -300,7 +304,7 @@ Component({
             const day = now.getDay();
             const oneDayTime = 24 * 60 * 60 * 1000;
             const MondayTime = nowTime - (day - 1) * oneDayTime;//显示周一
-            const SundayTime = nowTime + (7 - day) * oneDayTime;//显示周日
+            const SundayTime = nowTime + (15 - day) * oneDayTime;//显示周日
 
             const nowDate = new Date(MondayTime)
             const endDate = new Date(SundayTime)
