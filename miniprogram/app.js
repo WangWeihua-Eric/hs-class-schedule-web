@@ -3,7 +3,6 @@ import {initSessionId} from "./utils/user-utils/user-base-utils";
 
 App({
     onLaunch: function () {
-
         if (!wx.cloud) {
             console.error('请使用 2.2.3 或以上的基础库以使用云能力')
         } else {
@@ -22,5 +21,6 @@ App({
     },
     onShow: function (res) {
         this.globalData.query = res.query
+        this.globalData.scene = res.scene
     }
 })

@@ -1,14 +1,14 @@
 import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
-import {getSettingWithSubscriptions, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
+import {getSettingWithSubscriptions, getStorage, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
+const app = getApp()
 
 let timeHandler = null
 let timeHandlerNumber = 0
-const app = getApp()
 
 Component({
     /**
@@ -34,27 +34,28 @@ Component({
         indicatorDots: false,
         show: false,
         tempId: [],
-        officialAccountShow: false,
-        officialAccountError: true,
-        sessionFrom: 'type=course',
-        serviceImgUrl: '../../images/service.png',
+        sessionFrom: '',
+        serviceImgUrl: '../../images/clickme.jpeg',
         scrollBtnShow: true
     },
 
     pageLifetimes: {
         show: function () {
-            if (app && app.globalData && app.globalData.query && app.globalData.query.from) {
-                this.setData({
-                    sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
-                })
-            } else {
-                this.setData({
-                    sessionFrom: 'type=course'
-                })
-            }
             this.setData({
-                officialAccountShow: false
+                sessionFrom: ''
             })
+            if (app && app.globalData) {
+                if (app.globalData.scene) {
+                    this.setData({
+                        sessionFrom: 'scenes=' + app.globalData.scene
+                    })
+                }
+                if (app.globalData.query && app.globalData.query.from) {
+                    this.setData({
+                        sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
+                    })
+                }
+            }
             this.sessionIdReady()
         }
 
@@ -188,8 +189,8 @@ Component({
                 case 'ok': {
                     this.getPageInfo()
                     const param = {
-                        title: '预约结果',
-                        message: '预约成功'
+                        title: '预约成功',
+                        message: '我们会在课前10分钟通知您进直播间上课哦！'
                     }
                     this.triggerEvent('dialogEvent', param)
                     break
@@ -214,6 +215,7 @@ Component({
         },
 
         formatSchedule(schedule) {
+            const openLesson = []
             schedule.forEach((dayItem) => {
                 const courses = dayItem.courses
                 courses.forEach(courseItem => {
@@ -234,14 +236,34 @@ Component({
                     time = time + ' ' + startTime[1] + ' - ' + finishTime[1]
                     courseItem.time = time
 
-                    endTime = endTime + ' ' + finishTime[1]
+                    const startTimeStatic = endTime + ' ' + startTime[1]
+                    const preStartTime = new Date(startTimeStatic).getTime() - 20 * 60 * 1000
 
-                    if (new Date(endTime).getTime() < nowTime.getTime()) {
+                    endTime = endTime + ' ' + finishTime[1]
+                    const endStartTime = new Date(endTime).getTime()
+                    const nowStartTime = nowTime.getTime()
+
+                    if (endStartTime < nowStartTime) {
                         isEnd = true
                     }
                     courseItem.isEnd = isEnd
+
+                    if (preStartTime < nowStartTime && nowStartTime < endStartTime) {
+                        openLesson.push(courseItem)
+                    }
                 })
             })
+
+            if (openLesson.length) {
+                getStorage('lessonCode').then(lessonCode => {
+                    const openLessonData = openLesson.filter(item => item.code !== lessonCode)
+                    if (openLessonData.length) {
+                        this.triggerEvent('openLessonEvent', {openLesson: openLessonData})
+                    }
+                }).catch(() => {
+                    this.triggerEvent('openLessonEvent', {openLesson: openLesson})
+                })
+            }
         },
 
         formatDay(timeTemp) {
@@ -352,48 +374,6 @@ Component({
                     })
                 }
             })
-        },
-
-        /**
-         * 跳转公众号文章
-         */
-        toWxLink() {
-            this.setData({
-                officialAccountShow: true
-            })
-        },
-
-        /**
-         * 公众号组件加载成功
-         */
-        officialAccountLoad(e) {
-            this.setData({
-                officialAccountError: false
-            })
-        },
-
-        /**
-         * 公众号组件加载失败
-         */
-        officialAccountError(e) {
-            this.setData({
-                officialAccountError: true
-            })
-        },
-        onCloseOfficialAccount() {
-            this.setData({
-                officialAccountShow: false
-            })
-        },
-        querySessionFrom() {
-            if (app.globalData.query) {
-                const param = {
-                    title: '预约结果',
-                    message: JSON.stringify(app.globalData.query)
-                }
-                this.triggerEvent('dialogEvent', param)
-            }
-            return 'type=course&from=test'
         }
     }
 })

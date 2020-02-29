@@ -59,7 +59,7 @@ export function http(url, param, method, header = {'content-type': 'application/
                                 wx.setStorage({
                                     key:"sessionId",
                                     data: {
-                                        sessionId: sessionId,
+                                        ...sessionInfo.result.data,
                                         updateTime: new Date().getTime()
                                     }
                                 })

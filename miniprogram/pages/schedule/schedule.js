@@ -6,6 +6,7 @@ import {HttpUtil} from "../../utils/http-utils/http-util";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
+const app = getApp()
 
 Page({
     /**
@@ -16,7 +17,12 @@ Page({
         scrollTop: null,
         active: 0,
         show: false,
+        showOpenLesson: false,
         simpleUserModel: {},
+        openLesson:[],
+        sessionFrom: 'type=course',
+        serviceImgUrl: '../../images/clickme.jpeg',
+        showLoak: false,
         list: [
             {
                 "text": "课表",
@@ -26,13 +32,16 @@ Page({
             {
                 "text": "上课",
                 "iconPath": "/images/in-class.png",
-                "selectedIconPath": "/images/in-class-active.png"
+                "selectedIconPath": "/images/in-class-active.png",
+                "serviceImgUrl": '../../images/clickme.jpeg',
+                "sessionFrom": 'type=courselist'
             },
             {
                 "text": "我",
                 "iconPath": "/images/me.png",
                 "selectedIconPath": "/images/me-active.png"
-            }]
+            }
+        ]
     },
 
     /**
@@ -52,7 +61,28 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        this.setData({
+            list: [
+                {
+                    "text": "课表",
+                    "iconPath": "/images/schedule.png",
+                    "selectedIconPath": "/images/schedule-active.png"
+                },
+                {
+                    "text": "上课",
+                    "iconPath": "/images/in-class.png",
+                    "selectedIconPath": "/images/in-class-active.png",
+                    "serviceImgUrl": '../../images/clickme.jpeg',
+                    "sessionFrom": 'type=courselist'
+                },
+                {
+                    "text": "我",
+                    "iconPath": "/images/me.png",
+                    "selectedIconPath": "/images/me-active.png"
+                }
+            ]
+        })
+        this.checkAppGlobalData()
     },
 
     /**
@@ -132,12 +162,45 @@ Page({
         });
     },
 
+    onOpenLessonEvent(event) {
+        if (!this.data.showLoak) {
+            this.setData({
+                sessionFrom: 'type=course'
+            })
+            if (app && app.globalData) {
+                if (app.globalData.query && app.globalData.query.from) {
+                    this.setData({
+                        sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
+                    })
+                }
+                if (app.globalData.scene) {
+                    this.setData({
+                        sessionFrom: this.data.sessionFrom + '&scenes=' + app.globalData.scene
+                    })
+                }
+            }
+            const openLesson = event.detail.openLesson
+            this.setData({
+                openLesson: openLesson,
+                showOpenLesson: true
+            })
+        }
+    },
+
     onOverlayEvent() {
-        this.setData({show: true});
+        //  加锁后续弹窗
+        this.setData({
+            show: true,
+            showLoak: true
+        });
     },
 
     closeOverlay() {
-        this.setData({show: false});
+        //  解锁后续弹窗
+        this.setData({
+            show: false,
+            showLoak: false
+        });
 
         getStorage('first').then(() => {
             // 非首次登陆
@@ -176,9 +239,6 @@ Page({
             }
             case 1: {
                 const nowActive = this.data.active
-                wx.setNavigationBarTitle({
-                    title: '上课'
-                })
                 this.setData({
                     active: nowActive
                 })
@@ -195,6 +255,11 @@ Page({
     },
     onClickHide() {
         // this.closeOverlay()
+    },
+    onClickHideOpenLesson() {
+        this.setData({
+            showOpenLesson: false
+        })
     },
 
     noop() {
@@ -256,5 +321,111 @@ Page({
             ...simpleUserModel,
             start: simpleUserModel.start.split(' ')[0]
         }
+    },
+    checkAppGlobalData() {
+        if (app && app.globalData) {
+            if (app.globalData.query) {
+                if (app.globalData.query.from) {
+                    this.setData({
+                        list: [
+                            {
+                                "text": "课表",
+                                "iconPath": "/images/schedule.png",
+                                "selectedIconPath": "/images/schedule-active.png"
+                            },
+                            {
+                                "text": "上课",
+                                "iconPath": "/images/in-class.png",
+                                "selectedIconPath": "/images/in-class-active.png",
+                                "serviceImgUrl": '../../images/clickme.jpeg',
+                                "sessionFrom": this.data.list[1].sessionFrom  + '&from=' + app.globalData.query.from
+                            },
+                            {
+                                "text": "我",
+                                "iconPath": "/images/me.png",
+                                "selectedIconPath": "/images/me-active.png"
+                            }
+                        ]
+                    })
+                }
+                if (app.globalData.query.event === 'course') {
+                    const code = app.globalData.query.code
+                    if (code) {
+                        //  启动弹窗提醒查看课程
+                        getStorage('code').then(codeRes => {
+                            if (codeRes !== code) {
+                                this.setShowOpenLessonLoak(code)
+                            } else {
+                                //  解锁后续弹窗
+                                this.setData({
+                                    showLoak: false
+                                })
+                            }
+                        }).catch(() => {
+                            this.setShowOpenLessonLoak(code)
+                        })
+                    }
+                }
+            }
+            if (app.globalData.scene) {
+                this.setData({
+                    list: [
+                        {
+                            "text": "课表",
+                            "iconPath": "/images/schedule.png",
+                            "selectedIconPath": "/images/schedule-active.png"
+                        },
+                        {
+                            "text": "上课",
+                            "iconPath": "/images/in-class.png",
+                            "selectedIconPath": "/images/in-class-active.png",
+                            "serviceImgUrl": '../../images/clickme.jpeg',
+                            "sessionFrom": this.data.list[1].sessionFrom  + '&scenes=' + app.globalData.scene
+                        },
+                        {
+                            "text": "我",
+                            "iconPath": "/images/me.png",
+                            "selectedIconPath": "/images/me-active.png"
+                        }
+                    ]
+                })
+            }
+        }
+    },
+    setShowOpenLessonLoak(code) {
+        //  加锁禁止后续弹窗并启动弹窗提醒查看课程
+        http.get('/course/api/querybycode', {code: code}, userBase.getGlobalData().sessionId).then(openLesson => {
+            if (openLesson && openLesson.state && openLesson.state.code === '0' && openLesson.data) {
+                this.setData({
+                    showLoak: true,
+                    showOpenLesson: true,
+                    openLesson: [openLesson.data]
+                })
+                wx.setStorage({
+                    key: 'code',
+                    data: code
+                })
+            } else {
+                this.setData({
+                    showLoak: false
+                })
+            }
+        }).catch(() => {
+            this.setData({
+                showLoak: false
+            })
+        })
+    },
+    onLook(event) {
+        const value = event.currentTarget.dataset.value
+        const lessonCode = value.code
+        wx.setStorage({
+            key: 'lessonCode',
+            data: lessonCode
+        })
+        this.setData({
+            showOpenLesson: false,
+            openLesson: []
+        })
     }
 })

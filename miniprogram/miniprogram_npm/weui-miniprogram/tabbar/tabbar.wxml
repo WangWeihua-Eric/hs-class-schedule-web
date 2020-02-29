@@ -10,7 +10,7 @@
             </view>
             <view class="weui-tabbar__label">{{item.text}}</view>
         </view>
-        <button wx:if="{{index === 1}}" class="tab-service-btn" open-type="contact">
+        <button wx:if="{{index === 1}}" class="tab-service-btn" open-type="contact" show-message-card="true" send-message-img="{{item.serviceImgUrl}}" send-message-title="红松课表" session-from="{{item.sessionFrom}}">
             <view style="position: relative;display:inline-block;">
                 <view>
                     <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>

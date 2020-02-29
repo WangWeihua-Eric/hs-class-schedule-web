@@ -6,7 +6,8 @@
             </button>
         </view>
         <view>
-            <button class="scroll-join-btn" bindtap="toWxLink">
+            <button class="scroll-join-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=joinin'}}"
+                    send-message-img="{{serviceImgUrl}}">
                 <view class="scroll-join-text">加入红松</view>
             </button>
         </view>
@@ -34,7 +35,8 @@
             </button>
         </view>
         <view>
-            <button class="tip-join-btn" bindtap="toWxLink">
+            <button class="tip-join-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=joinin'}}"
+                    send-message-img="{{serviceImgUrl}}">
                 <image class="wxlogo-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/join-red.png"></image>
                 <view class="tip-join-text">加入红松</view>
             </button>
@@ -73,7 +75,7 @@
                             </view>
                             <view class="cell-item-right">
                                 <button wx:if="{{coursesItem.isEnd || coursesItem.booked === 2}}" class="look-btn"
-                                        open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + coursesItem.code}}"
+                                        open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=course&code=' + coursesItem.code}}"
                                         send-message-img="{{serviceImgUrl}}">观看</button>
                                 <view wx:elif="{{coursesItem.booked === 0}}" class="booking-btn" bindtap="onBooking"
                                         data-value="{{coursesItem}}">预约</view>
@@ -92,37 +94,4 @@
             </view>
         </view>
     </van-overlay>
-    <view hidden="{{!officialAccountShow || officialAccountError}}" class="official-account-info">
-        <van-icon hidden="{{!officialAccountShow || officialAccountError}}" class="onCloseOfficialAccount" name="close"
-                bindtap="onCloseOfficialAccount"/>
-        <official-account hidden="{{!officialAccountShow || officialAccountError}}" bindload="officialAccountLoad"
-                binderror="officialAccountError"></official-account>
-    </view>
-
-
-    <van-action-sheet show="{{ officialAccountShow && officialAccountError }}" title="红松学堂，长辈们的直播课堂！" bind:close="onCloseOfficialAccount">
-        <view class="tip-content">
-            <view class="tip-item">
-                <view class="tip-item-content">了解课程和老师介绍</view>
-            </view>
-
-            <view class="tip-item">
-                <view class="tip-item-content">查看课程视频回看</view>
-            </view>
-
-            <view class="tip-item">
-                <view class="tip-item-content">参与更多精彩活动赢奖励哦！</view>
-            </view>
-
-            <view class="tip-qrcode-contnet">
-                <view class="tip-qrcode-title">关注红松学堂公众号加入学习</view>
-                <view class="qrcode-sub-content">
-                    <view class="qrcode-contnet">
-                        <image class="qrcode" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/qrcode.png"></image>
-                        <view class="qrcode-desc">截屏扫描二维码加入红松学堂</view>
-                    </view>
-                </view>
-            </view>
-        </view>
-    </van-action-sheet>
 </view>
