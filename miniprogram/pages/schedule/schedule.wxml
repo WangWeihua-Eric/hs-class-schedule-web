@@ -5,7 +5,7 @@
                 bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent">
         </app-schedule>
     </view>
-    <view class="me-content" hidden="{{active !== 1}}">
+    <view class="me-content" hidden="{{active !== 2}}">
         <app-me simpleUserModel="{{simpleUserModel}}"></app-me>
     </view>
     <view>

@@ -24,6 +24,11 @@ Page({
                 "selectedIconPath": "/images/schedule-active.png"
             },
             {
+                "text": "上课",
+                "iconPath": "/images/in-class.png",
+                "selectedIconPath": "/images/in-class-active.png"
+            },
+            {
                 "text": "我",
                 "iconPath": "/images/me.png",
                 "selectedIconPath": "/images/me-active.png"
@@ -33,7 +38,8 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {},
+    onLoad: function (options) {
+    },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -154,7 +160,7 @@ Page({
 
     tabChange(event) {
         const index = event.detail.index
-        if (index === 1) {
+        if (index === 2) {
             this.setSimpleUserModel()
             if (!userBase.getGlobalData().authed) {
                 this.setData({show: true})
@@ -165,15 +171,27 @@ Page({
                 wx.setNavigationBarTitle({
                     title: '红松课表'
                 })
+                this.setData({active: index})
                 break;
             }
             case 1: {
+                const nowActive = this.data.active
+                wx.setNavigationBarTitle({
+                    title: '上课'
+                })
+                this.setData({
+                    active: nowActive
+                })
+                break
+            }
+            case 2: {
                 wx.setNavigationBarTitle({
                     title: '我'
                 })
+                this.setData({active: index})
+                break
             }
         }
-        this.setData({active: event.detail.index})
     },
     onClickHide() {
         // this.closeOverlay()
@@ -203,7 +221,7 @@ Page({
                             userBase.setGlobalData(user)
 
                             wx.setStorage({
-                                key:"sessionId",
+                                key: "sessionId",
                                 data: {
                                     ...user,
                                     updateTime: new Date().getTime()
@@ -226,7 +244,7 @@ Page({
     },
     setSimpleUserModel() {
         http.get('/user/api/query', {sessionId: userBase.getGlobalData().sessionId}).then(simpleUserModel => {
-            if(simpleUserModel && simpleUserModel.state && simpleUserModel.state.code === '0') {
+            if (simpleUserModel && simpleUserModel.state && simpleUserModel.state.code === '0') {
                 this.setData({
                     simpleUserModel: this.formatTime(simpleUserModel.data)
                 })
