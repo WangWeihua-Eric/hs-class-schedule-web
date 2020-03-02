@@ -9,5 +9,8 @@
     "navigationBarTitleText": "红松课表",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "navigateToMiniProgramAppIdList": [
+    "wxbe86c353682cdb84"
+  ]
 }

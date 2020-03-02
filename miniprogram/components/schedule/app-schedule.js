@@ -18,6 +18,10 @@ Component({
         scrollTop: {
             type: Number,
             value: null
+        },
+        miniJump: {
+            type: Boolean,
+            value: false
         }
     },
 
@@ -104,6 +108,20 @@ Component({
             }
         },
 
+        onJumpLook(event) {
+            const value = event.currentTarget.dataset.value
+            let path = ''
+            if (value.miniPath) {
+                path = value.miniPath
+            }
+
+            wx.navigateToMiniProgram({
+                appId: 'wxbe86c353682cdb84',
+                path: path,
+                success() {}
+            })
+        },
+
         onBooking(event) {
             const tmplIds = this.data.tempId
             const status = {}
@@ -174,10 +192,20 @@ Component({
                     if (res && res.result && res.result.state && res.result.state.code === '0') {
                         this.bookingRes('ok')
                     } else {
-                        this.bookingRes('error')
+                        const param = {
+                            title: '预约失败',
+                            message: JSON.stringify(res)
+                        }
+                        this.triggerEvent('dialogEvent', param)
+                        // this.bookingRes('error')
                     }
-                }).catch(() => {
-                    this.bookingRes('error')
+                }).catch((error) => {
+                    const param = {
+                        title: '预约成功',
+                        message: JSON.stringify(error)
+                    }
+                    this.triggerEvent('dialogEvent', param)
+                    // this.bookingRes('error')
                 })
             } else {
                 this.bookingRes('reject')
@@ -190,7 +218,7 @@ Component({
                     this.getPageInfo()
                     const param = {
                         title: '预约成功',
-                        message: '我们会在课前10分钟通知您进直播间上课哦！'
+                        message: '我们会在课前 30 分钟通知您进直播间上课哦！'
                     }
                     this.triggerEvent('dialogEvent', param)
                     break
@@ -237,7 +265,7 @@ Component({
                     courseItem.time = time
 
                     const startTimeStatic = endTime + ' ' + startTime[1]
-                    const preStartTime = new Date(startTimeStatic).getTime() - 20 * 60 * 1000
+                    const preStartTime = new Date(startTimeStatic).getTime() - 30 * 60 * 1000
 
                     endTime = endTime + ' ' + finishTime[1]
                     const endStartTime = new Date(endTime).getTime()

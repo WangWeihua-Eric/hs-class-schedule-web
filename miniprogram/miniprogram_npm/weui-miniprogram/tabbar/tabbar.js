@@ -115,6 +115,16 @@ Component({
         tabChange: function tabChange(e) {
             var index = e.currentTarget.dataset.index;
 
+            if (index === 1) {
+                const lessonData = this.data.list[1]
+                if (lessonData && lessonData.jump) {
+                    wx.navigateToMiniProgram({
+                        appId: 'wxbe86c353682cdb84',
+                        success() {}
+                    })
+                }
+            }
+
             if (index === this.data.current) {
                 return;
             }

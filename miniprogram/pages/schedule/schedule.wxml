@@ -1,6 +1,6 @@
 <view>
     <view class="schedule-content" hidden="{{active !== 0}}">
-        <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}"
+        <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}" miniJump="{{miniJump}}"
                 bind:toastEvent="onToastEvent"
                 bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">
         </app-schedule>
@@ -56,7 +56,8 @@
                         <view class="item-teacher">{{item.lecturer.name + ' | ' + item.lecturer.titles}}</view>
                     </view>
                     <view class="dailog-cell-item-right">
-                        <button class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + item.code}}"
+                        <button wx:if="{{item.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
+                        <button wx:else class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + item.code}}"
                                 send-message-img="{{serviceImgUrl}}" bindtap="onLook" data-value="{{item}}">观看</button>
                     </view>
                 </view>

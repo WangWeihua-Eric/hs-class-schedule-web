@@ -3,6 +3,7 @@ import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
+import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
@@ -19,10 +20,11 @@ Page({
         show: false,
         showOpenLesson: false,
         simpleUserModel: {},
-        openLesson:[],
+        openLesson: [],
         sessionFrom: 'type=course',
         serviceImgUrl: '../../images/clickme.jpeg',
         showLoak: false,
+        miniJump: false,
         list: [
             {
                 "text": "课表",
@@ -34,7 +36,8 @@ Page({
                 "iconPath": "/images/in-class.png",
                 "selectedIconPath": "/images/in-class-active.png",
                 "serviceImgUrl": '../../images/clickme.jpeg',
-                "sessionFrom": 'type=courselist'
+                "sessionFrom": 'type=courselist',
+                "jump": false
             },
             {
                 "text": "我",
@@ -61,27 +64,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.setData({
-            list: [
-                {
-                    "text": "课表",
-                    "iconPath": "/images/schedule.png",
-                    "selectedIconPath": "/images/schedule-active.png"
-                },
-                {
-                    "text": "上课",
-                    "iconPath": "/images/in-class.png",
-                    "selectedIconPath": "/images/in-class-active.png",
-                    "serviceImgUrl": '../../images/clickme.jpeg',
-                    "sessionFrom": 'type=courselist'
-                },
-                {
-                    "text": "我",
-                    "iconPath": "/images/me.png",
-                    "selectedIconPath": "/images/me-active.png"
-                }
-            ]
-        })
+        this.getTabbarItemInfo()
         this.checkAppGlobalData()
     },
 
@@ -326,26 +309,10 @@ Page({
         if (app && app.globalData) {
             if (app.globalData.query) {
                 if (app.globalData.query.from) {
+                    const tabbarList = this.data.list
+                    tabbarList[1].sessionFrom = this.data.list[1].sessionFrom + '&from=' + app.globalData.query.from
                     this.setData({
-                        list: [
-                            {
-                                "text": "课表",
-                                "iconPath": "/images/schedule.png",
-                                "selectedIconPath": "/images/schedule-active.png"
-                            },
-                            {
-                                "text": "上课",
-                                "iconPath": "/images/in-class.png",
-                                "selectedIconPath": "/images/in-class-active.png",
-                                "serviceImgUrl": '../../images/clickme.jpeg',
-                                "sessionFrom": this.data.list[1].sessionFrom  + '&from=' + app.globalData.query.from
-                            },
-                            {
-                                "text": "我",
-                                "iconPath": "/images/me.png",
-                                "selectedIconPath": "/images/me-active.png"
-                            }
-                        ]
+                        list: tabbarList
                     })
                 }
                 if (app.globalData.query.event === 'course') {
@@ -368,26 +335,11 @@ Page({
                 }
             }
             if (app.globalData.scene) {
+
+                const tabbarList = this.data.list
+                tabbarList[1].sessionFrom = this.data.list[1].sessionFrom + '&scenes=' + app.globalData.scene
                 this.setData({
-                    list: [
-                        {
-                            "text": "课表",
-                            "iconPath": "/images/schedule.png",
-                            "selectedIconPath": "/images/schedule-active.png"
-                        },
-                        {
-                            "text": "上课",
-                            "iconPath": "/images/in-class.png",
-                            "selectedIconPath": "/images/in-class-active.png",
-                            "serviceImgUrl": '../../images/clickme.jpeg',
-                            "sessionFrom": this.data.list[1].sessionFrom  + '&scenes=' + app.globalData.scene
-                        },
-                        {
-                            "text": "我",
-                            "iconPath": "/images/me.png",
-                            "selectedIconPath": "/images/me-active.png"
-                        }
-                    ]
+                    list: tabbarList
                 })
             }
         }
@@ -426,6 +378,49 @@ Page({
         this.setData({
             showOpenLesson: false,
             openLesson: []
+        })
+    },
+
+    onJumpLook(event) {
+        const value = event.currentTarget.dataset.value
+
+        const lessonCode = value.code
+        wx.setStorage({
+            key: 'lessonCode',
+            data: lessonCode
+        })
+        this.setData({
+            showOpenLesson: false,
+            openLesson: []
+        })
+
+        let path = ''
+        if (value.miniPath) {
+            path = value.miniPath
+        }
+
+        wx.navigateToMiniProgram({
+            appId: 'wxbe86c353682cdb84',
+            path: path,
+            success() {
+            }
+        })
+    },
+
+    //  获取 tabbarInfo
+    getTabbarItemInfo() {
+        getWithWhere('tabbar', {position: 'tabbar'}).then(tabbarInfo => {
+            if (tabbarInfo && tabbarInfo.length) {
+                const jumpItem = tabbarInfo[0].jump
+                this.setData({
+                    miniJump: jumpItem
+                })
+                const tabbarList = this.data.list
+                tabbarList[1].jump = jumpItem
+                this.setData({
+                    list: tabbarList
+                })
+            }
         })
     }
 })
