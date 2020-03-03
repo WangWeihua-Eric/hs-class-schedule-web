@@ -17,7 +17,7 @@
 
     <van-dialog id="van-dialog"/>
 
-    <view class="guide" wx:if="{{guide}}">
+    <view class="guide" wx:if="{{guide}}" bindtap="onCloseTip">
         <image class="guide-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/guide.png">
             <view class="guide-des">
                 <view class="guide-title">
@@ -27,6 +27,9 @@
                     </view>
                 </view>
                 <view class="guide-text">“添加到我的小程序”</view>
+            </view>
+            <view class="close-tip">
+                <van-icon name="close" />
             </view>
         </image>
     </view>

@@ -17,9 +17,11 @@ export function login() {
 }
 
 export function http(url, param, method, header = {'content-type': 'application/x-www-form-urlencoded'}) {
-    param = {
-        ...param,
-        appSign: 'hongsongkebiao'
+    if (!param.appSign) {
+        param = {
+            ...param,
+            appSign: 'hongsongkebiao'
+        }
     }
     return new Promise((resolve, reject) => {
         wx.cloud.callFunction({

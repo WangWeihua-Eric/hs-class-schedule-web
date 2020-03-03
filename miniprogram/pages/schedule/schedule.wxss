@@ -19,6 +19,18 @@ Page {
     z-index: 3;
 }
 
+.close-tip {
+    position: absolute;
+    top: 25rpx;
+    right: 50rpx;
+    color: white;
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
 .guide-img {
     width: 346rpx;
     height: 145rpx;

@@ -22,5 +22,6 @@ App({
     onShow: function (res) {
         this.globalData.query = res.query
         this.globalData.scene = res.scene
+        this.globalData.path = res.path
     }
 })

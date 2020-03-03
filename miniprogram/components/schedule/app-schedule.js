@@ -130,7 +130,9 @@ Component({
             getSettingWithSubscriptions().then(subscriptionsRes => {
 
                 // 检查是否总是订阅
-                if (this.checkAwaysSubscriptions(subscriptionsRes, tmplIds)) {
+                if (!this.checkMainSwitch(subscriptionsRes)) {
+                    this.bookingRes('awaysErrorMiniSwitch')
+                } else if (this.checkAwaysSubscriptions(subscriptionsRes, tmplIds)) {
                     //  已总是允许所有 id 准备发起预定请求
                     this.checkSendTmpId(subscriptionsRes, tmplIds, value)
 
@@ -191,6 +193,14 @@ Component({
                 notScriptionIds = tmplIds.filter(item => !scriptionsInfo[item])
             }
             return notScriptionIds
+        },
+
+        checkMainSwitch(subscriptionsRes) {
+            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
+            if (scriptionsInfo && scriptionsInfo.mainSwitch === false) {
+                return false
+            }
+            return true
         },
 
         checkAwaysSubscriptions(subscriptionsRes, tmplIds) {
@@ -271,6 +281,14 @@ Component({
                     const param = {
                         title: '预约成功',
                         message: '我们将在课表更新时提醒您'
+                    }
+                    this.triggerEvent('dialogEvent', param)
+                    break
+                }
+                case 'awaysErrorMiniSwitch': {
+                    const param = {
+                        title: '预约失败',
+                        message: '请通过小程序设置打开订阅消息！'
                     }
                     this.triggerEvent('dialogEvent', param)
                     break

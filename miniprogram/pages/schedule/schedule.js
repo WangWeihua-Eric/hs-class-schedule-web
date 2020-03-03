@@ -69,13 +69,40 @@ Page({
                 weixinadinfo: weixinadinfo,
                 from: from,
             });
+            const params = {
+                appSign: 'hongsonggongzhonghao',
+                setid: '1110214397',
+                url: 'http://www.' + app.globalData.path + '?gdt_vid=' + gdt_vid + '&weixinadinfo=' + weixinadinfo,
+                gdtvid: gdt_vid
+            }
+            http.post('/ad/api/user/actions/add', params).then(() => {})
         }
+
 
         if (from) {
             wx.reportAnalytics('page_lode_from', {
                 from: from,
             });
         }
+
+        getStorage('notFirst').then(() => {
+            // 非首次登陆
+        }).catch(() => {
+            // 首次登陆
+            this.setData({
+                guide: true
+            })
+        })
+    },
+
+    onCloseTip() {
+        this.setData({
+            guide: false
+        })
+        wx.setStorage({
+            key: 'notFirst',
+            data: true
+        })
     },
 
     /**
@@ -209,24 +236,6 @@ Page({
             show: false,
             showLoak: false
         });
-
-        getStorage('first').then(() => {
-            // 非首次登陆
-        }).catch(() => {
-            // 首次登陆
-            this.setData({
-                guide: true
-            })
-            setTimeout(() => {
-                this.setData({
-                    guide: false
-                })
-            }, 15000)
-            wx.setStorage({
-                key: 'first',
-                data: true
-            })
-        })
     },
 
     tabChange(event) {
