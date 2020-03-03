@@ -51,6 +51,31 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        // url参数中可以获取到gdt_vid、weixinadinfo参数值
+        const gdt_vid = options.gdt_vid
+        const weixinadinfo = options.weixinadinfo
+        // 获取广告id
+        let aid = 0
+        if(weixinadinfo){
+            const weixinadinfoArr = weixinadinfo.split('.')
+            aid = weixinadinfoArr[0]
+        }
+        const from = options.from
+
+        if(gdt_vid) {
+            wx.reportAnalytics('wx_gongzhonghao', {
+                aid: aid,
+                gdt_vid: gdt_vid,
+                weixinadinfo: weixinadinfo,
+                from: from,
+            });
+        }
+
+        if (from) {
+            wx.reportAnalytics('page_lode_from', {
+                from: from,
+            });
+        }
     },
 
     /**

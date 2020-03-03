@@ -60,8 +60,12 @@
 					"id": 1,
 					"name": "pages/schedule/schedule",
 					"pathName": "pages/schedule/schedule",
-					"query": "from=asw32&event=course&code=c100",
-					"scene": 1014
+					"query": "from=5& gdt_vid=wx0ewinbalytptma00&weixinadinfo=20966864.wx0ewinbalytptma00.0.1",
+					"scene": 1038,
+					"referrerInfo": {
+						"appId": "wxbe86c353682cdb84",
+						"extraData": "{}"
+					}
 				},
 				{
 					"id": -1,
@@ -77,6 +81,13 @@
 					"query": "",
 					"scene": 1043,
 					"referrerInfo": {}
+				},
+				{
+					"id": 4,
+					"name": "pages/schedule/schedule",
+					"pathName": "pages/schedule/schedule",
+					"query": "from=6",
+					"scene": 1058
 				}
 			]
 		}

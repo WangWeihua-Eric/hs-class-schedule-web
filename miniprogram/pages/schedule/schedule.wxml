@@ -35,8 +35,11 @@
         <view class="wrapper">
             <view class="block" catch:tap="noop">
                 <image class="welcome" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome.png"></image>
-                <image class="welcome-title" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome-title.png"></image>
-                <button class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">加入红松学堂</button>
+                <view class="welcome-title">
+                    <view>在红松学堂</view>
+                    <view>学知识，交朋友</view>
+                </view>
+                <button class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">免费领取海量课程</button>
             </view>
         </view>
     </van-overlay>

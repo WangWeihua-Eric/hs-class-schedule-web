@@ -124,95 +124,115 @@ Component({
 
         onBooking(event) {
             const tmplIds = this.data.tempId
-            const status = {}
             const value = event.currentTarget.dataset.value
 
-            getSettingWithSubscriptions().then(res => {
+            //  检查是否总是订阅
+            getSettingWithSubscriptions().then(subscriptionsRes => {
 
-                const sendTempId = []
-                const inSettingId = []
+                // 检查是否总是订阅
+                if (this.checkAwaysSubscriptions(subscriptionsRes, tmplIds)) {
+                    //  已总是允许所有 id 准备发起预定请求
+                    this.checkSendTmpId(subscriptionsRes, tmplIds, value)
 
-                tmplIds.forEach(id => {
-                    if (!res.subscriptionsSetting[id]) {
-                        sendTempId.push(id)
-                    } else {
-                        inSettingId.push(id)
-                        status[id] = res.subscriptionsSetting[id]
-                    }
-                })
+                } else {
+                    //  有 id 没有被总是允许，准备对没有被允许的 id 发起订阅请求
 
-                if (sendTempId.length) {
+                    //  获取没有被允许的 id
+                    const notScriptionIds = this.sendSubscriptions(subscriptionsRes, tmplIds)
                     this.setData({
                         show: true
                     })
 
-                    wxSubscribeMessage(sendTempId).then((res) => {
+                    //  发起订阅
+                    wxSubscribeMessage(notScriptionIds).then((res) => {
+                        getSettingWithSubscriptions().then(subscriptionsAgain => {
+                            if (this.checkAwaysSubscriptions(subscriptionsAgain, tmplIds)) {
+                                // 已总是允许所有 id 准备发起预定请求
+                                this.checkSendTmpId(subscriptionsAgain, tmplIds, value)
 
-                        this.setData({
-                            show: false
+                            } else {
+                                //  没有被总是允许，准备弹窗提示
+                                if (tmplIds.some(item => res[item] === 'accept')) {
+                                    this.bookingRes('awaysError')
+                                } else {
+                                    this.bookingRes('reject')
+                                }
+                            }
                         })
-
-                        sendTempId.forEach(id => {
-                            status[id] = res[id]
-                        })
-
-                        this.sendSubscribecourse(tmplIds, status, value)
-
-
-                    }).catch((error) => {
+                    }).catch(() => {
+                        this.bookingRes('error')
                     })
-                } else {
-                    // 已经总是允许
-                    this.sendSubscribecourse(tmplIds, status, value)
                 }
-
-
-            }).catch(error => {
-
+            }).catch(() => {
+                this.bookingRes('error')
             })
-
-
         },
 
-        sendSubscribecourse(tmplIds, status, value) {
-            const readySendData = []
-            tmplIds.forEach(id => {
-                if (status[id] === 'accept') {
-                    readySendData.push(id)
+        checkSendTmpId(subscriptionsRes, tmplIds, value) {
+            const sendId = []
+            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
+            tmplIds.forEach(item => {
+                if (scriptionsInfo[item] === 'accept') {
+                    sendId.push(item)
                 }
             })
-            if (readySendData.length) {
-                const param = {
-                    sessionId: userBase.getGlobalData().sessionId,
-                    courseCode: value.code,
-                    appSign: 'hongsongkebiao',
-                    templateIds: readySendData.toString()
-                }
-                http.post('/subscribe/api/subscribecourse', param, userBase.getGlobalData().sessionId).then((res) => {
-                    if (res && res.result && res.result.state && res.result.state.code === '0') {
-                        this.bookingRes('ok')
-                    } else {
-                        const param = {
-                            title: '预约失败',
-                            message: JSON.stringify(res)
-                        }
-                        this.triggerEvent('dialogEvent', param)
-                        // this.bookingRes('error')
-                    }
-                }).catch((error) => {
-                    const param = {
-                        title: '预约成功',
-                        message: JSON.stringify(error)
-                    }
-                    this.triggerEvent('dialogEvent', param)
-                    // this.bookingRes('error')
-                })
+            if (sendId.length) {
+                //  发送订阅信息
+                this.sendSubscribecourse(sendId, value)
             } else {
                 this.bookingRes('reject')
             }
         },
 
+        sendSubscriptions(subscriptionsRes, tmplIds) {
+            let notScriptionIds = tmplIds
+            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
+            if (scriptionsInfo) {
+                notScriptionIds = tmplIds.filter(item => !scriptionsInfo[item])
+            }
+            return notScriptionIds
+        },
+
+        checkAwaysSubscriptions(subscriptionsRes, tmplIds) {
+            let awaysSwitch = false
+            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
+            if (scriptionsInfo) {
+                const notScriptions = tmplIds.filter(item => !scriptionsInfo[item])
+                if (notScriptions.length) {
+                    return awaysSwitch
+                } else {
+                    return true
+                }
+            } else {
+                return awaysSwitch
+            }
+        },
+
+        sendSubscribecourse(tmplIds, value) {
+            if (value) {
+                const param = {
+                    courseCode: value.code,
+                    appSign: 'hongsongkebiao',
+                    templateIds: tmplIds.toString()
+                }
+                http.post('/subscribe/api/subscribecourse', param, userBase.getGlobalData().sessionId).then((res) => {
+                    if (res && res.result && res.result.state && res.result.state.code === '0') {
+                        this.bookingRes('ok')
+                    } else {
+                        this.bookingRes('error')
+                    }
+                }).catch(() => {
+                    this.bookingRes('error')
+                })
+            } else {
+                this.bookingRes('bookedSchedule')
+            }
+        },
+
         bookingRes(type) {
+            this.setData({
+                show: false
+            })
             switch (type) {
                 case 'ok': {
                     this.getPageInfo()
@@ -233,8 +253,24 @@ Component({
                 }
                 case 'reject': {
                     const param = {
-                        title: '预约结果',
-                        message: '预约失败，请同意消息订阅'
+                        title: '预约失败',
+                        message: '请同意消息订阅'
+                    }
+                    this.triggerEvent('dialogEvent', param)
+                    break
+                }
+                case 'awaysError': {
+                    const param = {
+                        title: '预约失败',
+                        message: '您在订阅时必须勾选「总是保持以上选择，不再询问」'
+                    }
+                    this.triggerEvent('dialogEvent', param)
+                    break
+                }
+                case 'bookedSchedule': {
+                    const param = {
+                        title: '预约成功',
+                        message: '我们将在课表更新时提醒您'
                     }
                     this.triggerEvent('dialogEvent', param)
                     break
@@ -282,15 +318,8 @@ Component({
                 })
             })
 
-            if (openLesson.length) {
-                getStorage('lessonCode').then(lessonCode => {
-                    const openLessonData = openLesson.filter(item => item.code !== lessonCode)
-                    if (openLessonData.length) {
-                        this.triggerEvent('openLessonEvent', {openLesson: openLessonData})
-                    }
-                }).catch(() => {
-                    this.triggerEvent('openLessonEvent', {openLesson: openLesson})
-                })
+            if (openLesson.length && app.globalData.scene !== 1038) {
+                this.triggerEvent('openLessonEvent', {openLesson: openLesson})
             }
         },
 
@@ -359,7 +388,7 @@ Component({
             const nowDate = new Date(MondayTime)
             const endDate = new Date(SundayTime)
             this.setData({
-                scheduleDay: this.formatDay(nowDate.getTime()) + ' - ' + this.formatDay(endDate.getTime())
+                scheduleDay: this.formatDay(nowDate.getTime()) + ' - ' + this.formatDay(endDate.getTime() - 8 * 24 * 60 * 60 * 1000)
             })
 
 
