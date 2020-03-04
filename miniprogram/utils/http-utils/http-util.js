@@ -76,6 +76,10 @@ export class HttpUtil {
             }
         }
         return http(this.host + url, param, 'GET').then(res => {
+            // if (url === '/course/api/schedules') {
+            //     res.result.data[2].courses[0].finishTime = 'PM 18:00'
+            //     res.result.data[2].courses[1].finishTime = 'PM 18:00'
+            // }
             return res.result
         })
     }

@@ -21,6 +21,7 @@ Page({
         showOpenLesson: false,
         simpleUserModel: {},
         openLesson: [],
+        welcomeBgHeight: 555,
         sessionFrom: 'type=course',
         serviceImgUrl: '../../images/clickme.jpeg',
         showLoak: false,
@@ -44,7 +45,11 @@ Page({
                 "iconPath": "/images/me.png",
                 "selectedIconPath": "/images/me-active.png"
             }
-        ]
+        ],
+        aid: '',
+        gdt_vid: '',
+        weixinadinfo: '',
+        from: ''
     },
 
     /**
@@ -63,19 +68,12 @@ Page({
         const from = options.from
 
         if(gdt_vid) {
-            wx.reportAnalytics('wx_gongzhonghao', {
+            this.setData({
                 aid: aid,
                 gdt_vid: gdt_vid,
                 weixinadinfo: weixinadinfo,
-                from: from,
-            });
-            const params = {
-                appSign: 'hongsonggongzhonghao',
-                setid: '1110214397',
-                url: 'http://www.' + app.globalData.path + '?gdt_vid=' + gdt_vid + '&weixinadinfo=' + weixinadinfo,
-                gdtvid: gdt_vid
-            }
-            http.post('/ad/api/user/actions/add', params).then(() => {})
+                from: from
+            })
         }
 
 
@@ -216,8 +214,9 @@ Page({
             }
             const openLesson = event.detail.openLesson
             this.setData({
-                openLesson: openLesson,
-                showOpenLesson: true
+                welcomeBgHeight: 259 + openLesson.length * 296,
+                showOpenLesson: true,
+                openLesson: openLesson
             })
         }
     },
@@ -316,6 +315,27 @@ Page({
                     }).catch(() => {
                         this.closeOverlay()
                     })
+
+
+                    if (this.data.gdt_vid) {
+                        const aid = this.data.aid
+                        const gdt_vid = this.data.gdt_vid
+                        const weixinadinfo = this.data.weixinadinfo
+                        const from = this.data.from
+                        wx.reportAnalytics('wx_gongzhonghao', {
+                            aid: aid,
+                            gdt_vid: gdt_vid,
+                            weixinadinfo: weixinadinfo,
+                            from: from,
+                        });
+                        const params = {
+                            appSign: 'hongsonggongzhonghao',
+                            setid: '1110214397',
+                            url: 'http://www.' + app.globalData.path + '?gdt_vid=' + gdt_vid + '&weixinadinfo=' + weixinadinfo,
+                            gdtvid: gdt_vid
+                        }
+                        http.post('/ad/api/user/actions/add', params).then(() => {})
+                    }
                 })
             } else {
                 // 拒绝
@@ -385,6 +405,7 @@ Page({
                 this.setData({
                     showLoak: true,
                     showOpenLesson: true,
+                    welcomeBgHeight: 555,
                     openLesson: [openLesson.data]
                 })
                 wx.setStorage({

@@ -126,38 +126,26 @@ Component({
             const tmplIds = this.data.tempId
             const value = event.currentTarget.dataset.value
 
-            //  检查是否总是订阅
             getSettingWithSubscriptions().then(subscriptionsRes => {
 
-                // 检查是否总是订阅
+                // 检查是否打开订阅开关
                 if (!this.checkMainSwitch(subscriptionsRes)) {
                     this.bookingRes('awaysErrorMiniSwitch')
-                } else if (this.checkAwaysSubscriptions(subscriptionsRes, tmplIds)) {
-                    //  已总是允许所有 id 准备发起预定请求
-                    this.checkSendTmpId(subscriptionsRes, tmplIds, value)
-
                 } else {
-                    //  有 id 没有被总是允许，准备对没有被允许的 id 发起订阅请求
-
-                    //  获取没有被允许的 id
-                    const notScriptionIds = this.sendSubscriptions(subscriptionsRes, tmplIds)
-                    this.setData({
-                        show: true
-                    })
-
-                    //  发起订阅
-                    wxSubscribeMessage(notScriptionIds).then((res) => {
+                    //  发起订阅请求
+                    wxSubscribeMessage(tmplIds).then((res) => {
                         getSettingWithSubscriptions().then(subscriptionsAgain => {
+                            // 检查是否总是允许所有 id
                             if (this.checkAwaysSubscriptions(subscriptionsAgain, tmplIds)) {
                                 // 已总是允许所有 id 准备发起预定请求
-                                this.checkSendTmpId(subscriptionsAgain, tmplIds, value)
+                                this.sendSubscribecourse(tmplIds, value)
 
                             } else {
-                                //  没有被总是允许，准备弹窗提示
-                                if (tmplIds.some(item => res[item] === 'accept')) {
-                                    this.bookingRes('awaysError')
-                                } else {
+                                //  有 id 没有被总是允许，准备弹窗提示
+                                if (tmplIds.some(item => res[item] === 'reject')) {
                                     this.bookingRes('reject')
+                                } else {
+                                    this.bookingRes('awaysError')
                                 }
                             }
                         })
@@ -170,31 +158,6 @@ Component({
             })
         },
 
-        checkSendTmpId(subscriptionsRes, tmplIds, value) {
-            const sendId = []
-            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
-            tmplIds.forEach(item => {
-                if (scriptionsInfo[item] === 'accept') {
-                    sendId.push(item)
-                }
-            })
-            if (sendId.length) {
-                //  发送订阅信息
-                this.sendSubscribecourse(sendId, value)
-            } else {
-                this.bookingRes('reject')
-            }
-        },
-
-        sendSubscriptions(subscriptionsRes, tmplIds) {
-            let notScriptionIds = tmplIds
-            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
-            if (scriptionsInfo) {
-                notScriptionIds = tmplIds.filter(item => !scriptionsInfo[item])
-            }
-            return notScriptionIds
-        },
-
         checkMainSwitch(subscriptionsRes) {
             const scriptionsInfo = subscriptionsRes.subscriptionsSetting
             if (scriptionsInfo && scriptionsInfo.mainSwitch === false) {
@@ -204,17 +167,18 @@ Component({
         },
 
         checkAwaysSubscriptions(subscriptionsRes, tmplIds) {
-            let awaysSwitch = false
             const scriptionsInfo = subscriptionsRes.subscriptionsSetting
             if (scriptionsInfo) {
-                const notScriptions = tmplIds.filter(item => !scriptionsInfo[item])
+                const notScriptions = tmplIds.filter(item => {
+                    return !scriptionsInfo[item] || scriptionsInfo[item] !== 'accept'
+                })
                 if (notScriptions.length) {
-                    return awaysSwitch
+                    return false
                 } else {
                     return true
                 }
             } else {
-                return awaysSwitch
+                return false
             }
         },
 

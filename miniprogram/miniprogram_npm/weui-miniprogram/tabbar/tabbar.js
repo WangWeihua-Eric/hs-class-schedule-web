@@ -92,6 +92,7 @@ module.exports =
 
 "use strict";
 
+let timeHandler = false
 
 Component({
     options: {
@@ -118,10 +119,7 @@ Component({
             if (index === 1) {
                 const lessonData = this.data.list[1]
                 if (lessonData && lessonData.jump) {
-                    wx.navigateToMiniProgram({
-                        appId: 'wxbe86c353682cdb84',
-                        success() {}
-                    })
+                    this.jumpMini()
                 }
             }
 
@@ -132,6 +130,20 @@ Component({
                 current: index
             });
             this.triggerEvent('change', { index: index, item: this.data.list[index] });
+        },
+        jumpMini() {
+            if (timeHandler) {
+                return
+            } else {
+                timeHandler = true
+                wx.navigateToMiniProgram({
+                    appId: 'wxbe86c353682cdb84',
+                    success() {}
+                })
+                setTimeout(() => {
+                    timeHandler = false
+                }, 1000)
+            }
         }
     }
 });

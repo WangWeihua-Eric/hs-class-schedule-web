@@ -29,7 +29,7 @@
                 <view class="guide-text">“添加到我的小程序”</view>
             </view>
             <view class="close-tip">
-                <van-icon name="close" />
+                <van-icon name="close"/>
             </view>
         </image>
     </view>
@@ -47,24 +47,29 @@
         </view>
     </van-overlay>
 
-
     <van-overlay z-index="3" show="{{ showOpenLesson }}" bind:click="onClickHideOpenLesson">
         <view class="wrapper">
             <view class="block" catch:tap="noop">
-                <image class="welcome" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome.png"></image>
-                <view class="open-lesson-title">开课啦！去和老师打个招呼吧！</view>
-                <view wx:for="{{openLesson}}" wx:for-index="index" wx:for-item="item" wx:key="index" class="dailog-cell-item">
-                    <view class="dailog-cell-item-left">
-                        <view class="dailog-cell-item-des">
-                            <view class="tag" style="background-color: {{item.category.color}}">{{item.category.name}}</view>
-                            <view class="item-title">{{item.title}}</view>
-                        </view>
-                        <view class="item-teacher">{{item.lecturer.name + ' | ' + item.lecturer.titles}}</view>
+                <image class="welcome-bg" style="height: {{welcomeBgHeight}}rpx;" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/border-line.png"></image>
+                <view class="welcome-content">
+                    <view class="welcome-content-title">
+                        <view class="welcome-content-title-header">开课啦!</view>
+                        <view class="welcome-content-title-des">去和老师打个招呼吧</view>
                     </view>
-                    <view class="dailog-cell-item-right">
-                        <button wx:if="{{item.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
-                        <button wx:else class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + item.code}}"
-                                send-message-img="{{serviceImgUrl}}" bindtap="onLook" data-value="{{item}}">观看</button>
+                    <view class="welcome-content-cell" wx:for="{{openLesson}}" wx:for-index="index" wx:for-item="item"
+                            wx:key="index">
+                        <image class="star-line-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-line.png"></image>
+                        <view class="welcome-content-cell-item">
+                            <view class="item-tag" style="background-color: {{item.category.color}}">{{item.category.name}}</view>
+                            <view class="welcome-content-cell-item-desc">
+                                <view class="item-title">{{item.title}}</view>
+                                <view class="item-teacher">{{item.lecturer.name + ' | ' + item.lecturer.titles}}</view>
+                            </view>
+                        </view>
+                        <view>
+                            <button wx:if="{{item.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
+                            <button wx:else class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + item.code}}" send-message-img="{{serviceImgUrl}}" bindtap="onLook" data-value="{{item}}">观看</button>
+                        </view>
                     </view>
                 </view>
             </view>
