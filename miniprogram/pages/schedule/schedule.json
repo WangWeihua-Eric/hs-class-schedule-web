@@ -5,6 +5,7 @@
     "van-dialog": "@vant/weapp/dialog/index",
     "mp-tabbar": "../../miniprogram_npm/weui-miniprogram/tabbar/tabbar",
     "app-me": "../../components/me/app-me",
+    "app-social": "../../components/social/app-social",
     "van-overlay": "@vant/weapp/overlay/index",
     "van-icon": "@vant/weapp/icon/index"
   }

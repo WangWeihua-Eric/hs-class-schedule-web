@@ -41,6 +41,11 @@ Page({
                 "jump": false
             },
             {
+                "text": "打卡",
+                "iconPath": "/images/me.png",
+                "selectedIconPath": "/images/me-active.png"
+            },
+            {
                 "text": "我",
                 "iconPath": "/images/me.png",
                 "selectedIconPath": "/images/me-active.png"
@@ -268,6 +273,13 @@ Page({
                 break
             }
             case 2: {
+                wx.setNavigationBarTitle({
+                    title: '打卡'
+                })
+                this.setData({active: index})
+                break
+            }
+            case 3: {
                 wx.setNavigationBarTitle({
                     title: '我'
                 })

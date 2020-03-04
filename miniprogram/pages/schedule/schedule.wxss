@@ -6,6 +6,10 @@ Page {
     padding: 0 0 180rpx 0;
 }
 
+.social-content {
+    padding: 0 0 180rpx 0;
+}
+
 .me-content {
     padding: 0 0 180rpx 0;
 }

@@ -1,0 +1,6 @@
+<van-image
+        show-menu-by-longpress="{{true}}"
+        width="215"
+        height="215"
+        src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/test.jpg"
+/>

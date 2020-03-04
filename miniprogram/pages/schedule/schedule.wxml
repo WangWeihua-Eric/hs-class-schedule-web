@@ -5,7 +5,10 @@
                 bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">
         </app-schedule>
     </view>
-    <view class="me-content" hidden="{{active !== 2}}">
+    <view class="social-content" hidden="{{active !== 2}}">
+        <app-social></app-social>
+    </view>
+    <view class="me-content" hidden="{{active !== 3}}">
         <app-me simpleUserModel="{{simpleUserModel}}"></app-me>
     </view>
     <view>
