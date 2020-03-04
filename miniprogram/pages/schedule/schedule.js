@@ -182,6 +182,13 @@ Page({
                 Toast.clear()
                 break
             }
+            case "booking": {
+                Toast.loading({
+                    message: '预约提交中...',
+                    duration: 0,
+                });
+                break
+            }
         }
     },
 

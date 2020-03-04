@@ -123,6 +123,7 @@ Component({
         },
 
         onBooking(event) {
+            this.triggerEvent('toastEvent', {action: 'booking'})
             const tmplIds = this.data.tempId
             const value = event.currentTarget.dataset.value
 
@@ -204,6 +205,7 @@ Component({
         },
 
         bookingRes(type) {
+            this.triggerEvent('toastEvent', {action: 'close'})
             this.setData({
                 show: false
             })
