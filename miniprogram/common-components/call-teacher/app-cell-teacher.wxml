@@ -1,0 +1,7 @@
+<view class="cell-content">
+    <view class="cell-left">#</view>
+    <view class="cell-right">
+        <view class="cell-title">感谢你，高松老师</view>
+        <view class="cell-total">2</view>
+    </view>
+</view>

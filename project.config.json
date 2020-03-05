@@ -75,12 +75,14 @@
 					"scene": 1014
 				},
 				{
-					"id": -1,
-					"name": "公众号模版消息",
+					"id": 3,
+					"name": "打卡",
 					"pathName": "pages/schedule/schedule",
-					"query": "",
+					"query": "active=2",
 					"scene": 1043,
-					"referrerInfo": {}
+					"referrerInfo": {
+						"appId": "wxbe86c353682cdb84"
+					}
 				},
 				{
 					"id": 4,

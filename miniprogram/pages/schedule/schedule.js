@@ -61,6 +61,14 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        const active = options.active
+        if (active) {
+            this.setData({
+                active: parseInt(active)
+            })
+        }
+
+
         // url参数中可以获取到gdt_vid、weixinadinfo参数值
         const gdt_vid = options.gdt_vid
         const weixinadinfo = options.weixinadinfo

@@ -1,6 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "van-image": "@vant/weapp/image/index"
+    "app-cell-teacher": "../../common-components/call-teacher/app-cell-teacher"
   }
 }
