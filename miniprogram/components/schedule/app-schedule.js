@@ -123,7 +123,6 @@ Component({
         },
 
         onBooking(event) {
-            this.triggerEvent('toastEvent', {action: 'booking'})
             const tmplIds = this.data.tempId
             const value = event.currentTarget.dataset.value
 
@@ -134,6 +133,15 @@ Component({
                     this.bookingRes('awaysErrorMiniSwitch')
                 } else {
                     //  发起订阅请求
+
+                    if (!this.checkAways(subscriptionsRes, tmplIds)) {
+                        this.setData({
+                            show: true
+                        })
+                    } else {
+                        this.triggerEvent('toastEvent', {action: 'booking'})
+                    }
+
                     wxSubscribeMessage(tmplIds).then((res) => {
                         getSettingWithSubscriptions().then(subscriptionsAgain => {
                             // 检查是否总是允许所有 id
@@ -157,6 +165,20 @@ Component({
             }).catch(() => {
                 this.bookingRes('error')
             })
+        },
+
+        checkAways(subscriptionsRes, tmplIds) {
+            const scriptionsInfo = subscriptionsRes.subscriptionsSetting
+            if (scriptionsInfo) {
+                const notScriptions = tmplIds.filter(item => !scriptionsInfo[item])
+                if (notScriptions.length) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
         },
 
         checkMainSwitch(subscriptionsRes) {
