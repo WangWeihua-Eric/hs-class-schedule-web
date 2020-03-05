@@ -40,7 +40,7 @@
             </button>
         </view>
     </view>
-    <view>
+    <view wx:if="{{active === 0}}">
         <van-index-bar
                 scroll-top="{{ scrollTop }}"
                 index-list="{{ indexList }}"

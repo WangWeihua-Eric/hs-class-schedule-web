@@ -42,8 +42,8 @@ Page({
             },
             {
                 "text": "打卡",
-                "iconPath": "/images/me.png",
-                "selectedIconPath": "/images/me-active.png"
+                "iconPath": "/images/social.png",
+                "selectedIconPath": "/images/social-active.png"
             },
             {
                 "text": "我",
@@ -63,24 +63,25 @@ Page({
     onLoad: function (options) {
         const active = options.active
         if (active) {
+            const index = parseInt(active)
+            this.setNavTitle(index)
             this.setData({
-                active: parseInt(active)
+                active: index
             })
         }
-
 
         // url参数中可以获取到gdt_vid、weixinadinfo参数值
         const gdt_vid = options.gdt_vid
         const weixinadinfo = options.weixinadinfo
         // 获取广告id
         let aid = 0
-        if(weixinadinfo){
+        if (weixinadinfo) {
             const weixinadinfoArr = weixinadinfo.split('.')
             aid = weixinadinfoArr[0]
         }
         const from = options.from
 
-        if(gdt_vid) {
+        if (gdt_vid) {
             this.setData({
                 aid: aid,
                 gdt_vid: gdt_vid,
@@ -119,9 +120,7 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
-
-    },
+    onReady: function () { },
 
     /**
      * 生命周期函数--监听页面显示
@@ -259,12 +258,27 @@ Page({
 
     tabChange(event) {
         const index = event.detail.index
-        if (index === 2) {
+        const nowActive = this.data.active
+        if (index === nowActive) {
+            return
+        }
+        if ((index === 0 && nowActive === 2) || (index === 2 && nowActive === 0)) {
+            if (wx.pageScrollTo) {
+                wx.pageScrollTo({
+                    scrollTop: 0,
+                    duration: 0
+                })
+            }
+        }
+        if (index === 3) {
             this.setSimpleUserModel()
             if (!userBase.getGlobalData().authed) {
                 this.setData({show: true})
             }
         }
+        this.setNavTitle(index)
+    },
+    setNavTitle(index) {
         switch (index) {
             case 0: {
                 wx.setNavigationBarTitle({
@@ -361,7 +375,8 @@ Page({
                             url: 'http://www.' + app.globalData.path + '?gdt_vid=' + gdt_vid + '&weixinadinfo=' + weixinadinfo,
                             gdtvid: gdt_vid
                         }
-                        http.post('/ad/api/user/actions/add', params).then(() => {})
+                        http.post('/ad/api/user/actions/add', params).then(() => {
+                        })
                     }
                 })
             } else {

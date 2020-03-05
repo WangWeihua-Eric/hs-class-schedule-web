@@ -127,3 +127,20 @@ export function wxSubscribeMessage(tmplIds) {
         })
     })
 }
+
+/**
+ * 微信页面跳转
+ */
+export function pageJump(url) {
+    return new Promise((resolve, reject) => {
+        wx.navigateTo({
+            url: url,
+            success: res => {
+                resolve(res)
+            },
+            fail: error => {
+                reject(error)
+            }
+        })
+    })
+}

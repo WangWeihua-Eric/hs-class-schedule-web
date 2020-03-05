@@ -1,0 +1,1 @@
+export const socilColorList = ['rgba(168,83,71,1)', 'rgba(71,116,168,1)', 'rgba(168,71,122,1)', 'rgba(150,71,168,1)']

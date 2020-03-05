@@ -1,3 +1,5 @@
 <view class="content">
-    <app-cell-teacher></app-cell-teacher>
+    <view class="cell-item" wx:for="{{socialDataList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <app-cell-teacher socialData="{{item}}" bgColor="{{socilColors[index % 4]}}" arrow="{{true}}" bindtap="onJump" data-value="{{index}}"></app-cell-teacher>
+    </view>
 </view>

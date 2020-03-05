@@ -1,6 +1,6 @@
 <view>
     <view class="schedule-content" hidden="{{active !== 0}}">
-        <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}" miniJump="{{miniJump}}"
+        <app-schedule scrollTop="{{scrollTop}}" showShareBtn="{{showShareBtn}}" miniJump="{{miniJump}}" active="{{active}}"
                 bind:toastEvent="onToastEvent"
                 bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">
         </app-schedule>

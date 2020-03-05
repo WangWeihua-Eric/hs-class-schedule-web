@@ -22,6 +22,10 @@ Component({
         miniJump: {
             type: Boolean,
             value: false
+        },
+        active: {
+            type: Number,
+            value: null
         }
     },
 
@@ -45,24 +49,28 @@ Component({
 
     pageLifetimes: {
         show: function () {
-            this.setData({
-                sessionFrom: ''
-            })
-            if (app && app.globalData) {
-                if (app.globalData.scene) {
-                    this.setData({
-                        sessionFrom: 'scenes=' + app.globalData.scene
-                    })
-                }
-                if (app.globalData.query && app.globalData.query.from) {
-                    this.setData({
-                        sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
-                    })
-                }
-            }
-            this.sessionIdReady()
+            this.refresh()
         }
 
+    },
+
+    refresh() {
+        this.setData({
+            sessionFrom: ''
+        })
+        if (app && app.globalData) {
+            if (app.globalData.scene) {
+                this.setData({
+                    sessionFrom: 'scenes=' + app.globalData.scene
+                })
+            }
+            if (app.globalData.query && app.globalData.query.from) {
+                this.setData({
+                    sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
+                })
+            }
+        }
+        this.sessionIdReady()
     },
 
     /**

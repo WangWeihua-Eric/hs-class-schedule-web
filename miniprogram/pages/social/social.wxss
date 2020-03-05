@@ -4,7 +4,3 @@
     height: 100%;
     padding: 30rpx;
 }
-
-.cell-item {
-    margin-bottom: 65rpx;
-}

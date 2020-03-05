@@ -86,9 +86,9 @@
 				},
 				{
 					"id": 4,
-					"name": "pages/schedule/schedule",
-					"pathName": "pages/schedule/schedule",
-					"query": "from=6",
+					"name": "打卡详情页",
+					"pathName": "pages/social/social",
+					"query": "",
 					"scene": 1058
 				}
 			]
