@@ -36,7 +36,7 @@
 
     <van-overlay z-index="3" show="{{ show }}" bind:click="onClickHide">
         <view class="wrapper">
-            <view class="block" catch:tap="noop">
+            <view class="welcome-block" catch:tap="noop">
                 <image class="welcome" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome.png"></image>
                 <view class="welcome-title">
                     <view>在红松学堂</view>

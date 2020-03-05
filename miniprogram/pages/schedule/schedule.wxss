@@ -83,6 +83,17 @@ Page {
     border-radius:16px;
 }
 
+.welcome-block {
+    position: absolute;
+    top: 195rpx;
+    background-color: #fff;
+    width: 568rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .welcome-bg {
     width: 538rpx;
     height: 555rpx;
