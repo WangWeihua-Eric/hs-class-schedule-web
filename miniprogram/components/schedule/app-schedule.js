@@ -9,6 +9,7 @@ const app = getApp()
 
 let timeHandler = null
 let timeHandlerNumber = 0
+let readyStep = 0
 
 Component({
     /**
@@ -45,7 +46,9 @@ Component({
         sessionFrom: '',
         serviceImgUrl: '../../images/clickme.jpeg',
         scrollBtnShow: true,
-        isContactBack: false
+        isContactBack: false,
+        awaysErrorMiniSwitch: false,
+        needGuide: false
     },
 
     pageLifetimes: {
@@ -85,6 +88,7 @@ Component({
             if (!this.data.schedule.length) {
                 this.triggerEvent('toastEvent', {message: '加载中...', action: 'load'})
             }
+            readyStep = 0
             //  获取tempId
             this.getTempId()
 
@@ -134,56 +138,37 @@ Component({
         onBooking(event) {
             const tmplIds = this.data.tempId
             const value = event.currentTarget.dataset.value
-
-            getSettingWithSubscriptions().then(subscriptionsRes => {
-
-                // 检查是否打开订阅开关
-                if (!this.checkMainSwitch(subscriptionsRes)) {
-                    this.bookingRes('awaysErrorMiniSwitch')
-                } else {
-                    //  发起订阅请求
-
-                    if (!this.checkAways(subscriptionsRes, tmplIds)) {
-                        this.setData({
-                            show: true
-                        })
-                    } else {
-                        this.triggerEvent('toastEvent', {action: 'booking'})
-                    }
-
-                    wxSubscribeMessage(tmplIds).then((res) => {
-                        getSettingWithSubscriptions().then(subscriptionsAgain => {
-                            // 检查是否总是允许所有 id
-                            if (this.checkAwaysSubscriptions(subscriptionsAgain, tmplIds)) {
-                                // 已总是允许所有 id 准备发起预定请求
-                                // this.sendSubscribecourse(tmplIds, value)
-
-                            } else {
-                                //  有 id 没有被总是允许，准备弹窗提示
-                                if (tmplIds.some(item => res[item] === 'reject')) {
-                                    this.bookingRes('reject')
-                                } else {
-                                    this.bookingRes('awaysError')
-                                }
-                            }
-                        })
-                    }).catch((err) => {
-                        // this.bookingRes('error')
-                        const param = {
-                            title: '预约失败1',
-                            message: JSON.stringify(err)
-                        }
-                        this.triggerEvent('dialogEvent', param)
+            // 检查是否打开订阅开关
+            if (this.data.awaysErrorMiniSwitch) {
+                this.bookingRes('awaysErrorMiniSwitch')
+            } else {
+                //  发起订阅请求
+                if (this.data.needGuide) {
+                    this.setData({
+                        show: true
                     })
+                } else {
+                    this.triggerEvent('toastEvent', {action: 'booking'})
                 }
-            }).catch((err) => {
-                // this.bookingRes('error')
-                const param = {
-                    title: '预约失败2',
-                    message: JSON.stringify(err)
-                }
-                this.triggerEvent('dialogEvent', param)
-            })
+                wxSubscribeMessage(tmplIds).then((res) => {
+                    getSettingWithSubscriptions().then(subscriptionsAgain => {
+                        // 检查是否总是允许所有 id
+                        if (this.checkAwaysSubscriptions(subscriptionsAgain, tmplIds)) {
+                            // 已总是允许所有 id 准备发起预定请求
+                            this.sendSubscribecourse(tmplIds, value)
+                        } else {
+                            //  有 id 没有被总是允许，准备弹窗提示
+                            if (tmplIds.some(item => res[item] === 'reject')) {
+                                this.bookingRes('reject')
+                            } else {
+                                this.bookingRes('awaysError')
+                            }
+                        }
+                    })
+                }).catch(() => {
+                    this.bookingRes('awaysErrorMiniSwitch')
+                })
+            }
         },
 
         checkAways(subscriptionsRes, tmplIds) {
@@ -247,6 +232,8 @@ Component({
 
         bookingRes(type) {
             this.triggerEvent('toastEvent', {action: 'close'})
+            readyStep = 0
+            this.bookInit()
             this.setData({
                 show: false
             })
@@ -305,6 +292,7 @@ Component({
 
         formatSchedule(schedule) {
             const openLesson = []
+            let isSetBook = false
             schedule.forEach((dayItem) => {
                 const courses = dayItem.courses
                 courses.forEach(courseItem => {
@@ -340,11 +328,46 @@ Component({
                     if (preStartTime < nowStartTime && nowStartTime < endStartTime) {
                         openLesson.push(courseItem)
                     }
+                    if (courseItem.booked === 0) {
+                        isSetBook = true
+                    }
                 })
             })
 
+            if (isSetBook) {
+                readyStep++
+                if (readyStep === 2) {
+                    //  存在没有预定课程，发起授权检测
+                    this.bookInit()
+                }
+            }
+
             if (openLesson.length && app.globalData.scene !== 1038) {
                 this.triggerEvent('openLessonEvent', {openLesson: openLesson})
+            }
+        },
+
+        bookInit() {
+            const tmplIds = this.data.tempId
+            if (tmplIds.length) {
+                let awaysErrorMiniSwitch = false
+                let needGuide = false
+                getSettingWithSubscriptions().then(subscriptionsRes => {
+                    // 检查是否打开订阅开关
+                    if (!this.checkMainSwitch(subscriptionsRes)) {
+                        awaysErrorMiniSwitch = true
+                    } else {
+                        //  发起订阅请求
+                        if (!this.checkAways(subscriptionsRes, tmplIds)) {
+                            needGuide = true
+                        }
+                    }
+
+                    this.setData({
+                        awaysErrorMiniSwitch: awaysErrorMiniSwitch,
+                        needGuide: needGuide
+                    })
+                })
             }
         },
 
@@ -375,6 +398,10 @@ Component({
                         this.setData({
                             tempId: tempInfo.data.templateIds
                         })
+                        readyStep++
+                        if (readyStep === 2) {
+                            this.bookInit()
+                        }
                     } else {
                         this.setData({
                             tempId: []
@@ -388,21 +415,6 @@ Component({
          * 获取 pageInfo
          */
         getPageInfo() {
-
-            // getWithWhere('scheduleDay', {type: 'scheduleTime'}).then(res => {
-            //     if (res.length) {
-            //         const scheduleTime = res[0]
-            //         const startTime = scheduleTime.startTime
-            //         const endTime = scheduleTime.endTime
-            //         this.setData({
-            //             startTime: startTime,
-            //             endTime: endTime,
-            //             scheduleDay: this.formatDay(startTime) + ' - ' + this.formatDay(endTime)
-            //         })
-            //     }
-            // })
-
-
             const now = new Date();
             const nowTime = now.getTime();
             const day = now.getDay();

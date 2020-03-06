@@ -43,7 +43,7 @@ export class HttpUtil {
                 break
             }
             case 'beta': {
-                this.host = 'https://dev.hongsong.club'
+                this.host = 'https://www.hongsong.club'
                 break
             }
             case 'prod': {

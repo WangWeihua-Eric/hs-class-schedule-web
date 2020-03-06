@@ -89,9 +89,9 @@ Page {
 
 .welcome-block {
     position: absolute;
-    top: 195rpx;
-    background-color: #fff;
-    width: 568rpx;
+    top: 120rpx;
+    width: 651rpx;
+    height: 840rpx;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -169,34 +169,30 @@ Page {
 }
 
 .welcome {
-    width: 568rpx;
-    height: 401rpx;
+    width: 651rpx;
+    height: 840rpx;
 }
 
 .welcome-title {
-    margin-top: 16rpx;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    color: rgba(236,127,42,1);
-    font-weight: bold;
-    font-size: 50rpx;
+    font-size:32rpx;
+    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight:500;
+    color:rgba(243,236,169,1);
+    padding-right: 10rpx;
+}
+
+.welcome-join-info {
+    position: absolute;
+    bottom: 90rpx;
 }
 
 .join-btn {
-    width:477rpx;
-    height:112rpx;
-    background:rgba(238,127,22,1);
-    border-radius:114px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size:40rpx;
-    font-family:PingFangSC-Medium,PingFang SC;
+    font-size:42rpx;
+    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
     font-weight:500;
-    color:rgba(255,255,255,1);
-    margin: 80rpx 0;
+    color:rgba(252,243,219,1);
+    margin-top: 8rpx;
+    padding-right: 35rpx;
 }
 
 .item-title {
