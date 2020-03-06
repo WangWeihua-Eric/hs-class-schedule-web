@@ -1,5 +1,6 @@
 //app.js
 import {initSessionId} from "./utils/user-utils/user-base-utils";
+import {getSystemInfo} from "./utils/wx-utils/wx-base-utils";
 
 App({
     onLaunch: function () {
@@ -23,5 +24,10 @@ App({
         this.globalData.query = res.query
         this.globalData.scene = res.scene
         this.globalData.path = res.path
+        getSystemInfo().then(res => {
+            if (res && res.windowHeight) {
+                this.globalData.windowHeight = res.windowHeight
+            }
+        })
     }
 })

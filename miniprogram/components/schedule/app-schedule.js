@@ -410,6 +410,21 @@ Component({
                         schedule: pageInfo.data
                     })
                     this.triggerEvent('toastEvent', {action: 'close'})
+                    if (!(this.data.scrollBtnShow && this.data.scrollTop > 168)) {
+                        let query = this.createSelectorQuery();
+                        const week = new Date().getDay()
+                        if (week > 1) {
+                            const id = `#day-${week - 1}`
+                            query.select(id).boundingClientRect(rect => {
+                                if (rect && rect.top && app.globalData.windowHeight && rect.top > app.globalData.windowHeight / 2) {
+                                    wx.pageScrollTo({
+                                        scrollTop: rect.top + 3 + (this.data.scrollTop ? this.data.scrollTop : 0),
+                                        duration: 500
+                                    })
+                                }
+                            }).exec();
+                        }
+                    }
                 }
             })
         },

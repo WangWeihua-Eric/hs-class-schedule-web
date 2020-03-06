@@ -127,3 +127,19 @@ export function wxSubscribeMessage(tmplIds) {
         })
     })
 }
+
+/**
+ * 获取系统信息
+ */
+export function getSystemInfo() {
+    return new Promise((resolve, reject) => {
+        wx.getSystemInfo({
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}
