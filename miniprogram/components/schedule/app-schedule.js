@@ -40,7 +40,8 @@ Component({
         tempId: [],
         sessionFrom: '',
         serviceImgUrl: '../../images/clickme.jpeg',
-        scrollBtnShow: true
+        scrollBtnShow: true,
+        isContactBack: false
     },
 
     pageLifetimes: {
@@ -410,7 +411,8 @@ Component({
                         schedule: pageInfo.data
                     })
                     this.triggerEvent('toastEvent', {action: 'close'})
-                    if (!(this.data.scrollBtnShow && this.data.scrollTop > 168)) {
+
+                    if (!(this.data.scrollBtnShow && this.data.scrollTop > 168) && app.globalData.scene !== 1038 && !this.data.isContactBack) {
                         let query = this.createSelectorQuery();
                         const week = new Date().getDay()
                         if (week > 1) {
@@ -425,6 +427,9 @@ Component({
                             }).exec();
                         }
                     }
+                    this.setData({
+                        isContactBack: false
+                    })
                 }
             })
         },
@@ -451,6 +456,12 @@ Component({
                         indicatorDots: false
                     })
                 }
+            })
+        },
+
+        onSetContact() {
+            this.setData({
+                isContactBack: true
             })
         }
     }

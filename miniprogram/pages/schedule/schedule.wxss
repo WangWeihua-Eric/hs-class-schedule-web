@@ -3,7 +3,7 @@ Page {
 }
 
 .schedule-content {
-    padding: 0 0 180rpx 0;
+    padding: 0 0 250rpx 0;
 }
 
 .me-content {
