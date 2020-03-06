@@ -45,7 +45,7 @@
                 scroll-top="{{ scrollTop }}"
                 index-list="{{ indexList }}"
         >
-            <view wx:for="{{schedule}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view wx:for="{{schedule}}" wx:for-index="index" wx:for-item="item" wx:key="index" id="day-{{index}}">
                 <van-index-anchor use-slot="true">
                     <view class="cell-header">
                         <view class="cell-header-item">
