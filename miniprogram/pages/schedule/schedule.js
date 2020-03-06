@@ -26,6 +26,9 @@ Page({
         serviceImgUrl: '../../images/clickme.jpeg',
         showLoak: false,
         miniJump: false,
+        btnTitle:'',
+        img: '',
+        title: '',
         list: [
             {
                 "text": "课表",
@@ -230,10 +233,7 @@ Page({
 
     onOverlayEvent() {
         //  加锁后续弹窗
-        this.setData({
-            show: true,
-            showLoak: true
-        });
+        this.setDialog()
     },
 
     closeOverlay() {
@@ -249,7 +249,7 @@ Page({
         if (index === 2) {
             this.setSimpleUserModel()
             if (!userBase.getGlobalData().authed) {
-                this.setData({show: true})
+                this.setDialog()
             }
         }
         switch (index) {
@@ -275,6 +275,21 @@ Page({
                 break
             }
         }
+    },
+    //  获取弹窗
+    setDialog() {
+        getWithWhere('dailog', {position: 'dailog'}).then(dialogList => {
+            if (dialogList.length) {
+                const dialogInfo = dialogList[0]
+                this.setData({
+                    show: true,
+                    showLoak: true,
+                    btnTitle: dialogInfo.btnTitle,
+                    img: dialogInfo.img,
+                    title: dialogInfo.title
+                });
+            }
+        })
     },
     onClickHide() {
         // this.closeOverlay()
@@ -349,6 +364,9 @@ Page({
                 this.setData({active: 0})
                 this.closeOverlay()
             }
+        }).catch(() => {
+            this.setData({active: 0})
+            this.closeOverlay()
         })
     },
     setSimpleUserModel() {

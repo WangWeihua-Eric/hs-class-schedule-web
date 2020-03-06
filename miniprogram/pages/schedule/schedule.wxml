@@ -37,12 +37,11 @@
     <van-overlay z-index="3" show="{{ show }}" bind:click="onClickHide">
         <view class="wrapper">
             <view class="welcome-block" catch:tap="noop">
-                <image class="welcome" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/welcome.png"></image>
-                <view class="welcome-title">
-                    <view>在红松学堂</view>
-                    <view>学知识，交朋友</view>
+                <image class="welcome" src="{{img}}"></image>
+                <view class="welcome-join-info">
+                    <view class="welcome-title">{{title}}</view>
+                    <button hover-class="none" class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">{{btnTitle}}</button>
                 </view>
-                <button class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">免费领取海量课程</button>
             </view>
         </view>
     </van-overlay>
