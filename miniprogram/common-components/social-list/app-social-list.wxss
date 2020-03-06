@@ -1,0 +1,59 @@
+.social-content {
+    width: 100%;
+}
+
+.social-bottom {
+    position: fixed;
+    bottom: 51rpx;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin-left: -30rpx;
+}
+
+.call-teacher {
+    width:380rpx;
+    height:104rpx;
+    border-radius:52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:48rpx;
+    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+}
+
+.call-teacher-player {
+    font-size: 104rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    position: absolute;
+    right: 47rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.no-list {
+    width: 100%;
+    padding: 255rpx 0 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.no-list-title {
+    font-size:45rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(153,153,153,1);
+}
+
+.no-list-subtitle {
+    font-size:45rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+}

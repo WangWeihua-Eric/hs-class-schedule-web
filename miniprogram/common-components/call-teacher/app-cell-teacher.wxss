@@ -60,6 +60,20 @@
     align-items: center;
 }
 
+.cell-user-img-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5rpx;
+}
+
+.cell-user-img {
+    width: 47rpx;
+    height: 48rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .arrow {
     color: rgb(194, 191, 192);
 }

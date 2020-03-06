@@ -156,7 +156,7 @@ Component({
                             // 检查是否总是允许所有 id
                             if (this.checkAwaysSubscriptions(subscriptionsAgain, tmplIds)) {
                                 // 已总是允许所有 id 准备发起预定请求
-                                this.sendSubscribecourse(tmplIds, value)
+                                // this.sendSubscribecourse(tmplIds, value)
 
                             } else {
                                 //  有 id 没有被总是允许，准备弹窗提示
@@ -167,12 +167,22 @@ Component({
                                 }
                             }
                         })
-                    }).catch(() => {
-                        this.bookingRes('error')
+                    }).catch((err) => {
+                        // this.bookingRes('error')
+                        const param = {
+                            title: '预约失败1',
+                            message: JSON.stringify(err)
+                        }
+                        this.triggerEvent('dialogEvent', param)
                     })
                 }
-            }).catch(() => {
-                this.bookingRes('error')
+            }).catch((err) => {
+                // this.bookingRes('error')
+                const param = {
+                    title: '预约失败2',
+                    message: JSON.stringify(err)
+                }
+                this.triggerEvent('dialogEvent', param)
             })
         },
 

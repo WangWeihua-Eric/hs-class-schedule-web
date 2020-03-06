@@ -1,3 +1,4 @@
 <view class="content">
     <app-cell-teacher socialData="{{socialData}}" bgColor="{{bgColor}}"></app-cell-teacher>
+    <app-social-list bgColor="{{bgColor}}"></app-social-list>
 </view>

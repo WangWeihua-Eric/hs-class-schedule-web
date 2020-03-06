@@ -5,7 +5,9 @@
         <view class="cell-total">
             <view class="cell-total-title" style="color: {{bgColor}}">{{socialData.des}}</view>
             <view class="cell-total-right">
-                <view>1</view>
+                <view class="cell-user-img-list" wx:for="{{socialData.userImgList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+                    <image class="cell-user-img" src="{{item}}"></image>
+                </view>
                 <van-icon wx:if="{{arrow}}" class="arrow" name="arrow"/>
             </view>
         </view>

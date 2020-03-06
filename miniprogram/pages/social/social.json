@@ -1,5 +1,7 @@
 {
+  "navigationBarTitleText": "打卡",
   "usingComponents": {
-    "app-cell-teacher": "../../common-components/call-teacher/app-cell-teacher"
+    "app-cell-teacher": "../../common-components/call-teacher/app-cell-teacher",
+    "app-social-list": "../../common-components/social-list/app-social-list"
   }
 }

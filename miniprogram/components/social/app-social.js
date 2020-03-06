@@ -16,35 +16,83 @@ Component({
         socialDataList: [
             {
                 title: '感谢你，高松老师',
-                des: '已有 4333 人为老师点赞'
+                des: '已有 4333 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，天池老师',
-                des: '已有 977 人为老师点赞'
+                des: '已有 977 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，孝文老师',
-                des: '已有 694 人为老师点赞'
+                des: '已有 694 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，紫晶老师',
-                des: '已有 631 人为老师点赞'
+                des: '已有 631 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，高松老师',
-                des: '已有 4333 人为老师点赞'
+                des: '已有 4333 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，高松老师',
-                des: '已有 4333 人为老师点赞'
+                des: '已有 4333 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，高松老师',
-                des: '已有 4333 人为老师点赞'
+                des: '已有 4333 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             },
             {
                 title: '感谢你，高松老师',
-                des: '已有 4333 人为老师点赞'
+                des: '已有 4333 人为老师点赞',
+                userImgList: [
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test2.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test3.jpeg',
+                    'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test4.jpeg'
+                ]
             }
         ]
     },
