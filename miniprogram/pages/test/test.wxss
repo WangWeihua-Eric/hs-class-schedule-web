@@ -1,0 +1,26 @@
+.posterview-canvas {
+    position: absolute;
+    width: 588px;
+    height: 890px;
+    background: white;
+    visibility: hidden;
+    top: -2000px;
+}
+
+.posterview-imageview {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: 150px;
+/* background: rebeccapurple; */
+}
+
+.posterview-image {
+    width: 80%;
+    height: 100%;
+}

@@ -1,0 +1,16 @@
+<view class="cell">
+    <view class="cell-item">
+        <view class="item-left">
+            <image class="user-img" src="{{socialData.userImg}}"></image>
+        </view>
+        <view class="item-right">
+            <view class="item-user-name">
+                <view class="user-name">{{socialData.userName}}</view>
+                <view class="creat-time">{{socialData.createTime}}</view>
+            </view>
+            <view class="call-number">{{socialData.callNumber}}</view>
+            <view class="call-des">{{socialData.callDes}}</view>
+        </view>
+    </view>
+    <view wx:if="{{showBottomLine}}" class="bottom-line"></view>
+</view>

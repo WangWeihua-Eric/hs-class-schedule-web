@@ -1,0 +1,73 @@
+.cell {
+    background:rgba(249,249,249,1);
+}
+
+.cell-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 25rpx 26rpx 31rpx 31rpx;
+    box-sizing: border-box;
+}
+
+.item-left {
+    width:82rpx;
+    height:82rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-img {
+    width:82rpx;
+    height:82rpx;
+}
+
+.item-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 85%;
+    margin-left: 17rpx;
+}
+
+.item-user-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.user-name {
+    font-size:32rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(7,7,7,1);
+}
+
+.creat-time {
+    font-size:28rpx;
+    font-family:PingFangSC-Light,PingFang SC;
+    font-weight:300;
+    color:rgba(197,196,196,1);
+}
+
+.call-number {
+    font-size:28rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(197,196,196,1);
+}
+
+.call-des {
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(7,7,7,1);
+    margin-top: 14rpx;
+}
+
+.bottom-line {
+    margin: 0 26rpx 0 30rpx;
+    height: 2rpx;
+    background-color: #D8D8D8;
+}

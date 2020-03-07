@@ -160,3 +160,20 @@ export function getSystemInfo() {
         })
     })
 }
+
+/**
+ * 下载在线文件
+ */
+export function getOnlineFile(url) {
+    return new Promise((resolve, reject) => {
+        wx.downloadFile({
+            url: url,
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}
