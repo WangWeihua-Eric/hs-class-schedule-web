@@ -1,4 +1,15 @@
 <view class="content">
+    <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
     <app-cell-teacher socialData="{{socialData}}" bgColor="{{bgColor}}"></app-cell-teacher>
-    <app-social-list bgColor="{{bgColor}}"></app-social-list>
+    <app-social-list bgColor="{{bgColor}}" bind:overlayShowEvent="onOverlayShowEvent"></app-social-list>
+
+    <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
+        <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}"></image>
+        <view class="block">
+            <view class="poster-btn" bindtap="savePoster">保存海报</view>
+            <view class="poster-btn" style="color: {{bgColor}}">转发好友</view>
+        </view>
+    </view>
+
+    <van-overlay show="{{ posterSrc && show }}" bind:click="onClickHide"/>
 </view>

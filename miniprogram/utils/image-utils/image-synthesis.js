@@ -133,10 +133,6 @@ export default class ImageSynthesis {
             _canvasid,
         } = this;
         _ctx.draw(false, () => {
-
-        });
-        setTimeout(() => {
-            console.log('2334ddd: ', _canvasid)
             wx.canvasToTempFilePath({
                 canvasId: _canvasid,
                 success: (res) => {
@@ -148,7 +144,7 @@ export default class ImageSynthesis {
                     block && block(null);
                 }
             });
-        }, 10000);
+        });
     };
 
     startCut = ({

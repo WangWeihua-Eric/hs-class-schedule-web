@@ -1,5 +1,4 @@
 <view class="social-content">
-    <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
     <view wx:if="{{!showList}}" class="no-list">
         <view class="no-list-title">学知识，交朋友</view>
         <view class="no-list-subtitle" style="color: {{bgColor}}">为高松老师送出第一份感谢吧!</view>
@@ -24,39 +23,4 @@
             <van-icon name="play-circle" />
         </view>
     </view>
-
-    <van-overlay show="{{ show }}" bind:click="onClickHide">
-        <view class="wrapper">
-            <view class="block" catch:tap="noop">
-
-                <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit"></image>
-
-<!--                <view class="block-card">-->
-<!--                    <view class="card-header">-->
-<!--                        <view class="card-user-img">-->
-<!--                            <open-data type="userAvatarUrl"></open-data>-->
-<!--                        </view>-->
-<!--                        <view class="card-header-right">-->
-<!--                            <view class="card-user-name">-->
-<!--                                <open-data type="userNickName"></open-data>-->
-<!--                            </view>-->
-<!--                            <view class="card-user-des">已打卡 27 次</view>-->
-<!--                        </view>-->
-<!--                    </view>-->
-<!--                    <view class="card-title">我在<text class="card-sub-title">红松学堂</text></view>-->
-<!--                    <view class="card-content-des">觉得高松老师真的很棒，你也来和我一起学习吧！</view>-->
-<!--                    <image class="card-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/card-img.png"></image>-->
-<!--                    <view class="card-bottom">-->
-<!--                        <view class="card-bottom-text">-->
-<!--                            <view>在「<text class="card-logo-text">红松学堂</text>」</view>-->
-<!--                            <view>学知识 交朋友</view>-->
-<!--                        </view>-->
-<!--                        <image class="my-mini-logo" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/my-mini-logo.jpg"></image>-->
-<!--                    </view>-->
-<!--                </view>-->
-
-                <view>2</view>
-            </view>
-        </view>
-    </van-overlay>
 </view>

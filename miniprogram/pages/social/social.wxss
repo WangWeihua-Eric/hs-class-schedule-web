@@ -8,3 +8,62 @@ Page {
     height: 100%;
     padding: 30rpx;
 }
+
+.posterview-canvas {
+    position: absolute;
+    width: 588px;
+    height: 890px;
+    background: white;
+    visibility: hidden;
+    top: -2000px;
+}
+
+.posterview-imageview {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.posterview-image {
+    margin-top: 21rpx;
+    width: 588rpx;
+    height: 890rpx;
+    border-radius:6px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.block {
+    width: 588rpx;
+    height: 90rpx;
+    margin-top: 52rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.poster-btn {
+    width:245rpx;
+    height:90rpx;
+    background:rgba(255,255,255,1);
+    border-radius:45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:32rpx;
+    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight:500;
+    color:rgba(58,58,58,1);
+}
