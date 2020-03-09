@@ -55,6 +55,7 @@ Page {
 }
 
 .poster-btn {
+    padding: 0;
     width:245rpx;
     height:90rpx;
     background:rgba(255,255,255,1);

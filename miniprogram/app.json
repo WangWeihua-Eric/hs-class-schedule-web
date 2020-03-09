@@ -1,8 +1,7 @@
 {
   "pages": [
     "pages/schedule/schedule",
-    "pages/social/social",
-    "pages/test/test"
+    "pages/social/social"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

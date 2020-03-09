@@ -1,15 +1,17 @@
-<view class="content">
+<view class="content" id="social-list">
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
-    <app-cell-teacher socialData="{{socialData}}" bgColor="{{bgColor}}"></app-cell-teacher>
-    <app-social-list bgColor="{{bgColor}}" bind:overlayShowEvent="onOverlayShowEvent"></app-social-list>
+    <app-cell-teacher socialData="{{socialData}}" bgColor="{{bgColor}}" postCode="{{postCode}}"></app-cell-teacher>
+    <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo" bind:updateList="updateList"></app-social-list>
 
     <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
-        <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}"></image>
+        <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}" catch:tap="noop"></image>
         <view class="block">
-            <view class="poster-btn" bindtap="savePoster">保存海报</view>
-            <view class="poster-btn" style="color: {{bgColor}}">转发好友</view>
+            <button class="poster-btn" bindtap="savePoster">保存海报</button>
+            <button class="poster-btn" open-type='share' style="color: {{bgColor}}">转发好友</button>
         </view>
     </view>
 
     <van-overlay show="{{ posterSrc && show }}" bind:click="onClickHide"/>
+
+    <van-toast id="van-toast"/>
 </view>

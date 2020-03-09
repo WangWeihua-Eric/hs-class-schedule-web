@@ -2,6 +2,7 @@ import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
 import {getSettingWithSubscriptions, getStorage, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
+import {isSessionReady} from "../../utils/user-utils/user-base-utils";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
@@ -100,25 +101,17 @@ Component({
         },
 
         sessionIdReady() {
-            if (timeHandler) {
-                clearTimeout(timeHandler)
-                timeHandler = null
-            }
-            if (userBase.getGlobalData().sessionId) {
-                timeHandlerNumber = 0
-                if (!userBase.getGlobalData().authed) {
-                    // 未注册用户，发射引导弹窗
-                    this.triggerEvent('overlayEvent')
+            isSessionReady().then(res => {
+                if (res) {
+                    if (!userBase.getGlobalData().authed) {
+                        // 未注册用户，发射引导弹窗
+                        this.triggerEvent('overlayEvent')
+                    }
+                    this.refresh()
+                } else {
+                    // 获取 sessionId 失败
                 }
-                this.refresh()
-            } else {
-                if (timeHandlerNumber < 100) {
-                    timeHandlerNumber++
-                    timeHandler = setTimeout(() => {
-                        this.sessionIdReady()
-                    }, 100)
-                }
-            }
+            })
         },
 
         onJumpLook(event) {
@@ -443,7 +436,7 @@ Component({
                     this.triggerEvent('toastEvent', {action: 'close'})
 
                     if (!(this.data.scrollBtnShow && this.data.scrollTop > 168) && app.globalData.scene !== 1038 && !this.data.isContactBack) {
-                        let query = this.createSelectorQuery();
+                        const query = this.createSelectorQuery();
                         const week = new Date().getDay()
                         if (week > 1) {
                             const id = `#day-${week - 1}`

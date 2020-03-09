@@ -136,7 +136,6 @@ export default class ImageSynthesis {
             wx.canvasToTempFilePath({
                 canvasId: _canvasid,
                 success: (res) => {
-                    console.log('2e23: ', res)
                     block && block(res.tempFilePath);
                 },
                 fail: (e) => {

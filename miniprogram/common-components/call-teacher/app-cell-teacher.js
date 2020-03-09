@@ -1,3 +1,10 @@
+import {UserBase} from "../../utils/user-utils/user-base";
+import {HttpUtil} from "../../utils/http-utils/http-util";
+import {isSessionReady} from "../../utils/user-utils/user-base-utils";
+
+const userBase = new UserBase()
+const http = new HttpUtil()
+
 Component({
     /**
      * 组件的属性列表
@@ -14,6 +21,24 @@ Component({
         arrow: {
             type: Boolean,
             value: false
+        },
+        postCode: {
+            type: String,
+            value: ''
+        }
+    },
+
+    observers: {
+        'postCode': function(postCode) {
+            if (postCode) {
+                isSessionReady().then(res => {
+                    if (res) {
+                        this.refresh(postCode)
+                    } else {
+                        // 获取 sessionId 失败
+                    }
+                })
+            }
         }
     },
 
@@ -25,5 +50,15 @@ Component({
     /**
      * 组件的方法列表
      */
-    methods: {}
+    methods: {
+        refresh(postCode) {
+            const url = '/forum/api/querypostbycode'
+            const params = {
+                postCode: postCode
+            }
+            http.get(url, params, userBase.getGlobalData().sessionId).then(res => {
+                console.log('postRes: ', res)
+            })
+        }
+    }
 })

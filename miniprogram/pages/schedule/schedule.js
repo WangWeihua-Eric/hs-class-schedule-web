@@ -44,7 +44,7 @@ Page({
                 "jump": false
             },
             {
-                "text": "打卡",
+                "text": "感谢老师",
                 "iconPath": "/images/social.png",
                 "selectedIconPath": "/images/social-active.png"
             },
@@ -270,6 +270,11 @@ Page({
                 })
             }
         }
+        if (index === 2) {
+            if (!userBase.getGlobalData().authed) {
+                this.setDialog()
+            }
+        }
         if (index === 3) {
             this.setSimpleUserModel()
             if (!userBase.getGlobalData().authed) {
@@ -296,7 +301,7 @@ Page({
             }
             case 2: {
                 wx.setNavigationBarTitle({
-                    title: '打卡'
+                    title: '感谢老师'
                 })
                 this.setData({active: index})
                 break

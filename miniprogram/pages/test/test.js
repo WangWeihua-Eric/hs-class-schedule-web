@@ -59,7 +59,7 @@ Page({
                 fontSize: 32,
                 color: (() => '#070707')(),
             }).addText({
-                text: '已打卡 27 次',
+                text: '已点赞 27 次',
                 x: 150,
                 y: 80,
                 fontSize: 28,

@@ -4,6 +4,9 @@ import {UserBase} from "./user-base";
 
 const userBase = new UserBase()
 
+let timeHandler = null
+let timeHandlerNumber = 0
+
 /**
  * 获取 sessionId
  */
@@ -17,6 +20,31 @@ export function getSessionId() {
                 code: res.code
             }
             return http.post(url, param, 'login')
+        }
+    })
+}
+
+export function isSessionReady() {
+    return new Promise((resolve, reject) => {
+        if (timeHandler) {
+            clearTimeout(timeHandler)
+            timeHandler = null
+        }
+        if (userBase.getGlobalData().sessionId) {
+            timeHandlerNumber = 0
+            //  成功获取 sessionId
+            resolve(true)
+        } else {
+            if (timeHandlerNumber < 100) {
+                timeHandlerNumber++
+                timeHandler = setTimeout(() => {
+                    isSessionReady().then(res => {
+                        resolve(res)
+                    })
+                }, 100)
+            } else {
+                resolve(false)
+            }
         }
     })
 }

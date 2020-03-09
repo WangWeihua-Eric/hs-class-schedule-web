@@ -88,7 +88,7 @@
 					"id": 4,
 					"name": "打卡详情页",
 					"pathName": "pages/social/social",
-					"query": "",
+					"query": "postCode=post2",
 					"scene": 1058
 				}
 			]

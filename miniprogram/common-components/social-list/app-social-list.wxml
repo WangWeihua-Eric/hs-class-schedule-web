@@ -1,15 +1,15 @@
 <view class="social-content">
-    <view wx:if="{{!showList}}" class="no-list">
+    <view wx:if="{{!socialList.length}}" class="no-list">
         <view class="no-list-title">学知识，交朋友</view>
-        <view class="no-list-subtitle" style="color: {{bgColor}}">为高松老师送出第一份感谢吧!</view>
+        <view class="no-list-subtitle" style="color: {{bgColor}}">为老师送出第一份感谢吧!</view>
     </view>
-    <view wx:if="{{showList}}" class="have-list">
+    <view wx:if="{{socialList.length}}" class="have-list">
         <view class="social-list-header">
             <view class="social-list-header-left">
                 <view class="top-cicle" style="background: {{bgColor}}"></view>
                 <view class="bottom-cicle"></view>
             </view>
-            <view class="header-title">今日打卡: 5 人</view>
+            <view class="header-title">今日点赞: {{socialData.dayReplyCnt}} 人</view>
         </view>
         <view class="social-list">
             <view wx:for="{{socialList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
@@ -18,9 +18,17 @@
         </view>
     </view>
     <view class="social-bottom">
-        <view class="call-teacher" style="background: {{bgColor}}" bindtap="onClickShow">感谢老师</view>
-        <view class="call-teacher-player" style="color: {{bgColor}}">
+        <button class="call-teacher" style="background: {{bgColor}}" open-type="getUserInfo" bindgetuserinfo="onClickShow">感谢老师</button>
+        <view class="call-teacher-player" style="color: {{bgColor}}" bindtap="jumpvlog">
             <van-icon name="play-circle" />
         </view>
+    </view>
+    <view wx:if="{{tipShow}}" class="s-and-l-pop">
+        <image class="l-pop" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/lpop.png"></image>
+        <image class="s-pop" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/spop.png"></image>
+    </view>
+    <view wx:if="{{tipShow}}" class="s-and-l-pop">
+        <view class="l-pop-text">点击这里感谢老师</view>
+        <view class="s-pop-text">看视频</view>
     </view>
 </view>
