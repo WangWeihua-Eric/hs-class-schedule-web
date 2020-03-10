@@ -122,6 +122,11 @@ Component({
                                         showCancel: false
                                     })
                                 }
+                            }).catch(() => {
+                                wx.showModal({
+                                    content: '请同意授权用户信息',
+                                    showCancel: false
+                                })
                             })
                         } else {
                             socialService.callTeacher(this.data.postCode).then(() => {

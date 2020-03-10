@@ -77,7 +77,6 @@ Page({
                 fontSize: 32,
                 color: (() => '#070707')(),
             }).startCompound((imgurl) => {
-                console.log('112121: ', imgurl)
                 this.setData({
                     posterSrc: imgurl,
                 });

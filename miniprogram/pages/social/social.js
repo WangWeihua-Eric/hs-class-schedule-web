@@ -261,9 +261,8 @@ Page({
             this.setData({
                 socialList: [...this.data.socialList, ...res]
             })
-        }).catch(err => {
+        }).catch(() => {
             addLoding = false
-            console.log('querySocialListerr: ', err)
         })
     },
 
@@ -320,7 +319,6 @@ Page({
      * 刷新卡片
      */
     refreshCard(data) {
-        console.log(data)
         this.formatData(data)
     },
 
@@ -344,9 +342,7 @@ Page({
 
             //  头部卡页刷新
             this.refreshCard(res)
-        }).catch((err) => {
-            console.log('queryInfoByCodeerr: ', err)
-        })
+        }).catch(() => {})
     },
 
     /**
@@ -358,9 +354,7 @@ Page({
             this.setData({
                 socialList: res
             })
-        }).catch(err => {
-            console.log('querySocialListerr: ', err)
-        })
+        }).catch(() => {})
     },
 
     /**
