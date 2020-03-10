@@ -132,7 +132,7 @@ Page({
     onOverlayShowEvent() {
         this.setData({ show: true });
         //  初始化头部
-        this.setCallTeacher(this.data.postCode)
+        this.setCallTeacher(this.data.postCode, false)
     },
 
     OnoverlayShowEventWithInfo(event) {
@@ -148,7 +148,7 @@ Page({
             show: true
         })
         //  初始化头部
-        this.setCallTeacher(this.data.postCode)
+        this.setCallTeacher(this.data.postCode, false)
     },
 
     onClickHide() {
@@ -175,7 +175,7 @@ Page({
         })
     },
 
-    setCallTeacher(postCode) {
+    setCallTeacher(postCode, initPoster = true) {
         const url = '/forum/api/querypostbycode'
         const params = {
             postCode: postCode
@@ -183,7 +183,9 @@ Page({
         http.get(url, params, userBase.getGlobalData().sessionId).then(res => {
             if (res && res.state && res.state.code === '0') {
                 this.formatData(res.data)
-                this.initPoster(res.data)
+                if (initPoster) {
+                    this.initPoster(res.data)
+                }
             }
         })
     },

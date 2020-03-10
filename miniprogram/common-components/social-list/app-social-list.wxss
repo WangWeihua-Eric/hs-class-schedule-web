@@ -105,8 +105,30 @@
 
 .social-list-header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:177rpx;
+    height:52rpx;
+    background:rgba(168,83,71,1);
+    border-radius:14rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+    padding: 0;
+    margin: 0;
 }
 
 .social-list-header-left {

@@ -7,7 +7,7 @@
         <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}" catch:tap="noop"></image>
         <view class="block">
             <button class="poster-btn" bindtap="savePoster">保存海报</button>
-            <button class="poster-btn" open-type='share' style="color: {{bgColor}}">转发好友</button>
+            <button class="poster-btn" open-type='share' style="color: {{bgColor}}">为 TA 拉票</button>
         </view>
     </view>
 
