@@ -1,0 +1,115 @@
+import {HttpUtil} from "../../../utils/http-utils/http-util";
+import {UserBase} from "../../../utils/user-utils/user-base";
+import {isSessionReady} from "../../../utils/user-utils/user-base-utils";
+
+let singletonPattern = null;
+
+export class SocialService {
+    http = new HttpUtil()
+    userBase = new UserBase()
+
+    constructor() {
+        if (singletonPattern) {
+            return singletonPattern
+        }
+        singletonPattern = this
+    }
+
+    /**
+     * 通过 postCode 获取详情
+     */
+    queryInfoByCode(postCode) {
+        const url = '/forum/api/querypostbycode'
+        const params = {
+            postCode: postCode
+        }
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.get(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.state && res.state.code === '0') {
+                            resolve(res.data)
+                        } else {
+                            reject(res)
+                        }
+                    }).catch((err) => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
+    /**
+     * 获取 SocialList
+     */
+    querySocialList(postCode, loadType = 0, seqno = 0) {
+        const url = '/forum/api/queryreply'
+        const params = {
+            postCode: postCode,
+            loadType: loadType,
+            seqno: seqno
+        }
+
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.get(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.state && res.state.code === '0') {
+                            resolve(res.data)
+                        } else {
+                            reject(res)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
+    /**
+     * 给老师点赞
+     */
+    callTeacher(postCode) {
+        const url = '/forum/api/postreply'
+        const params = {
+            postCode: postCode,
+            contentType: 0
+        }
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.post(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.result && res.result.state && res.result.state.code === '0') {
+                            resolve(res.result.data)
+                        } else {
+                            reject(res.result)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+
+        })
+    }
+}

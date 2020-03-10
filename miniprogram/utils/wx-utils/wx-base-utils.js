@@ -177,3 +177,20 @@ export function getOnlineFile(url) {
         })
     })
 }
+
+/**
+ * 保存图片到相册
+ */
+export function saveImg(filePath) {
+    return new Promise((resolve, reject) => {
+        wx.saveImageToPhotosAlbum({
+            filePath: filePath,
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}

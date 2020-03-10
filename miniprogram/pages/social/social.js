@@ -1,15 +1,12 @@
-// pages/social/social.js
-import {getOnlineFile, getSetting, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
+import {getOnlineFile, getSetting, getUserInfo, saveImg} from "../../utils/wx-utils/wx-base-utils";
 import ImageSynthesis from "../../utils/image-utils/image-synthesis";
-import {UserBase} from "../../utils/user-utils/user-base";
-import {HttpUtil} from "../../utils/http-utils/http-util";
-import {isSessionReady} from "../../utils/user-utils/user-base-utils";
 import {socilColorList} from "../../color-palette/social-color";
 import {formatTime} from "../../utils/time-utils/time-utils";
 import Toast from '@vant/weapp/toast/toast';
+import {SocialService} from "./service/socialService";
 
-const userBase = new UserBase()
-const http = new HttpUtil()
+const socialService = new SocialService()
+
 let addLoding = false
 
 Page({
@@ -30,6 +27,16 @@ Page({
     },
 
     /**
+     * 刷新页面
+     */
+    refresh(postCode) {
+        this.refreshCardAndPoster(postCode)
+
+        //  list 内容刷新
+        this.refreshListContent(postCode)
+    },
+
+    /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
@@ -44,17 +51,7 @@ Page({
             this.setData({
                 postCode: postCode
             })
-            isSessionReady().then(res => {
-                if (res) {
-                    //  初始化头部
-                    this.setCallTeacher(postCode)
-
-                    //  初始化 list
-                    this.setDataList(postCode)
-                } else {
-                    // 获取 sessionId 失败
-                }
-            })
+            this.refresh(postCode)
         }
     },
 
@@ -110,10 +107,6 @@ Page({
         }
     },
 
-    updateList() {
-        this.setDataList(this.data.postCode)
-    },
-
     /**
      * 用户点击右上角分享
      */
@@ -131,8 +124,7 @@ Page({
 
     onOverlayShowEvent() {
         this.setData({ show: true });
-        //  初始化头部
-        this.setCallTeacher(this.data.postCode, false)
+        this.refreshHeaderAndList()
     },
 
     OnoverlayShowEventWithInfo(event) {
@@ -143,12 +135,15 @@ Page({
 
         const userImgUrl = user.userImgUrl
         const nickname = user.nickname
+
+        this.setScopeRes(true)
         this.posterToReady(userImgUrl, nickname)
+
         this.setData({
             show: true
         })
-        //  初始化头部
-        this.setCallTeacher(this.data.postCode, false)
+
+        this.refreshHeaderAndList()
     },
 
     onClickHide() {
@@ -158,68 +153,16 @@ Page({
     noop() {},
 
     savePoster() {
-        wx.saveImageToPhotosAlbum({
-            filePath: this.data.posterSrc,
-            success: res => {
-                wx.showModal({
-                    content: '保存成功',
-                    showCancel: false
-                })
-            },
-            fail: err => {
-                wx.showModal({
-                    content: '保存失败，请在小程序设置中打开相册权限',
-                    showCancel: false
-                })
-            }
-        })
-    },
-
-    setCallTeacher(postCode, initPoster = true) {
-        const url = '/forum/api/querypostbycode'
-        const params = {
-            postCode: postCode
-        }
-        http.get(url, params, userBase.getGlobalData().sessionId).then(res => {
-            if (res && res.state && res.state.code === '0') {
-                this.formatData(res.data)
-                if (initPoster) {
-                    this.initPoster(res.data)
-                }
-            }
-        })
-    },
-
-    initPoster(info) {
-
-
-        const teacher = info.authorName
-        const cardImgUrl = info.imgUrl
-        this.setData({
-            teacher: teacher,
-            cardImgUrl: cardImgUrl
-        })
-
-        getSetting('scope.userInfo').then(scopeRes => {
-            if (scopeRes) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                getUserInfo().then(userInfo => {
-                    this.setData({
-                        scopeRes: true
-                    })
-                    // 获取用户信息成功
-                    const user = userInfo.userInfo
-                    const userImgUrl = user.avatarUrl
-                    const nickname = user.nickName
-                    this.posterToReady(userImgUrl, nickname)
-
-
-                })
-            } else {
-                this.setData({
-                    scopeRes: false
-                })
-            }
+        saveImg(this.data.posterSrc).then(() => {
+            wx.showModal({
+                content: '保存成功',
+                showCancel: false
+            })
+        }).catch((err) => {
+            wx.showModal({
+                content: '保存失败，请在小程序设置中打开相册权限',
+                showCancel: false
+            })
         })
     },
 
@@ -233,8 +176,6 @@ Page({
 
             const userImgPath = userImgRes.tempFilePath;
             const cardImgPath = cardImgRes.tempFilePath;
-            console.log(userImgPath)
-            console.log(cardImgPath)
             const width = 588;
             const height = 890;
             const imageSynthesis = new ImageSynthesis(this, 'festivalCanvas', width, height);
@@ -314,39 +255,15 @@ Page({
     },
 
     addDataList(postCode, seqno) {
-        const url = '/forum/api/queryreply'
-        const params = {
-            postCode: postCode,
-            loadType: 1,
-            seqno: seqno
-
-        }
-        http.get(url, params, userBase.getGlobalData().sessionId).then(res => {
+        socialService.querySocialList(postCode, 1, seqno).then(res => {
             addLoding = false
-            if (res && res.state && res.state.code === '0') {
-                this.formatSocialListData(res.data)
-                this.setData({
-                    socialList: [...this.data.socialList, ...res.data]
-                })
-            }
+            this.formatSocialListData(res)
+            this.setData({
+                socialList: [...this.data.socialList, ...res]
+            })
         }).catch(err => {
             addLoding = false
-        })
-    },
-
-    setDataList(postCode) {
-        const url = '/forum/api/queryreply'
-        const params = {
-            postCode: postCode,
-            loadType: 0
-        }
-        http.get(url, params, userBase.getGlobalData().sessionId).then(res => {
-            if (res && res.state && res.state.code === '0') {
-                this.formatSocialListData(res.data)
-                this.setData({
-                    socialList: res.data
-                })
-            }
+            console.log('querySocialListerr: ', err)
         })
     },
 
@@ -358,6 +275,100 @@ Page({
             item.userName = item.authorName
             item.callNumber = `已点赞 ${item.cnt} 次`
             item.callDes = item.content
+        })
+    },
+
+    /**
+     * 刷新海报
+     */
+    refreshPoster(info) {
+        const teacher = info.authorName
+        const cardImgUrl = info.imgUrl
+        this.setData({
+            teacher: teacher,
+            cardImgUrl: cardImgUrl
+        })
+
+        getSetting('scope.userInfo').then(scopeRes => {
+            if (scopeRes) {
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                getUserInfo().then(userInfo => {
+                    const user = userInfo.userInfo
+                    const userImgUrl = user.avatarUrl
+                    const nickname = user.nickName
+                    if (user && userImgUrl && nickname) {
+                        this.setScopeRes(true)
+                        this.posterToReady(userImgUrl, nickname)
+                    } else {
+                        this.setScopeRes(false)
+                    }
+                }).catch(() => {
+                    //  获取用户信息失败
+                    this.setScopeRes(false)
+                })
+            } else {
+                //  获取用户信息失败
+                this.setScopeRes(false)
+            }
+        }).catch(() => {
+            //  获取用户信息失败
+            this.setScopeRes(false)
+        })
+    },
+
+    /**
+     * 刷新卡片
+     */
+    refreshCard(data) {
+        console.log(data)
+        this.formatData(data)
+    },
+
+    /**
+     * 刷新头部和 list
+     */
+    refreshHeaderAndList() {
+        this.refreshCardAndPoster(this.data.postCode, false)
+        this.refreshListContent(this.data.postCode)
+    },
+
+    /**
+     * 刷新卡片和海报
+     */
+    refreshCardAndPoster(postCode, refreshPoster = true) {
+        socialService.queryInfoByCode(postCode).then(res => {
+            //  海报拉取
+            if (refreshPoster) {
+                this.refreshPoster(res)
+            }
+
+            //  头部卡页刷新
+            this.refreshCard(res)
+        }).catch((err) => {
+            console.log('queryInfoByCodeerr: ', err)
+        })
+    },
+
+    /**
+     * 刷新 list 内容
+     */
+    refreshListContent(postCode) {
+        socialService.querySocialList(postCode).then(res => {
+            this.formatSocialListData(res)
+            this.setData({
+                socialList: res
+            })
+        }).catch(err => {
+            console.log('querySocialListerr: ', err)
+        })
+    },
+
+    /**
+     * 设置授权状态
+     */
+    setScopeRes(status) {
+        this.setData({
+            scopeRes: status
         })
     }
 })

@@ -1,13 +1,13 @@
-import {isSessionReady} from "../../utils/user-utils/user-base-utils";
-import {UserBase} from "../../utils/user-utils/user-base";
-import {HttpUtil} from "../../utils/http-utils/http-util";
-import {formatTime} from "../../utils/time-utils/time-utils";
-import {getSetting, getStorage, getSystemInfo, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
+import {UserBase} from "../../../../utils/user-utils/user-base";
+import {debounceForFunction, formatTime} from "../../../../utils/time-utils/time-utils";
+import {getSetting, getStorage, getUserInfo} from "../../../../utils/wx-utils/wx-base-utils";
+import {SocialService} from "../../service/socialService";
+import {UserService} from "../../../../service/userService";
+
+const socialService = new SocialService()
+const userService = new UserService()
 
 const userBase = new UserBase()
-const http = new HttpUtil()
-
-let timeHandler = false
 
 Component({
     /**
@@ -40,7 +40,6 @@ Component({
      * 组件的初始数据
      */
     data: {
-        showList: true,
         tipShow: false
     },
 
@@ -59,17 +58,9 @@ Component({
      */
     methods: {
         onClickShow() {
-
-
-            if (timeHandler) {
-                return
+            if (debounceForFunction()) {
+                return;
             }
-            setTimeout(() => {
-                timeHandler = false
-            }, 1000)
-            timeHandler = true
-
-
 
             wx.showModal({
                 content: '每天只有两次点赞的机会哦！是否要投上你神圣的一票，对ta说声谢谢呢？',
@@ -93,50 +84,36 @@ Component({
                                             nickname: nickname
                                         }
 
-                                        http.post('/user/api/update', {
+                                        userService.userUpdate({
                                             avatar: userImgUrl,
                                             nickname: nickname
-                                        }, userBase.getGlobalData().sessionId).then(res => {
-
-                                            if (res && res.result && res.result.state && res.result.state.code === '0') {
-
-
-                                                const user = {
-                                                    ...res.result.data
-                                                }
-
-                                                userBase.setGlobalData(user)
-
-
-
-                                                const url = '/forum/api/postreply'
-                                                const params = {
-                                                    postCode: this.data.postCode,
-                                                    contentType: 0
-                                                }
-
-
-                                                http.post(url, params, userBase.getGlobalData().sessionId).then(res => {
-                                                    if (res && res.result && res.result.state && res.result.state.code === '0') {
-                                                        this.triggerEvent('overlayShowEventWithInfo', param)
-                                                        this.refresh(this.data.postCode)
-                                                    } else if (res && res.result && res.result.state && res.result.state.code === '60001') {
-                                                        wx.showModal({
-                                                            content: '每天只能点赞两次哦',
-                                                            showCancel: false
-                                                        })
-                                                    }
-                                                })
-
-                                                wx.setStorage({
-                                                    key: "sessionId",
-                                                    data: {
-                                                        ...user,
-                                                        updateTime: new Date().getTime()
-                                                    }
-                                                })
+                                        }).then(res => {
+                                            const user = {
+                                                ...res
                                             }
-
+                                            userBase.setGlobalData(user)
+                                            socialService.callTeacher(this.data.postCode).then(() => {
+                                                this.triggerEvent('overlayShowEventWithInfo', param)
+                                            }).catch(err => {
+                                                if (err && err.state && err.state.code === '60001') {
+                                                    wx.showModal({
+                                                        content: '每天只能点赞两次哦',
+                                                        showCancel: false
+                                                    })
+                                                }
+                                            })
+                                            wx.setStorage({
+                                                key: "sessionId",
+                                                data: {
+                                                    ...user,
+                                                    updateTime: new Date().getTime()
+                                                }
+                                            })
+                                        }).catch(() => {
+                                            wx.showModal({
+                                                content: '点赞失败，请重试',
+                                                showCancel: false
+                                            })
                                         })
                                     })
                                 } else {
@@ -147,16 +124,10 @@ Component({
                                 }
                             })
                         } else {
-                            const url = '/forum/api/postreply'
-                            const params = {
-                                postCode: this.data.postCode,
-                                contentType: 0
-                            }
-                            http.post(url, params, userBase.getGlobalData().sessionId).then(res => {
-                                if (res && res.result && res.result.state && res.result.state.code === '0') {
-                                    this.triggerEvent('overlayShowEvent')
-                                    this.refresh(this.data.postCode)
-                                } else if (res && res.result && res.result.state && res.result.state.code === '60001') {
+                            socialService.callTeacher(this.data.postCode).then(() => {
+                                this.triggerEvent('overlayShowEvent')
+                            }).catch(err => {
+                                if (err && err.state && err.state.code === '60001') {
                                     wx.showModal({
                                         content: '每天只能点赞两次哦',
                                         showCancel: false
@@ -167,9 +138,6 @@ Component({
                     }
                 }
             })
-        },
-        refresh(postCode) {
-            this.triggerEvent('updateList')
         },
         formatData(data) {
             data.forEach(item => {

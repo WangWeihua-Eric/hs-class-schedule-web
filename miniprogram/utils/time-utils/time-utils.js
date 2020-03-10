@@ -19,3 +19,16 @@ export function formatTime(time) {
 export function addZeroForDay(num) {
     return num < 10 ? '0' + num : num
 }
+
+let timeHandler = false
+
+export function debounceForFunction(time = 1000) {
+    if (timeHandler) {
+        return true
+    }
+    timeHandler = true
+    setTimeout(() => {
+        timeHandler = false
+    }, time)
+    return false
+}
