@@ -358,7 +358,6 @@ Page({
 
     refreshFans(postCode) {
         socialService.queryFans(postCode).then(res => {
-            console.log(res)
             this.setData({
                 fansList: res
             })
