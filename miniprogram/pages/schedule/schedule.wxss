@@ -292,7 +292,7 @@ Page {
     box-sizing: border-box;
     padding: 0 74rpx;
     margin-top: 59rpx;
-    font-size:32rpx;
+    font-size:41rpx;
     font-family:PingFangSC-Regular,PingFang SC;
     color:rgba(51,51,51,1);
 }
