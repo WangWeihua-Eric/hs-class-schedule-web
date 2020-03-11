@@ -10,6 +10,8 @@ const socialService = new SocialService()
 const userBase = new UserBase()
 
 let addLoding = false
+let teacherData = ''
+let cardImgUrlData = ''
 
 Page({
 
@@ -25,9 +27,7 @@ Page({
         postCode: '',
         posterSrc: null,
         show: false,
-        scopeRes: false,
-        teacher: '',
-        cardImgUrl: ''
+        scopeRes: false
     },
 
     /**
@@ -177,8 +177,8 @@ Page({
 
     posterToReady(userImgUrl, nickname) {
 
-        const teacher = this.data.teacher
-        const cardImgUrl = this.data.cardImgUrl
+        const teacher = teacherData
+        const cardImgUrl = cardImgUrlData
 
         Promise.all([getOnlineFile(userImgUrl), getOnlineFile(cardImgUrl)]).then(([userImgRes, cardImgRes]) => {
 
@@ -292,10 +292,8 @@ Page({
     refreshPoster(info) {
         const teacher = info.authorName
         const cardImgUrl = info.imgUrl
-        this.setData({
-            teacher: teacher,
-            cardImgUrl: cardImgUrl
-        })
+        teacherData = teacher
+        cardImgUrlData = cardImgUrl
 
         getSetting('scope.userInfo').then(scopeRes => {
             if (scopeRes) {

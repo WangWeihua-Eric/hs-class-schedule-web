@@ -9,6 +9,10 @@ const http = new HttpUtil()
 const app = getApp()
 
 let readyStep = 0
+let tempId = []
+let isContactBack = false
+let awaysErrorMiniSwitchBoolea = false
+let needGuideBoolea = false
 
 Component({
     /**
@@ -41,13 +45,9 @@ Component({
         bannerList: [],
         indicatorDots: false,
         show: false,
-        tempId: [],
         sessionFrom: '',
         serviceImgUrl: '../../images/clickme.jpeg',
-        scrollBtnShow: true,
-        isContactBack: false,
-        awaysErrorMiniSwitch: false,
-        needGuide: false
+        scrollBtnShow: true
     },
 
     pageLifetimes: {
@@ -122,19 +122,20 @@ Component({
             wx.navigateToMiniProgram({
                 appId: 'wxbe86c353682cdb84',
                 path: path,
-                success() {}
+                success() {
+                }
             })
         },
 
         onBooking(event) {
-            const tmplIds = this.data.tempId
+            const tmplIds = tempId
             const value = event.currentTarget.dataset.value
             // 检查是否打开订阅开关
-            if (this.data.awaysErrorMiniSwitch) {
+            if (awaysErrorMiniSwitchBoolea) {
                 this.bookingRes('awaysErrorMiniSwitch')
             } else {
                 //  发起订阅请求
-                if (this.data.needGuide) {
+                if (needGuideBoolea) {
                     this.setData({
                         show: true
                     })
@@ -339,7 +340,7 @@ Component({
         },
 
         bookInit() {
-            const tmplIds = this.data.tempId
+            const tmplIds = tempId
             if (tmplIds.length) {
                 let awaysErrorMiniSwitch = false
                 let needGuide = false
@@ -354,10 +355,8 @@ Component({
                         }
                     }
 
-                    this.setData({
-                        awaysErrorMiniSwitch: awaysErrorMiniSwitch,
-                        needGuide: needGuide
-                    })
+                    awaysErrorMiniSwitchBoolea = awaysErrorMiniSwitch
+                    needGuideBoolea = needGuide
                 })
             }
         },
@@ -386,17 +385,13 @@ Component({
             http.get(url, param, userBase.getGlobalData().sessionId).then(tempInfo => {
                 if (tempInfo && tempInfo.state && tempInfo.state.code === "0") {
                     if (tempInfo.data) {
-                        this.setData({
-                            tempId: tempInfo.data.templateIds
-                        })
+                        tempId = tempInfo.data.templateIds
                         readyStep++
                         if (readyStep === 2) {
                             this.bookInit()
                         }
                     } else {
-                        this.setData({
-                            tempId: []
-                        })
+                        tempId = []
                     }
                 }
             })
@@ -433,7 +428,7 @@ Component({
                     })
                     this.triggerEvent('toastEvent', {action: 'close'})
 
-                    if (!(this.data.scrollBtnShow && this.data.scrollTop > 168) && app.globalData.scene !== 1038 && !this.data.isContactBack) {
+                    if (!(this.data.scrollBtnShow && this.data.scrollTop > 168) && app.globalData.scene !== 1038 && !isContactBack) {
                         const query = this.createSelectorQuery();
                         const week = new Date().getDay()
                         if (week > 1) {
@@ -448,9 +443,7 @@ Component({
                             }).exec();
                         }
                     }
-                    this.setData({
-                        isContactBack: false
-                    })
+                    isContactBack = false
                 }
             })
         },
@@ -481,9 +474,7 @@ Component({
         },
 
         onSetContact() {
-            this.setData({
-                isContactBack: true
-            })
+            isContactBack = true
         }
     }
 })
