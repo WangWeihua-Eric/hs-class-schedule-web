@@ -68,3 +68,16 @@ Page {
     font-weight:500;
     color:rgba(58,58,58,1);
 }
+
+.rule-img-btn {
+    width: 148rpx;
+    height: 184rpx;
+    position: fixed;
+    right: 6rpx;
+    bottom: 323rpx;
+}
+
+.rule-img {
+    width: 148rpx;
+    height: 184rpx;
+}

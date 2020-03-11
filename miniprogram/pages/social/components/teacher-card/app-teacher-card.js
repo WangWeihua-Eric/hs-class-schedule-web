@@ -11,6 +11,10 @@ Component({
         socialData: {
             type: Object,
             value: {}
+        },
+        fansList: {
+            type: Array,
+            value: []
         }
     },
 

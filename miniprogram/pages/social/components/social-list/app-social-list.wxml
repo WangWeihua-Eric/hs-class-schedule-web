@@ -5,6 +5,7 @@
     </view>
     <view wx:if="{{socialList.length}}" class="have-list">
         <view class="social-list">
+            <app-social-list-item socialData="{{tipData}}" showBottomLine="{{true}}" postCode="{{postCode}}" bgColor="{{bgColor}}"></app-social-list-item>
             <view wx:for="{{socialList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
                 <app-social-list-item socialData="{{item}}" showBottomLine="{{index < (socialList.length - 1)}}"></app-social-list-item>
             </view>
@@ -23,5 +24,9 @@
     <view wx:if="{{tipShow}}" class="s-and-l-pop">
         <view class="l-pop-text">点击这里感谢老师</view>
         <view class="s-pop-text">看视频</view>
+    </view>
+    <view class="call-teacher-info" wx:if="{{showCallGurid}}">
+        <image class="call-teacher-gurid" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-pop.png"></image>
+        <view class="call-teacher-gurid-text">邀请好友一起来支持老师吧！</view>
     </view>
 </view>

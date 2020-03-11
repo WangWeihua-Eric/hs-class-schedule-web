@@ -2,6 +2,6 @@
   "component": true,
   "usingComponents": {
     "van-icon": "@vant/weapp/icon/index",
-    "app-social-list-item": "../../../../common-components/social-list-item/app-social-list-item"
+    "app-social-list-item": "../social-list-item/app-social-list-item"
   }
 }

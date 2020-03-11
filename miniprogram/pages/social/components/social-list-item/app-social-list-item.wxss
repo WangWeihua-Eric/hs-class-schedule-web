@@ -24,6 +24,25 @@
     overflow: hidden;
 }
 
+.call-join {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.call-join-btn {
+    width: 150rpx;
+    height: 73rpx;
+    border-radius: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36rpx;
+    font-family: SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight: 500;
+    padding: 0;
+}
+
 .item-right {
     display: flex;
     flex-direction: column;
@@ -66,6 +85,14 @@
     font-family:PingFangSC-Regular,PingFang SC;
     color:rgba(7,7,7,1);
     margin-top: 14rpx;
+}
+
+.call-join-des {
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(7,7,7,1);
+    margin-top: 14rpx;
+    width: 400rpx;
 }
 
 .bottom-line {

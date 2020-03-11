@@ -87,6 +87,26 @@ Page {
     border-radius:16px;
 }
 
+.call-teacher-block {
+    position: absolute;
+    top: 88rpx;
+    width: 591rpx;
+    height: 794rpx;
+    border-radius:16px;
+}
+
+.call-teacher-img {
+    width: 591rpx;
+    height: 794rpx;
+}
+
+.call-teacher-content {
+    width: 591rpx;
+    height: 794rpx;
+    position: absolute;
+    top: 0;
+}
+
 .welcome-block {
     position: absolute;
     top: 120rpx;
@@ -256,4 +276,23 @@ Page {
 .rule-img {
     width: 148rpx;
     height: 184rpx;
+}
+
+.call-teacher-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 135rpx;
+    font-size:52rpx;
+    font-family:HYRuiHuSongW;
+    color:rgba(201,91,75,1);
+}
+
+.call-teacher-text {
+    box-sizing: border-box;
+    padding: 0 74rpx;
+    margin-top: 59rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(51,51,51,1);
 }

@@ -4,8 +4,10 @@ import {socilColorList} from "../../color-palette/social-color";
 import {formatTime} from "../../utils/time-utils/time-utils";
 import Toast from '@vant/weapp/toast/toast';
 import {SocialService} from "./service/socialService";
+import {UserBase} from "../../utils/user-utils/user-base";
 
 const socialService = new SocialService()
+const userBase = new UserBase()
 
 let addLoding = false
 
@@ -17,7 +19,9 @@ Page({
     data: {
         bgColor: socilColorList[0],
         socialData: {},
+        showSheet: false,
         socialList: [],
+        fansList: [],
         postCode: '',
         posterSrc: null,
         show: false,
@@ -42,6 +46,7 @@ Page({
     onLoad: function (options) {
         const bgColor = options.bgColor
         const postCode = options.postCode
+        const uid = options.uid
         if (bgColor) {
             this.setData({
                 bgColor: bgColor
@@ -52,6 +57,9 @@ Page({
                 postCode: postCode
             })
             this.refresh(postCode)
+        }
+        if (uid) {
+            socialService.invited(uid, postCode).then(() => {}).catch(() => {})
         }
     },
 
@@ -113,11 +121,12 @@ Page({
     onShareAppMessage: function () {
         return {
             title: this.data.socialData.title,
-            path: `pages/social/social?postCode=${this.data.postCode}`,
+            path: `pages/social/social?postCode=${this.data.postCode}&uid=${userBase.getGlobalData().userId}`,
             success: () => {
                 wx.showShareMenu({
                     withShareTicket: true
                 })
+                socialService.recordAction()
             }
         }
     },
@@ -343,6 +352,17 @@ Page({
             //  头部卡页刷新
             this.refreshCard(res)
         }).catch(() => {})
+        //  刷新铁粉
+        this.refreshFans(postCode)
+    },
+
+    refreshFans(postCode) {
+        socialService.queryFans(postCode).then(res => {
+            console.log(res)
+            this.setData({
+                fansList: res
+            })
+        }).catch(() => {})
     },
 
     /**
@@ -364,5 +384,13 @@ Page({
         this.setData({
             scopeRes: status
         })
-    }
+    },
+
+    onShowSheet() {
+        this.setData({ showSheet: true });
+    },
+
+    onCloseSheet() {
+        this.setData({ showSheet: false });
+    },
 })

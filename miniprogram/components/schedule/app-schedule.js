@@ -1,6 +1,6 @@
 import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
-import {getSettingWithSubscriptions, getStorage, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
+import {getSettingWithSubscriptions, wxSubscribeMessage} from "../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
 import {isSessionReady} from "../../utils/user-utils/user-base-utils";
 
@@ -8,8 +8,6 @@ const userBase = new UserBase()
 const http = new HttpUtil()
 const app = getApp()
 
-let timeHandler = null
-let timeHandlerNumber = 0
 let readyStep = 0
 
 Component({

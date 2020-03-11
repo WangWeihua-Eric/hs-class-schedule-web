@@ -9,32 +9,33 @@
                 <view class="cell-title">{{socialData.title}}</view>
                 <view class="cell-total">
                     <view class="cell-total-title" style="color: {{bgColor}}">
-                        总赞:<text class="call-total-text">{{socialData.replyCnt}}</text>
-                        月赞:<text class="call-total-text">{{socialData.monthCounter}}</text>
-                        周赞:<text class="call-total-text">{{socialData.weekCounter}}</text>
+                        总赞:
+                        <text class="call-total-text">{{socialData.replyCnt}}</text>
+                        月赞:
+                        <text class="call-total-text">{{socialData.monthCounter}}</text>
+                        周赞:
+                        <text class="call-total-text">{{socialData.weekCounter}}</text>
                     </view>
                 </view>
             </view>
         </view>
     </view>
     <view class="card-line">
-        <view class="line-text">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+        <view class="line-text">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        </view>
     </view>
     <view class="user-fan">
         <view class="user-fan-info">
             <view class="user-fan-text">荣誉铁粉</view>
             <view class="user-fan-img-list">
-                <view class="user-fan-img-info">
-                    <image class="user-fan-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg"></image>
-                </view>
-                <view class="user-fan-img-info">
-                    <image class="user-fan-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg"></image>
-                </view>
-                <view class="user-fan-img-info">
-                    <image class="user-fan-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-test1.jpeg"></image>
+                <view class="user-fan-img-info" wx:for="{{fansList}}" wx:for-item="item" wx:for-index="index"
+                      wx:key="index">
+                    <image class="user-fan-img" src="{{item.avatar}}"></image>
                 </view>
             </view>
         </view>
-        <button open-type='share' class="user-fan-call-btn" style="color: {{bgColor}}">喊人来支持他</button>
+        <button open-type='share' class="user-fan-call-btn" style="color: {{bgColor}}">
+            为 TA 拉票
+        </button>
     </view>
 </view>

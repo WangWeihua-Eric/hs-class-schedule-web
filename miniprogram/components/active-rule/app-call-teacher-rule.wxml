@@ -1,0 +1,40 @@
+<view class="active-rule-content">
+    <view class="rule-title">
+        <view class="rule-title-info" style="background-color: {{bgColor}}">明星讲师您来选</view>
+    </view>
+    <view class="rule-des">红松明星讲师评比!选出您最喜欢的老师!</view>
+    <view class="rule-list">
+        <view class="rule-list-item">
+            <view class="rule-tip-img">
+                <view class="rule-tip" style="background-color: {{bgColor}}"></view>
+                <view class="rule-tip-opacity" style="background-color: {{bgColor}}"></view>
+            </view>
+            <view class="rule-item-text">评选周度、月度明星讲师！</view>
+        </view>
+        <view class="rule-list-item">
+            <view class="rule-tip-img">
+                <view class="rule-tip" style="background-color: {{bgColor}}"></view>
+                <view class="rule-tip-opacity" style="background-color: {{bgColor}}"></view>
+            </view>
+            <view class="rule-item-text">每人每天仅限 2 票，还可以「为ta拉票」!</view>
+        </view>
+        <view class="rule-list-item">
+            <view class="rule-tip-img">
+                <view class="rule-tip" style="background-color: {{bgColor}}"></view>
+                <view class="rule-tip-opacity" style="background-color: {{bgColor}}"></view>
+            </view>
+            <view class="rule-item-text">点赞拉票最多的学员，获得「荣誉铁粉」称号!</view>
+        </view>
+        <view class="rule-list-item">
+            <view class="rule-tip-img">
+                <view class="rule-tip" style="background-color: {{bgColor}}"></view>
+                <view class="rule-tip-opacity" style="background-color: {{bgColor}}"></view>
+            </view>
+            <view class="rule-item-text">排名前 3 的老师获得「红松明星讲师」荣誉!</view>
+        </view>
+    </view>
+    <view class="rule-bottom">
+        <view>周冠军：每周一公布</view>
+        <view>月冠军：自然月第一天公布</view>
+    </view>
+</view>

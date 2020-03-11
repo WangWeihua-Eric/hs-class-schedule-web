@@ -5,6 +5,8 @@
     "app-teacher-card": "./components/teacher-card/app-teacher-card",
     "van-overlay": "@vant/weapp/overlay/index",
     "van-image": "@vant/weapp/image/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "app-call-teacher-rule": "../../../components/active-rule/app-call-teacher-rule"
   }
 }

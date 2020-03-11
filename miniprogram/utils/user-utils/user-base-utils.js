@@ -69,8 +69,9 @@ function checkSessionInfo(sessionInfo) {
         const updateTime = sessionInfo.updateTime
         const sessionId = sessionInfo.sessionId
         const authed = sessionInfo.authed
+        const userId = sessionInfo.userId
         if (sessionId && updateTime && (nowTime - updateTime) < 6 * 60 * 60 * 1000) {
-            userBase.setGlobalData({sessionId: sessionId, authed: authed})
+            userBase.setGlobalData({sessionId: sessionId, authed: authed, userId: userId})
         } else {
             setSessionId()
         }

@@ -40,7 +40,14 @@ Component({
      * 组件的初始数据
      */
     data: {
-        tipShow: false
+        showCallGurid: false,
+        tipShow: false,
+        tipData: {
+            userImg: 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/xiaojiang.png',
+            userName: '小江-红松班主任',
+            createTime: '今天',
+            callDes: '进入兴趣学习群，直接和老师交流'
+        }
     },
 
     lifetimes: {
@@ -63,7 +70,7 @@ Component({
             }
 
             wx.showModal({
-                content: '每天只有两次点赞的机会哦！是否要投上你神圣的一票，对ta说声谢谢呢？',
+                content: '每天只有两次点赞的机会哦！是否要投上您神圣的一票，对ta说声谢谢呢？',
                 cancelText: '我再想想',
                 confirmText: '感谢老师',
                 confirmColor: this.data.bgColor,
@@ -96,8 +103,16 @@ Component({
                                                 this.triggerEvent('overlayShowEventWithInfo', param)
                                             }).catch(err => {
                                                 if (err && err.state && err.state.code === '60001') {
+                                                    this.setData({
+                                                        showCallGurid: true
+                                                    })
                                                     wx.showModal({
                                                         content: '每天只能点赞两次哦',
+                                                        showCancel: false
+                                                    })
+                                                } else {
+                                                    wx.showModal({
+                                                        content: '点赞失败，请重试',
                                                         showCancel: false
                                                     })
                                                 }
@@ -133,8 +148,16 @@ Component({
                                 this.triggerEvent('overlayShowEvent')
                             }).catch(err => {
                                 if (err && err.state && err.state.code === '60001') {
+                                    this.setData({
+                                        showCallGurid: true
+                                    })
                                     wx.showModal({
                                         content: '每天只能点赞两次哦',
+                                        showCancel: false
+                                    })
+                                } else {
+                                    wx.showModal({
+                                        content: '点赞失败，请重试',
                                         showCancel: false
                                     })
                                 }

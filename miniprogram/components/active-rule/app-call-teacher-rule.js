@@ -1,16 +1,14 @@
+import {socilColorList} from "../../color-palette/social-color";
+
 Component({
     /**
      * 组件的属性列表
      */
     properties: {
-        showBottomLine: {
-            type: Boolean,
-            value: true
+        bgColor: {
+            type: String,
+            value: socilColorList[0]
         },
-        socialData: {
-          type: Object,
-          value: {}
-        }
     },
 
     /**

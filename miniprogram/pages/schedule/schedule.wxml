@@ -78,7 +78,25 @@
         </view>
     </van-overlay>
 
-    <view hidden="{{active !== 2}}" class="rule-img-btn">
-        <image class="rule-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule.png"></image>
+
+    <van-overlay z-index="3" show="{{ showCallTeacher }}" bind:click="onClickHideCallTeacher">
+        <view class="wrapper">
+            <view class="call-teacher-block" catch:tap="noop">
+                <image class="call-teacher-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-poster.png"></image>
+                <view class="call-teacher-content">
+                    <view class="call-teacher-header">明星讲师您来选</view>
+                    <view class="call-teacher-text">为了鼓励红松学堂老师们的辛勤付出，从今天起，每位同学可以点击您喜爱的老师，进入「感谢老师」页面送出您宝贵的赞。</view>
+                </view>
+            </view>
+        </view>
+    </van-overlay>
+
+
+    <view hidden="{{active !== 2}}" class="rule-img-btn" bindtap="onShowSheet">
+        <image class="rule-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></image>
     </view>
+
+    <van-action-sheet show="{{ showSheet }}" bind:close="onCloseSheet">
+        <app-call-teacher-rule></app-call-teacher-rule>
+    </van-action-sheet>
 </view>

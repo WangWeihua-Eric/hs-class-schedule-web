@@ -8,15 +8,15 @@
 }
 
 .author-avatar {
-    width:172rpx;
-    height:172rpx;
+    width:136rpx;
+    height:136rpx;
     overflow: hidden;
     border-radius: 50%;
 }
 
 .author-avatar-img {
-    width:172rpx;
-    height:172rpx;
+    width:136rpx;
+    height:136rpx;
     border:2rpx solid rgba(255,255,255,1);
     overflow: hidden;
     border-radius: 50%;
@@ -31,7 +31,7 @@
 }
 
 .cell-left {
-    width: 74rpx;
+    width: 36rpx;
     height: 168rpx;
     font-size: 120rpx;
     font-family: PingFangSC-Semibold,PingFang SC;
@@ -50,7 +50,7 @@
 
 .cell-right {
     height: 100%;
-    width: 429rpx;
+    width: 470rpx;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -59,7 +59,7 @@
 }
 
 .cell-title {
-    font-size: 32rpx;
+    font-size: 36rpx;
     font-family: PingFangSC-Semibold,PingFang SC;
     font-weight: 600;
     color: rgba(255, 255, 255, 1);
@@ -140,6 +140,8 @@
     align-items: center;
     padding: 0;
     margin: 0;
+    font-size: 36rpx;
+    font-weight: 600;
 }
 
 .user-fan-img-list {

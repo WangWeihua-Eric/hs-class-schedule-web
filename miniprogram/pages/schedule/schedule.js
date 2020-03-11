@@ -14,10 +14,12 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showCallTeacher: false,
         guide: false,
         scrollTop: null,
         active: 0,
         show: false,
+        showSheet: false,
         showOpenLesson: false,
         simpleUserModel: {},
         openLesson: [],
@@ -45,8 +47,8 @@ Page({
             },
             {
                 "text": "感谢老师",
-                "iconPath": "/images/social.png",
-                "selectedIconPath": "/images/social-active.png"
+                "iconPath": "/images/thx.png",
+                "selectedIconPath": "/images/thx-active.png"
             },
             {
                 "text": "我",
@@ -274,6 +276,58 @@ Page({
             if (!userBase.getGlobalData().authed) {
                 this.setDialog()
             }
+
+            getStorage('callTeacher').then(res => {
+                if (res) {
+                    if (res.dayNumber < 3) {
+                        const nowDay = new Date()
+                        if (res.day !== nowDay.getDate()) {
+                            // 展示
+                            this.setData({
+                                showCallTeacher: true
+                            })
+                            wx.setStorage({
+                                key: "callTeacher",
+                                data: {
+                                    dayNumber: 2,
+                                    day: nowDay.getDate(),
+                                    showNumber: 1
+                                }
+                            })
+                        } else {
+                            if (res.showNumber < 2) {
+                                // 展示
+                                this.setData({
+                                    showCallTeacher: true
+                                })
+
+                                wx.setStorage({
+                                    key: "callTeacher",
+                                    data: {
+                                        dayNumber: res.dayNumber === 2 ? 3 : res.dayNumber,
+                                        day: nowDay.getDate(),
+                                        showNumber: 2
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+            }).catch(() => {
+                this.setData({
+                    showCallTeacher: true
+                })
+                const nowDay = new Date()
+                wx.setStorage({
+                    key: "callTeacher",
+                    data: {
+                        dayNumber: 1,
+                        day: nowDay.getDate(),
+                        showNumber: 1
+                    }
+                })
+            })
+
         }
         if (index === 3) {
             this.setSimpleUserModel()
@@ -336,6 +390,12 @@ Page({
     onClickHideOpenLesson() {
         this.setData({
             showOpenLesson: false
+        })
+    },
+
+    onClickHideCallTeacher() {
+        this.setData({
+            showCallTeacher: false
         })
     },
 
@@ -542,5 +602,13 @@ Page({
                 })
             }
         })
-    }
+    },
+
+    onShowSheet() {
+        this.setData({ showSheet: true });
+    },
+
+    onCloseSheet() {
+        this.setData({ showSheet: false });
+    },
 })

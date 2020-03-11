@@ -7,6 +7,8 @@
     "app-me": "../../components/me/app-me",
     "app-social": "../../components/social/app-social",
     "van-overlay": "@vant/weapp/overlay/index",
-    "van-icon": "@vant/weapp/icon/index"
+    "van-icon": "@vant/weapp/icon/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "app-call-teacher-rule": "../../../components/active-rule/app-call-teacher-rule"
   }
 }

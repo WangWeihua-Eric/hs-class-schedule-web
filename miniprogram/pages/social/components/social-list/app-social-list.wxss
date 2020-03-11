@@ -170,3 +170,25 @@
     overflow: hidden;
     margin-bottom: 200rpx;
 }
+
+.call-teacher-info {
+    position: absolute;
+    top: 398rpx;
+    right: 127rpx;
+}
+
+.call-teacher-gurid {
+    width: 272rpx;
+    height: 150rpx;
+}
+
+.call-teacher-gurid-text {
+    width: 224rpx;
+    height: 90rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    top: 35rpx;
+    left: 24rpx;
+}
