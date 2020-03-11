@@ -1,0 +1,20 @@
+<view class="teacher-card" style="background: {{bgColor}}">
+    <view class="cell-content">
+        <view class="cell-left">#</view>
+        <view class="card-info">
+            <view class="author-avatar-img">
+                <image class="author-avatar" src="{{socialData.authorAvatar}}"></image>
+            </view>
+            <view class="cell-right">
+                <view class="cell-title">{{socialData.title}}</view>
+                <view class="cell-total">
+                    <view class="cell-total-title" style="color: {{bgColor}}">{{socialData.des}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="card-line">
+        <view class="line-text">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+    </view>
+    <view>铁粉</view>
+</view>

@@ -1,8 +1,28 @@
+.teacher-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0rpx 3rpx 20rpx 0rpx rgba(0, 0, 0, 0.33);
+    border-radius: 14rpx;
+}
+
+.author-avatar {
+    width:172rpx;
+    height:172rpx;
+}
+
+.author-avatar-img {
+    width:172rpx;
+    height:172rpx;
+    border:2rpx solid rgba(255,255,255,1);
+    overflow: hidden;
+    border-radius: 50%;
+}
+
 .cell-content {
     width: 690rpx;
     height: 250rpx;
-    box-shadow: 0rpx 3rpx 20rpx 0rpx rgba(0, 0, 0, 0.33);
-    border-radius: 14px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -19,28 +39,37 @@
     margin: -50rpx 0 0 -11rpx;
 }
 
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
 .cell-right {
     height: 100%;
+    width: 429rpx;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
+    margin-left: 19rpx;
 }
 
 .cell-title {
-    font-size: 46rpx;
+    font-size: 32rpx;
     font-family: PingFangSC-Semibold,PingFang SC;
     font-weight: 600;
     color: rgba(255, 255, 255, 1);
-    margin: 0 0 20rpx 26rpx;
+    margin: 0 0 20rpx 0;
 }
 
 .cell-total {
-    width: 618rpx;
+    width: 100%;
     height: 78rpx;
     background: rgba(255, 255, 255, 1);
-    border-bottom-left-radius: 39px;
-    border-top-left-radius: 39px;
+    border-bottom-left-radius: 39rpx;
+    border-top-left-radius: 39rpx;
     padding: 15rpx 0 15rpx 26rpx;
     box-sizing: border-box;
     display: flex;
@@ -54,26 +83,17 @@
     font-weight: 600;
 }
 
-.cell-total-right {
+.card-line {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.cell-user-img-list {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    margin-right: 5rpx;
+    align-items: center;
+    width: 100%;
 }
 
-.cell-user-img {
-    width: 47rpx;
-    height: 48rpx;
-    border-radius: 50%;
+.line-text {
+    width:586rpx;
+    color: #F2F2F2;
+    opacity: 0.39;
+    white-space: nowrap;
     overflow: hidden;
-}
-
-.arrow {
-    color: rgb(194, 191, 192);
 }

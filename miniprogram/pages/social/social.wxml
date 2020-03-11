@@ -1,5 +1,7 @@
 <view class="content" id="social-list">
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
+
+    <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}"></app-teacher-card>
     <app-cell-teacher socialData="{{socialData}}" bgColor="{{bgColor}}"></app-cell-teacher>
     <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
 
