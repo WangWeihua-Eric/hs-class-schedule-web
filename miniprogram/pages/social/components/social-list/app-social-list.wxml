@@ -4,16 +4,6 @@
         <view class="no-list-subtitle" style="color: {{bgColor}}">为老师送出第一份感谢吧!</view>
     </view>
     <view wx:if="{{socialList.length}}" class="have-list">
-        <view class="social-list-header">
-            <view class="header-left">
-                <view class="social-list-header-left">
-                    <view class="top-cicle" style="background: {{bgColor}}"></view>
-                    <view class="bottom-cicle"></view>
-                </view>
-                <view class="header-title">今日点赞: {{socialData.dayReplyCnt}} 人</view>
-            </view>
-            <button class="header-right" style="background: {{bgColor}}" open-type='share'>为TA拉票</button>
-        </view>
         <view class="social-list">
             <view wx:for="{{socialList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
                 <app-social-list-item socialData="{{item}}" showBottomLine="{{index < (socialList.length - 1)}}"></app-social-list-item>

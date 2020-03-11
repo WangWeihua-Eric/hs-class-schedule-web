@@ -1,0 +1,18 @@
+<view class="cell-content" style="background: {{bgColor}}">
+    <view class="cell-left">#</view>
+
+    <view class="card-info">
+        <view class="author-avatar-img">
+            <image class="author-avatar" src="{{socialData.authorAvatar}}"></image>
+        </view>
+        <view class="cell-right">
+            <view class="cell-title">{{socialData.title}}</view>
+            <view class="cell-total">
+                <view class="cell-total-title" style="color: {{bgColor}}">{{socialData.des}}</view>
+                <view class="cell-total-right">
+                    <van-icon wx:if="{{arrow}}" class="arrow" name="arrow"/>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

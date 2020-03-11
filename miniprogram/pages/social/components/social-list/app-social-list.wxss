@@ -153,7 +153,7 @@
 }
 
 .have-list {
-    padding-top: 39rpx;
+    padding-top: 13rpx;
 }
 
 .header-title {

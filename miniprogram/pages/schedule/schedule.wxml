@@ -77,4 +77,8 @@
             </view>
         </view>
     </van-overlay>
+
+    <view hidden="{{active !== 2}}" class="rule-img-btn">
+        <image class="rule-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule.png"></image>
+    </view>
 </view>

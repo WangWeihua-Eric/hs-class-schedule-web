@@ -10,6 +10,8 @@
 .author-avatar {
     width:172rpx;
     height:172rpx;
+    overflow: hidden;
+    border-radius: 50%;
 }
 
 .author-avatar-img {
@@ -21,7 +23,7 @@
 }
 
 .cell-content {
-    width: 690rpx;
+    width: 100%;
     height: 250rpx;
     display: flex;
     justify-content: space-between;
@@ -51,7 +53,7 @@
     width: 429rpx;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: center;
     margin-left: 19rpx;
 }
@@ -62,6 +64,7 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 1);
     margin: 0 0 20rpx 0;
+    width: 100%;
 }
 
 .cell-total {
@@ -93,12 +96,68 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: -28rpx;
 }
 
 .line-text {
-    width:586rpx;
+    width:600rpx;
     color: #F2F2F2;
     opacity: 0.39;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.user-fan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 42rpx 25rpx 44rpx;
+}
+
+.user-fan-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.user-fan-text {
+    font-size:28rpx;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+}
+
+.user-fan-call-btn {
+    width: 288rpx;
+    height: 68rpx;
+    background-color: #FFF;
+    border-radius: 37rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.user-fan-img-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5rpx;
+}
+
+.user-fan-img-info {
+    width:51rpx;
+    height:51rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 16rpx;
+}
+
+.user-fan-img {
+    width:51rpx;
+    height:51rpx;
 }

@@ -20,6 +20,8 @@
 .user-img {
     width:82rpx;
     height:82rpx;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .item-right {

@@ -70,14 +70,6 @@ Component({
         formatData(data) {
             data.forEach(item => {
                 item.des = `已有 ${item.replyCnt} 人为老师点赞`
-                item.userImgList = []
-                item.replyers.forEach(replyerItem => {
-                    if (item.userImgList.length < 4 && replyerItem.avatar) {
-                        if (!(item.userImgList.indexOf(replyerItem.avatar) > -1)) {
-                            item.userImgList.push(replyerItem.avatar)
-                        }
-                    }
-                })
             })
             this.setData({
                 socialDataList: data

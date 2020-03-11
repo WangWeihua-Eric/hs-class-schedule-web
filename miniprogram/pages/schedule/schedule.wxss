@@ -244,3 +244,16 @@ Page {
     justify-content: flex-end;
     align-items: center;
 }
+
+.rule-img-btn {
+    width: 148rpx;
+    height: 184rpx;
+    position: fixed;
+    right: 6rpx;
+    bottom: 323rpx;
+}
+
+.rule-img {
+    width: 148rpx;
+    height: 184rpx;
+}
