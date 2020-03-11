@@ -8,7 +8,11 @@
             <view class="cell-right">
                 <view class="cell-title">{{socialData.title}}</view>
                 <view class="cell-total">
-                    <view class="cell-total-title" style="color: {{bgColor}}">{{socialData.des}}</view>
+                    <view class="cell-total-title" style="color: {{bgColor}}">
+                        总赞:<text class="call-total-text">{{socialData.replyCnt}}</text>
+                        月赞:<text class="call-total-text">{{socialData.monthCounter}}</text>
+                        周赞:<text class="call-total-text">{{socialData.weekCounter}}</text>
+                    </view>
                 </view>
             </view>
         </view>

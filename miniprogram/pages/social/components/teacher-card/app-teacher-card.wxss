@@ -78,9 +78,14 @@
 }
 
 .cell-total-title {
-    font-size: 32rpx;
     font-family: PingFangSC-Semibold,PingFang SC;
     font-weight: 600;
+    font-size:26rpx;
+}
+
+.call-total-text {
+    color:#1B1B1B;
+    margin-right: 20rpx;
 }
 
 .card-line {
