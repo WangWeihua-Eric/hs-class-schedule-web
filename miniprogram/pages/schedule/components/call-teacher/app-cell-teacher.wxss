@@ -34,13 +34,6 @@
     border-radius: 50%;
 }
 
-.author-avatar {
-    width:136rpx;
-    height:136rpx;
-    overflow: hidden;
-    border-radius: 50%;
-}
-
 .cell-right {
     height: 100%;
     width: 470rpx;

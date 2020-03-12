@@ -39,11 +39,11 @@ export class HttpUtil {
         }
         switch (environment) {
             case 'dev': {
-                this.host = 'https://dev.hongsong.club'
+                this.host = 'https://www.hongsong.club'
                 break
             }
             case 'beta': {
-                this.host = 'https://dev.hongsong.club'
+                this.host = 'https://www.hongsong.club'
                 break
             }
             case 'prod': {
@@ -76,9 +76,10 @@ export class HttpUtil {
             }
         }
         return http(this.host + url, param, 'GET').then(res => {
+            //  调试开课弹窗用 不删
             // if (url === '/course/api/schedules') {
-            //     res.result.data[2].courses[0].finishTime = 'PM 18:00'
-            //     res.result.data[2].courses[1].finishTime = 'PM 18:00'
+            //     res.result.data[3].courses[0].finishTime = 'PM 18:00'
+            //     res.result.data[3].courses[1].finishTime = 'PM 18:00'
             // }
             return res.result
         })

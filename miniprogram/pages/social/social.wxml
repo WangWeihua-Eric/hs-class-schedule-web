@@ -2,7 +2,7 @@
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
 
     <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}" fansList="{{fansList}}"></app-teacher-card>
-    <app-social-list scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
+    <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
 
     <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
         <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}" catch:tap="noop"></image>
@@ -17,7 +17,7 @@
     <van-toast id="van-toast"/>
 
     <view class="rule-img-btn" bindtap="onShowSheet">
-        <image class="rule-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></image>
+        <van-image width="148rpx" height="184rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>
     </view>
 
     <van-action-sheet show="{{ showSheet }}" bind:close="onCloseSheet">

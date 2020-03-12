@@ -63,11 +63,6 @@
     align-items: center;
 }
 
-.school-card {
-    width: 605rpx;
-    height: 706rpx;
-}
-
 .me-info-desc {
     position: absolute;
     top: 277rpx;
@@ -109,11 +104,6 @@
     right: 120rpx;
 }
 
-.hs-logo-img {
-    width: 209rpx;
-    height: 209rpx;
-}
-
 .share-btn {
     width:477rpx;
     height:112rpx;
@@ -123,11 +113,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 45rpx;
-}
-
-.wxlogo-img {
-    width: 43rpx;
-    height: 35rpx;
 }
 
 .tip-share-text {

@@ -115,8 +115,6 @@
 }
 
 .banner-des-img {
-    width: 521rpx;
-    height: 77rpx;
     margin-top: 47rpx;
 }
 
@@ -307,9 +305,4 @@
     position: absolute;
     bottom: 800rpx;
     border-radius: 10px;
-}
-
-.aways {
-    width: 694rpx;
-    height: 305rpx;
 }

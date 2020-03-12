@@ -16,7 +16,7 @@
             <swiper-item>
                 <image class="banner-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/banner.png">
                     <view class="banner-des">
-                        <image class="banner-des-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/banner-des.png"></image>
+                        <van-image class="banner-des-img" width="521rpx" height="77rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/banner-des.png"></van-image>
                         <view class="banner-time">{{scheduleDay}}</view>
                     </view>
                 </image>
@@ -84,10 +84,10 @@
             </view>
         </van-index-bar>
     </view>
-    <van-overlay show="{{ show }}" bind:click="onClickHide">
+    <van-overlay show="{{ show }}" z-index="4" bind:click="onClickHide">
         <view class="wrapper">
             <view class="block" catch:tap="noop">
-                <image class="aways" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/aways.png"></image>
+                <van-image width="694rpx" height="305rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/aways.png"></van-image>
             </view>
         </view>
     </van-overlay>

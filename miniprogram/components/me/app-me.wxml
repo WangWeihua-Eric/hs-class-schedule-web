@@ -13,7 +13,7 @@
         </view>
     </view>
     <view class="me-info-buttom">
-        <image class="school-card" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/school-card.png"></image>
+        <van-image width="605rpx" height="706rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/school-card.png"></van-image>
         <view class="me-info-desc">
             <view class="me-info-cell">
                 <view class="info-title">姓名:</view>
@@ -31,11 +31,11 @@
             </view>
         </view>
         <view class="hs-logo">
-            <image class="hs-logo-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/hslogo.png"></image>
+            <van-image width="209rpx" height="209rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/hslogo.png"></van-image>
         </view>
         <view>
             <button class="share-btn" open-type='share'>
-                <image class="wxlogo-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/wxlogo-withe.png"></image>
+                <van-image width="43rpx" height="35rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/wxlogo-withe.png"></van-image>
                 <view class="tip-share-text">分享红松学堂</view>
             </button>
         </view>

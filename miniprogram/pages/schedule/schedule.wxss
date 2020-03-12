@@ -68,8 +68,6 @@ Page {
 }
 
 .point {
-    width: 37rpx;
-    height: 13rpx;
     margin-left: 18rpx;
 }
 
@@ -95,11 +93,6 @@ Page {
     border-radius:16px;
 }
 
-.call-teacher-img {
-    width: 591rpx;
-    height: 794rpx;
-}
-
 .call-teacher-content {
     width: 591rpx;
     height: 794rpx;
@@ -116,11 +109,6 @@ Page {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-}
-
-.welcome-bg {
-    width: 538rpx;
-    height: 555rpx;
 }
 
 .welcome-content {
@@ -158,8 +146,6 @@ Page {
 }
 
 .star-line-img {
-    width: 432rpx;
-    height: 21rpx;
     margin-top: 32rpx;
     margin-bottom: 35rpx;
 }
@@ -186,11 +172,6 @@ Page {
     justify-content: flex-start;
     align-items: flex-start;
     margin-left: 16rpx;
-}
-
-.welcome {
-    width: 651rpx;
-    height: 840rpx;
 }
 
 .welcome-title {
@@ -271,11 +252,6 @@ Page {
     position: fixed;
     right: 6rpx;
     bottom: 323rpx;
-}
-
-.rule-img {
-    width: 148rpx;
-    height: 184rpx;
 }
 
 .call-teacher-header {

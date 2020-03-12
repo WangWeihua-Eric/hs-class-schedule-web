@@ -119,6 +119,7 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
+        socialService.recordAction()
         return {
             title: this.data.socialData.title,
             path: `pages/social/social?postCode=${this.data.postCode}&uid=${userBase.getGlobalData().userId}`,
@@ -126,7 +127,6 @@ Page({
                 wx.showShareMenu({
                     withShareTicket: true
                 })
-                socialService.recordAction()
             }
         }
     },

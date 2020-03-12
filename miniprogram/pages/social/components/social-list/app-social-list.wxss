@@ -25,8 +25,6 @@
 }
 
 .l-pop {
-    width:352rpx;
-    height:80rpx;
     margin-right: 38rpx;
 }
 
@@ -37,13 +35,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 7rpx;
+    margin-bottom: 20rpx;
     color: white;
 }
 
 .s-pop {
-    width:140rpx;
-    height:80rpx;
     margin-right: 35rpx;
 }
 
@@ -54,7 +50,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 7rpx;
+    margin-bottom: 20rpx;
     color: white;
 }
 

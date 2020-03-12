@@ -26,7 +26,7 @@
                 <view class="guide-title">
                     <view class="guide-text">点击</view>
                     <view>
-                        <image class="point" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/point.png"></image>
+                        <van-image class="point" width="37rpx" height="13rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/point.png"></van-image>
                     </view>
                 </view>
                 <view class="guide-text">“添加到我的小程序”</view>
@@ -40,7 +40,7 @@
     <van-overlay z-index="3" show="{{ show }}" bind:click="onClickHide">
         <view class="wrapper">
             <view class="welcome-block" catch:tap="noop">
-                <image class="welcome" src="{{img}}"></image>
+                <van-image width="651rpx" height="840rpx" lazy-load="{{true}}" src="{{img}}"></van-image>
                 <view class="welcome-join-info">
                     <view class="welcome-title">{{title}}</view>
                     <button hover-class="none" class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">{{btnTitle}}</button>
@@ -52,7 +52,7 @@
     <van-overlay z-index="3" show="{{ showOpenLesson }}" bind:click="onClickHideOpenLesson">
         <view class="wrapper">
             <view class="block" catch:tap="noop">
-                <image class="welcome-bg" style="height: {{welcomeBgHeight}}rpx;" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/border-line.png"></image>
+                <van-image width="538rpx" height="{{welcomeBgHeight}}rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/border-line.png"></van-image>
                 <view class="welcome-content">
                     <view class="welcome-content-title">
                         <view class="welcome-content-title-header">开课啦!</view>
@@ -60,7 +60,7 @@
                     </view>
                     <view class="welcome-content-cell" wx:for="{{openLesson}}" wx:for-index="index" wx:for-item="item"
                             wx:key="index">
-                        <image class="star-line-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-line.png"></image>
+                        <van-image class="star-line-img" width="432rpx" height="21rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-line.png"></van-image>
                         <view class="welcome-content-cell-item">
                             <view class="item-tag" style="background-color: {{item.category.color}}">{{item.category.name}}</view>
                             <view class="welcome-content-cell-item-desc">
@@ -82,7 +82,7 @@
     <van-overlay z-index="3" show="{{ showCallTeacher }}" bind:click="onClickHideCallTeacher">
         <view class="wrapper">
             <view class="call-teacher-block" catch:tap="noop">
-                <image class="call-teacher-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-poster.png"></image>
+                <van-image width="591rpx" height="794rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-poster.png"></van-image>
                 <view class="call-teacher-content">
                     <view class="call-teacher-header">明星讲师您来选</view>
                     <view class="call-teacher-text">红松周冠军、月冠军明星讲师，由你决定！！！</view>
@@ -93,7 +93,7 @@
 
 
     <view hidden="{{active !== 2}}" class="rule-img-btn" bindtap="onShowSheet">
-        <image class="rule-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></image>
+        <van-image width="148rpx" height="184rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>
     </view>
 
     <van-action-sheet show="{{ showSheet }}" bind:close="onCloseSheet">

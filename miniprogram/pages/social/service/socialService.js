@@ -184,7 +184,7 @@ export class SocialService {
     recordAction() {
         const url = '/user/api/action'
         const params = {
-            acNo: 'sre'
+            acNo: 'sr1'
         }
         isSessionReady().then(res => {
             if (res) {

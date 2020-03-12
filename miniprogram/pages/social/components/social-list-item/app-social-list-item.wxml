@@ -1,7 +1,7 @@
 <view class="cell">
     <view class="cell-item">
         <view class="item-left">
-            <image class="user-img" src="{{socialData.userImg}}"></image>
+            <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg}}"></van-image>
         </view>
         <view class="item-right">
             <view class="item-user-name">

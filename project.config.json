@@ -58,14 +58,10 @@
 				},
 				{
 					"id": 1,
-					"name": "pages/schedule/schedule",
+					"name": "我",
 					"pathName": "pages/schedule/schedule",
-					"query": "from=5&gdt_vid=wx0ewinbalytptma00&weixinadinfo=20966864.wx0ewinbalytptma00.0.1",
-					"scene": 1038,
-					"referrerInfo": {
-						"appId": "wxbe86c353682cdb84",
-						"extraData": "{}"
-					}
+					"query": "active=3",
+					"scene": 1001
 				},
 				{
 					"id": -1,

@@ -18,8 +18,8 @@
         </view>
     </view>
     <view wx:if="{{tipShow}}" class="s-and-l-pop">
-        <image class="l-pop" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/lpop.png"></image>
-        <image class="s-pop" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/spop.png"></image>
+        <van-image class="l-pop" width="352rpx" height="80rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/lpop.png"></van-image>
+        <van-image class="s-pop" width="140rpx" height="80rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/spop.png"></van-image>
     </view>
     <view wx:if="{{tipShow}}" class="s-and-l-pop">
         <view class="l-pop-text">点击这里感谢老师</view>

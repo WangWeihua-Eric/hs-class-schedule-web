@@ -3,7 +3,7 @@
 
     <view class="card-info">
         <view class="author-avatar-img">
-            <image class="author-avatar" src="{{socialData.authorAvatar}}"></image>
+            <van-image width="136rpx" height="136rpx" round="{{true}}" lazy-load="{{true}}" src="{{socialData.authorAvatar}}"></van-image>
         </view>
         <view class="cell-right">
             <view class="cell-title">{{socialData.title}}</view>
