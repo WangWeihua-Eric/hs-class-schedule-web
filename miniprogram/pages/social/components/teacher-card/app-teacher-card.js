@@ -1,4 +1,6 @@
 // pages/social/components/teacher-card/app-teacher-card.js
+import {pageJump} from "../../../../utils/wx-utils/wx-base-utils";
+
 Component({
     /**
      * 组件的属性列表
@@ -15,6 +17,10 @@ Component({
         fansList: {
             type: Array,
             value: []
+        },
+        postCode: {
+            type: String,
+            value: ''
         }
     },
 
@@ -26,5 +32,10 @@ Component({
     /**
      * 组件的方法列表
      */
-    methods: {}
+    methods: {
+        onJumpRanking() {
+            const url = `../../../../ranking/ranking?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
+            pageJump(url).then(() => {}).catch(() => {})
+        }
+    }
 })

@@ -25,7 +25,7 @@
         </view>
     </view>
     <view class="user-fan">
-        <view class="user-fan-info">
+        <view class="user-fan-info" bindtap="onJumpRanking">
             <view class="user-fan-text">荣誉铁粉</view>
             <view class="user-fan-img-list">
                 <view class="user-fan-img-info" wx:for="{{fansList}}" wx:for-item="item" wx:for-index="index"

@@ -54,7 +54,6 @@ Component({
         show: function () {
             this.refresh()
         }
-
     },
 
     refresh() {

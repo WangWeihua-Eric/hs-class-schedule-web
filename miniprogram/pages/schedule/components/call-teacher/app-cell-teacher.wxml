@@ -1,5 +1,8 @@
 <view class="cell-content" style="background: {{bgColor}}">
-    <view class="cell-left">#</view>
+    <view class="cell-left">
+        <image wx:if="{{index > -1 && index < 3}}" class="rank-img" src="{{rankImgList[index]}}"></image>
+        <view class="rank-text" wx:elif="{{index > 2}}">{{index + 1}}</view>
+    </view>
 
     <view class="card-info">
         <view class="author-avatar-img">

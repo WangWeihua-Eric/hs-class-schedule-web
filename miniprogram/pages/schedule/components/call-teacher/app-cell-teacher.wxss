@@ -2,7 +2,7 @@
     width: 690rpx;
     height: 250rpx;
     box-shadow: 0rpx 3rpx 20rpx 0rpx rgba(0, 0, 0, 0.33);
-    border-radius: 14px;
+    border-radius: 14rpx;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -15,8 +15,24 @@
     font-family: PingFangSC-Semibold,PingFang SC;
     font-weight: 600;
     color: rgba(255, 255, 255, 1);
+    margin-top: -62rpx;
+}
+
+.rank-img {
+    width:76rpx;
+    height:79rpx;
+}
+
+.rank-text {
+    font-size:54rpx;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    color:rgba(255,255,255,1);
     opacity: 0.16;
-    margin: -50rpx 0 0 -11rpx;
+    margin-top: 62rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-info {
@@ -24,6 +40,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    margin-left: -20rpx;
 }
 
 .author-avatar-img {
@@ -41,7 +58,7 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    margin-left: 19rpx;
+    margin-left: 24rpx;
 }
 
 .cell-title {

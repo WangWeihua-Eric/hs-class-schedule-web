@@ -1,7 +1,7 @@
 <view class="content" id="social-list">
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
 
-    <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}" fansList="{{fansList}}"></app-teacher-card>
+    <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}" fansList="{{fansList}}" postCode="{{postCode}}"></app-teacher-card>
     <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
 
     <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
