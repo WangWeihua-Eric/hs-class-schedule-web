@@ -1,6 +1,0 @@
-<view>
-    <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
-    <view class="posterview-imageview">
-        <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit"></image>
-    </view>
-</view>

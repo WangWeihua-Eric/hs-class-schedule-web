@@ -1,11 +1,11 @@
 {
   "usingComponents": {
-    "app-schedule": "../../components/schedule/app-schedule",
+    "app-schedule": "pages/schedule/app-schedule",
     "van-toast": "@vant/weapp/toast/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "mp-tabbar": "../../miniprogram_npm/weui-miniprogram/tabbar/tabbar",
-    "app-me": "../../components/me/app-me",
-    "app-social": "../../components/social/app-social",
+    "app-me": "pages/me/app-me",
+    "app-social": "pages/social/app-social",
     "van-overlay": "@vant/weapp/overlay/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-action-sheet": "@vant/weapp/action-sheet/index",

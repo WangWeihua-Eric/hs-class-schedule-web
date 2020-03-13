@@ -67,8 +67,13 @@
                                     <view class="tag" style="background-color: {{coursesItem.category.color}}">{{coursesItem.category.name}}</view>
                                     <view class="item-title">{{coursesItem.title}}</view>
                                 </view>
-                                <view class="item-teacher">{{coursesItem.lecturer.name + ' | ' +
-                                    coursesItem.lecturer.titles}}
+                                <view class="teacher-info">
+                                    <view class="teacher-img">
+                                        <van-image width="69rpx" height="68rpx" round="{{true}}" lazy-load="{{true}}" src="{{coursesItem.lecturer.avatar}}"></van-image>
+                                    </view>
+                                    <view class="item-teacher">
+                                        {{coursesItem.lecturer.name + ' | ' + coursesItem.lecturer.titles}}
+                                    </view>
                                 </view>
                             </view>
                             <view class="cell-item-right">

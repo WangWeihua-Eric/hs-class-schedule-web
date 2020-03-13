@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "app-cell-teacher": "../../pages/schedule/pages/social/components/call-teacher/app-cell-teacher"
+  }
+}

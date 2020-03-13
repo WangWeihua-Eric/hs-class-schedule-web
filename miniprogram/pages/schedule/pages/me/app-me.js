@@ -1,5 +1,5 @@
 // components/me/app-me.js
-import {getSetting, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
+import {getSetting, getUserInfo} from "../../../../utils/wx-utils/wx-base-utils";
 
 Component({
     /**

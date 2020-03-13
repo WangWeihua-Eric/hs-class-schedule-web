@@ -164,7 +164,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 40rpx 0 50rpx 0;
-    margin-left: 38rpx;
     box-sizing: border-box;
 }
 
@@ -210,11 +209,28 @@
     margin-left: 17rpx;
 }
 
+.teacher-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 14rpx;
+}
+
+.teacher-img {
+    width: 69rpx;
+    height: 68rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .item-teacher {
     font-size: 26rpx;
     font-family: PingFangSC-Regular,PingFang SC;
     color: rgba(120, 120, 120, 1);
-    margin-top: 24rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 19rpx;
 }
 
 .cell-item-right {

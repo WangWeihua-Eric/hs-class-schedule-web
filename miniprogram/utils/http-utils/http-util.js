@@ -39,11 +39,11 @@ export class HttpUtil {
         }
         switch (environment) {
             case 'dev': {
-                this.host = 'https://www.hongsong.club'
+                this.host = 'https://dev.hongsong.club'
                 break
             }
             case 'beta': {
-                this.host = 'https://www.hongsong.club'
+                this.host = 'https://dev.hongsong.club'
                 break
             }
             case 'prod': {

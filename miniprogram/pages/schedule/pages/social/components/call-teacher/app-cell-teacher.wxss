@@ -6,6 +6,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    position: relative;
 }
 
 .cell-left {
@@ -21,6 +22,8 @@
 .rank-img {
     width:76rpx;
     height:79rpx;
+    position: absolute;
+    top: 0;
 }
 
 .rank-text {

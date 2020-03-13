@@ -1,4 +1,4 @@
-import {socilColorList} from "../../color-palette/social-color";
+import {socilColorList} from "../../style/color-palette/social-color";
 import {FansService} from "../../service/fansService";
 
 const fansService = new FansService()

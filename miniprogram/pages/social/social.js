@@ -1,6 +1,6 @@
 import {getOnlineFile, getSetting, getUserInfo, saveImg} from "../../utils/wx-utils/wx-base-utils";
 import ImageSynthesis from "../../utils/image-utils/image-synthesis";
-import {socilColorList} from "../../color-palette/social-color";
+import {socilColorList} from "../../style/color-palette/social-color";
 import {formatTime} from "../../utils/time-utils/time-utils";
 import Toast from '@vant/weapp/toast/toast';
 import {SocialService} from "./service/socialService";
@@ -122,9 +122,13 @@ Page({
      */
     onShareAppMessage: function () {
         socialService.recordAction()
+        let path = ''
+        if (this.data.postCode) {
+            path = `pages/social/social?postCode=${this.data.postCode}&uid=${userBase.getGlobalData().userId}`
+        }
         return {
             title: this.data.socialData.title,
-            path: `pages/social/social?postCode=${this.data.postCode}&uid=${userBase.getGlobalData().userId}`,
+            path: path,
             success: () => {
                 wx.showShareMenu({
                     withShareTicket: true

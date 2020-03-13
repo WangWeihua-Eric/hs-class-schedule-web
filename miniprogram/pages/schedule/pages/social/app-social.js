@@ -1,9 +1,9 @@
 // components/social/app-social.js
-import {socilColorList} from "../../color-palette/social-color";
-import {pageJump} from "../../utils/wx-utils/wx-base-utils";
-import {isSessionReady} from "../../utils/user-utils/user-base-utils";
-import {UserBase} from "../../utils/user-utils/user-base";
-import {HttpUtil} from "../../utils/http-utils/http-util";
+import {socilColorList} from "../../../../style/color-palette/social-color";
+import {pageJump} from "../../../../utils/wx-utils/wx-base-utils";
+import {isSessionReady} from "../../../../utils/user-utils/user-base-utils";
+import {UserBase} from "../../../../utils/user-utils/user-base";
+import {HttpUtil} from "../../../../utils/http-utils/http-util";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
