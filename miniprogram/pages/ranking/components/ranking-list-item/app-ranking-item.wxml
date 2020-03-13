@@ -1,0 +1,23 @@
+<view class="ranking-item">
+    <view class="item-left">
+        <view class="item-left-info">
+            <van-image wx:if="{{index > -1 && index < 3}}" class="ranking-logo" width="44rpx" height="67rpx" lazy-load="{{true}}" src="{{rankingLogo[index]}}"></van-image>
+            <van-image wx:if="{{index > -1 && index < 3}}" class="fe-fans" width="57rpx" height="23rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/fe-fans.png"></van-image>
+            <view wx:if="{{index > 2}}" class="fans-ranking">{{index + 1}}</view>
+        </view>
+        <view class="user-img">
+            <van-image width="82rpx" height="82rpx" round="{{true}}" lazy-load="{{true}}" src="{{rankingItem.avatar}}"></van-image>
+        </view>
+        <view class="user-name">{{rankingItem.userNickName}}</view>
+    </view>
+    <view class="call-info">
+        <view class="call-number">
+            <view>点赞:</view>
+            <view>{{rankingItem.counter}} 次</view>
+        </view>
+        <view class="call-number">
+            <view>拉票:</view>
+            <view>{{rankingItem.invited}} 票</view>
+        </view>
+    </view>
+</view>

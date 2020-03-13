@@ -128,6 +128,9 @@
     font-family:PingFangSC-Semibold,PingFang SC;
     font-weight:600;
     color:rgba(255,255,255,1);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .user-fan-call-btn {

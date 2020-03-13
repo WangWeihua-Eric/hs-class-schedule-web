@@ -1,0 +1,75 @@
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1rpx solid #DDDDDD;
+    box-sizing: border-box;
+    padding: 28rpx 0 19rpx 0;
+}
+
+.item-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.item-left-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 56rpx;
+    height: 140rpx;
+}
+
+.ranking-logo {
+    position: relative;
+    top: 25rpx;
+}
+
+.fe-fans {
+    margin-top: 10rpx;
+}
+
+.fans-ranking {
+    font-size:32rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(204,204,204,1);
+}
+
+.user-img {
+    width: 82rpx;
+    height: 82rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    border:4rpx solid rgba(227,182,129,1);
+    margin-left: 12rpx;
+}
+
+.user-name {
+    font-size:32rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(194,138,75,1);
+    margin-left: 13rpx;
+    width: 310rpx;
+}
+
+.call-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size:28rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(153,153,153,1);
+}
+
+.call-number {
+    width: 160rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

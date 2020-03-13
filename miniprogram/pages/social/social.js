@@ -5,8 +5,10 @@ import {formatTime} from "../../utils/time-utils/time-utils";
 import Toast from '@vant/weapp/toast/toast';
 import {SocialService} from "./service/socialService";
 import {UserBase} from "../../utils/user-utils/user-base";
+import {FansService} from "../../service/fansService";
 
 const socialService = new SocialService()
+const fansService = new FansService()
 const userBase = new UserBase()
 
 let addLoding = false
@@ -355,7 +357,7 @@ Page({
     },
 
     refreshFans(postCode) {
-        socialService.queryFans(postCode).then(res => {
+        fansService.queryFans(postCode).then(res => {
             this.setData({
                 fansList: res
             })

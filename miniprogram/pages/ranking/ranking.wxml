@@ -1,2 +1,5 @@
-<!--pages/ranking/ranking.wxml-->
-<text>pages/ranking/ranking.wxml</text>
+<view class="rankling-list">
+    <view wx:for="{{fansList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+        <app-ranking-item index="{{index}}" rankingItem="{{item}}"></app-ranking-item>
+    </view>
+</view>

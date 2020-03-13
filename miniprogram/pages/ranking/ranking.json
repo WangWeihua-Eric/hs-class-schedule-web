@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "铁粉排行榜",
-  "usingComponents": {}
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "app-ranking-item": "./components/ranking-list-item/app-ranking-item"
+  }
 }

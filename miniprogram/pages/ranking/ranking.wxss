@@ -1,1 +1,4 @@
-/* pages/ranking/ranking.wxss */
+.rankling-list {
+    box-sizing: border-box;
+    padding: 0 46rpx 0 44rpx;
+}

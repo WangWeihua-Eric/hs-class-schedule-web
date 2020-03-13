@@ -51,10 +51,11 @@
 			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide",
-					"query": ""
+					"id": 0,
+					"name": "铁粉排行榜",
+					"pathName": "pages/ranking/ranking",
+					"query": "postCode=post101",
+					"scene": null
 				},
 				{
 					"id": 1,
