@@ -9,6 +9,12 @@ export class DialogUtils {
     //  轮训检查状态 false：空闲中；true：检查中
     loopCheckStatus = false
 
+    //  弹窗状态 false：空闲中；true：弹窗中
+    dialogStatus = false
+
+    //  当前选中 tab
+    activeTab = 0
+
     constructor() {
         if (singletonPattern) {
             return singletonPattern
@@ -84,5 +90,11 @@ export class DialogUtils {
             return
         }
         this.loopCheckStatus = true
+
+        //  检查 P0 队列
+
+        //  检查 P1 队列
+
+        //  检查 P2 队列
     }
 }

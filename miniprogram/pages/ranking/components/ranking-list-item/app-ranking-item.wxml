@@ -1,4 +1,4 @@
-<view class="ranking-item">
+<view class="ranking-item" wx:if="{{rankingItem.avatar && rankingItem.userNickName}}">
     <view class="item-left">
         <view class="item-left-info">
             <van-image wx:if="{{index > -1 && index < 3}}" class="ranking-logo" width="44rpx" height="67rpx" lazy-load="{{true}}" src="{{rankingLogo[index]}}"></van-image>

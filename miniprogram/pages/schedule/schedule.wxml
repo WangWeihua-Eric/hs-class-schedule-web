@@ -91,6 +91,48 @@
         </view>
     </van-overlay>
 
+    <van-overlay z-index="3" show="{{ showRank }}" bind:click="onClickHideRank">
+        <view class="wrapper">
+            <view class="show-rank-block" catch:tap="noop">
+                <van-image width="629rpx" height="1016rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rank-week-img.png"></van-image>
+                <view class="show-rank-content">
+                    <view class="rank-title">{{rankDialogInfo.begin + ' - ' + rankDialogInfo.end}}</view>
+                    <view class="rank-head">
+                        <view>排名</view>
+                        <view>老师</view>
+                        <view>票数</view>
+                    </view>
+                    <view class="rank-body">
+                        <view class="body-left">
+                            <view>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-1.png"></van-image>
+                            </view>
+                            <view class="user-name">{{rankDialogInfo.details[2].authorName}}</view>
+                        </view>
+                        <view class="body-right">{{rankDialogInfo.details[2].cnt}}</view>
+                    </view>
+                    <view class="rank-body">
+                        <view class="body-left">
+                            <view>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-2.png"></van-image>
+                            </view>
+                            <view class="user-name">{{rankDialogInfo.details[1].authorName}}</view>
+                        </view>
+                        <view class="body-right">{{rankDialogInfo.details[1].cnt}}</view>
+                    </view>
+                    <view class="rank-body">
+                        <view class="body-left">
+                            <view>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-3.png"></van-image>
+                            </view>
+                            <view class="user-name">{{rankDialogInfo.details[0].authorName}}</view>
+                        </view>
+                        <view class="body-right">{{rankDialogInfo.details[0].cnt}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </van-overlay>
 
     <view hidden="{{active !== 2}}" class="rule-img-btn" bindtap="onShowSheet">
         <van-image width="148rpx" height="184rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>

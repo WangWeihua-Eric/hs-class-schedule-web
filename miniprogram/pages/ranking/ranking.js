@@ -91,7 +91,6 @@ Page({
 
     refreshFans(postCodeData) {
         fansService.queryFans(postCodeData, 50).then(res => {
-            console.log(res)
             this.setData({
                 fansList: res
             })

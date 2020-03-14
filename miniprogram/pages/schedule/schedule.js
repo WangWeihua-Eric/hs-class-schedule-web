@@ -4,10 +4,15 @@ import Dialog from '@vant/weapp/dialog/dialog';
 import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
+import {ScheduleService} from "./service/scheduleService";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
 const app = getApp()
+const scheduleService = new ScheduleService()
+
+let lessonDialogFirstTime = null
+let lessonDialogNumber = 0
 
 Page({
     /**
@@ -15,6 +20,8 @@ Page({
      */
     data: {
         showCallTeacher: false,
+        rankDialogInfo: {},
+        showRank: false,
         guide: false,
         scrollTop: null,
         active: 0,
@@ -28,7 +35,7 @@ Page({
         serviceImgUrl: '../../images/clickme.jpeg',
         showLoak: false,
         miniJump: false,
-        btnTitle:'',
+        btnTitle: '',
         img: '',
         title: '',
         list: [
@@ -109,6 +116,36 @@ Page({
             this.setData({
                 guide: true
             })
+        })
+
+        if (!this.data.showLoak) {
+            getStorage('rankDialog').then(res => {
+                const day = new Date()
+                const num = day.getDay()
+                day.setDate(day.getDate() + 1 - num)
+                day.setHours(0, 0, 0, 0)
+                if (res < day.getTime()) {
+                    this.getRankDialog()
+                }
+            }).catch(() => {
+                this.getRankDialog()
+            })
+        }
+    },
+
+    getRankDialog() {
+        scheduleService.queryRankingWeek().then(res => {
+            const nowTime = new Date().getTime()
+            if (!this.data.showLoak && nowTime > 1584288000000) {
+                this.setData({
+                    showRank: true,
+                    rankDialogInfo: res
+                })
+                wx.setStorage({
+                    key: 'rankDialog',
+                    data: new Date().getTime()
+                })
+            }
         })
     },
 
@@ -220,7 +257,47 @@ Page({
     },
 
     onOpenLessonEvent(event) {
+        getStorage('lessonDialog').then(res => {
+            lessonDialogFirstTime = res.lessonDialogFirstTime
+            lessonDialogNumber = res.lessonDialogNumber
+            this.lessonDialogToReady(event)
+        }).catch(() => {
+            lessonDialogFirstTime = null
+            lessonDialogNumber = 0
+            this.lessonDialogToReady(event)
+        })
+    },
+
+    lessonDialogToReady(event) {
         if (!this.data.showLoak) {
+
+            const nowTime = new Date().getTime()
+            if (lessonDialogFirstTime && (nowTime - lessonDialogFirstTime) < 40 * 60 * 1000 && lessonDialogNumber > 2) {
+                return
+            }
+
+            if (((nowTime - lessonDialogFirstTime) > 40 * 60 * 1000) || !lessonDialogFirstTime) {
+                lessonDialogFirstTime = nowTime
+                lessonDialogNumber = 1
+
+                wx.setStorage({
+                    key: "lessonDialog",
+                    data: {
+                        lessonDialogFirstTime: lessonDialogFirstTime,
+                        lessonDialogNumber: lessonDialogNumber
+                    }
+                })
+            } else {
+                lessonDialogNumber++
+                wx.setStorage({
+                    key: "lessonDialog",
+                    data: {
+                        lessonDialogFirstTime: lessonDialogFirstTime,
+                        lessonDialogNumber: lessonDialogNumber
+                    }
+                })
+            }
+
             this.setData({
                 sessionFrom: 'type=course'
             })
@@ -238,7 +315,7 @@ Page({
             }
             const openLesson = event.detail.openLesson
             this.setData({
-                welcomeBgHeight: 259 + openLesson.length * 296,
+                welcomeBgHeight: 259 + openLesson.length * 326,
                 showOpenLesson: true,
                 openLesson: openLesson
             })
@@ -396,6 +473,12 @@ Page({
     onClickHideCallTeacher() {
         this.setData({
             showCallTeacher: false
+        })
+    },
+
+    onClickHideRank() {
+        this.setData({
+            showRank: false
         })
     },
 
@@ -605,10 +688,10 @@ Page({
     },
 
     onShowSheet() {
-        this.setData({ showSheet: true });
+        this.setData({showSheet: true});
     },
 
     onCloseSheet() {
-        this.setData({ showSheet: false });
+        this.setData({showSheet: false});
     },
 })
