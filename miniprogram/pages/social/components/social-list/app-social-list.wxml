@@ -5,7 +5,7 @@
     </view>
     <view wx:if="{{socialList.length}}" class="have-list">
         <view class="social-list">
-            <app-social-list-item socialData="{{tipData}}" showBottomLine="{{true}}" postCode="{{postCode}}" bgColor="{{bgColor}}"></app-social-list-item>
+            <app-social-list-item wx:if="{{joininShow}}" socialData="{{tipData}}" showBottomLine="{{true}}" postCode="{{postCode}}" bgColor="{{bgColor}}"></app-social-list-item>
             <view wx:for="{{socialList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
                 <app-social-list-item socialData="{{item}}" showBottomLine="{{index < (socialList.length - 1)}}"></app-social-list-item>
             </view>

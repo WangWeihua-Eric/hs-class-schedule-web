@@ -3,6 +3,7 @@ import {debounceForFunction, formatTime} from "../../../../utils/time-utils/time
 import {getSetting, getStorage, getUserInfo} from "../../../../utils/wx-utils/wx-base-utils";
 import {SocialService} from "../../service/socialService";
 import {UserService} from "../../../../service/userService";
+import {getWithWhere} from "../../../../utils/wx-utils/wx-db-utils";
 
 const socialService = new SocialService()
 const userService = new UserService()
@@ -42,16 +43,30 @@ Component({
     data: {
         showCallGurid: false,
         tipShow: false,
-        tipData: {
-            userImg: 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/xiaojiang.png',
-            userName: '小江-红松班主任',
-            createTime: '今天',
-            callDes: '进入兴趣学习群，直接和老师交流'
-        }
+        joininShow: false,
+        tipData: {}
     },
 
     lifetimes: {
         attached() {
+            getWithWhere('inReview', {
+                position: 'socialInfo'
+            }).then(socialInfoList => {
+                if (socialInfoList.length) {
+                    const socialInfo = socialInfoList[0]
+                    const tipData = {
+                        userImg: socialInfo.userImg,
+                        userName: socialInfo.userName,
+                        createTime: socialInfo.createTime,
+                        callDes: socialInfo.callDes
+                    }
+
+                    this.setData({
+                        tipData: tipData,
+                        joininShow: socialInfo.show
+                    });
+                }
+            })
             getStorage('tipShow').then(() => {}).catch(() => {
                 this.setData({
                     tipShow: true

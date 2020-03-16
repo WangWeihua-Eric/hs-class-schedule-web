@@ -1,4 +1,4 @@
-<view class="ranking-item" wx:if="{{rankingItem.avatar && rankingItem.userNickName}}">
+<view class="ranking-item">
     <view class="item-left">
         <view class="item-left-info">
             <van-image wx:if="{{index > -1 && index < 3}}" class="ranking-logo" width="44rpx" height="67rpx" lazy-load="{{true}}" src="{{rankingLogo[index]}}"></van-image>
@@ -6,9 +6,9 @@
             <view wx:if="{{index > 2}}" class="fans-ranking">{{index + 1}}</view>
         </view>
         <view class="user-img">
-            <van-image width="82rpx" height="82rpx" round="{{true}}" lazy-load="{{true}}" src="{{rankingItem.avatar}}"></van-image>
+            <van-image width="82rpx" height="82rpx" round="{{true}}" lazy-load="{{true}}" src="{{rankingItem.avatar ? rankingItem.avatar : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-defrot.png'}}"></van-image>
         </view>
-        <view class="user-name">{{rankingItem.userNickName}}</view>
+        <view class="user-name">{{rankingItem.userNickName ? rankingItem.userNickName : '匿名用户'}}</view>
     </view>
     <view class="call-info">
         <view wx:if="{{rankingItem.counter}}" class="call-number">

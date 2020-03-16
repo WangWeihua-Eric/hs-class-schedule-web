@@ -135,6 +135,7 @@ Page({
 
     getRankDialog() {
         scheduleService.queryRankingWeek().then(res => {
+            this.formatSort(res.details)
             const nowTime = new Date().getTime()
             if (!this.data.showLoak && nowTime > 1584288000000) {
                 this.setData({
@@ -146,6 +147,13 @@ Page({
                     data: new Date().getTime()
                 })
             }
+        })
+    },
+    formatSort(data) {
+        data.sort((a, b) => {
+            let value1 = a['cnt']
+            let value2 = b['cnt']
+            return value1 - value2
         })
     },
 

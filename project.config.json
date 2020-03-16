@@ -54,7 +54,7 @@
 					"id": 0,
 					"name": "铁粉排行榜",
 					"pathName": "pages/ranking/ranking",
-					"query": "postCode=post101",
+					"query": "postCode=post104",
 					"scene": null
 				},
 				{
@@ -85,7 +85,7 @@
 					"id": 4,
 					"name": "打卡详情页",
 					"pathName": "pages/social/social",
-					"query": "postCode=post101",
+					"query": "postCode=post104",
 					"scene": 1058
 				}
 			]

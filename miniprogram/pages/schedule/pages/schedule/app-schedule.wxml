@@ -71,6 +71,9 @@
                                     <view class="teacher-img">
                                         <van-image width="69rpx" height="68rpx" round="{{true}}" lazy-load="{{true}}" src="{{coursesItem.lecturer.avatar}}"></van-image>
                                     </view>
+                                    <view wx:if="{{coursesItem.toped}}" class="start-teacher">
+                                        <van-image width="79rpx" height="24rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-teacher.png"></van-image>
+                                    </view>
                                     <view class="item-teacher">
                                         {{coursesItem.lecturer.name + ' | ' + coursesItem.lecturer.titles}}
                                     </view>

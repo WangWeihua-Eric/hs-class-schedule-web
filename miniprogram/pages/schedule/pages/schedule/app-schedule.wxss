@@ -214,6 +214,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-top: 14rpx;
+    position: relative;
 }
 
 .teacher-img {
@@ -221,6 +222,14 @@
     height: 68rpx;
     border-radius: 50%;
     overflow: hidden;
+}
+
+.start-teacher {
+    position: absolute;
+    bottom: 5rpx;
+    left: -4rpx;
+    width: 79rpx;
+    height: 24rpx;
 }
 
 .item-teacher {
