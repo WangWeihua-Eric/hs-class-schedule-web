@@ -1,11 +1,11 @@
 <view class="cell">
     <view class="cell-item">
         <view class="item-left">
-            <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg}}"></van-image>
+            <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg ? socialData.userImg : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-defrot.png'}}"></van-image>
         </view>
         <view class="item-right">
             <view class="item-user-name">
-                <view class="user-name">{{socialData.userName}}</view>
+                <view class="user-name">{{socialData.userName ? socialData.userName : '匿名用户'}}</view>
                 <view class="creat-time">{{socialData.createTime}}</view>
             </view>
             <view class="call-number">{{socialData.callNumber}}</view>
