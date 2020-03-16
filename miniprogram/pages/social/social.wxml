@@ -2,7 +2,7 @@
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
 
     <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}" fansList="{{fansList}}" postCode="{{postCode}}"></app-teacher-card>
-    <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
+    <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:showCallTeacherSheetEvent="onShowCallTeacherSheetEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
 
     <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
         <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}" catch:tap="noop"></image>
@@ -22,5 +22,9 @@
 
     <van-action-sheet show="{{ showSheet }}" bind:close="onCloseSheet">
         <app-call-teacher-rule bgColor="{{bgColor}}"></app-call-teacher-rule>
+    </van-action-sheet>
+
+    <van-action-sheet show="{{ true }}" bind:close="onCloseCallTeacherSheet">
+        <app-call-teacher-input></app-call-teacher-input>
     </van-action-sheet>
 </view>

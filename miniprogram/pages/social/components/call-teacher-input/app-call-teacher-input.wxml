@@ -1,0 +1,16 @@
+<view>
+    <view>
+        <van-field
+                value="{{ value }}"
+                confirm-type="send"
+                confirm-hold="{{true}}"
+                clearable="{{true}}"
+                placeholder="请输入用户名"
+                border="{{ false }}"
+                bind:confirm="onConfirm"
+        />
+    </view>
+    <view>
+        1212122
+    </view>
+</view>

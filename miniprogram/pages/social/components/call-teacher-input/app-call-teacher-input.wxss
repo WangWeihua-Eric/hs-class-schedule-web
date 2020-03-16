@@ -1,0 +1,6 @@
+.test {
+    margin-top: 100rpx;
+    width: 70rpx;
+    height: 70rpx;
+    background-color: red;
+}

@@ -84,103 +84,105 @@ Component({
                 return;
             }
 
-            wx.showModal({
-                content: '每天只有两次点赞的机会哦！是否要投上您神圣的一票，对ta说声谢谢呢？',
-                cancelText: '我再想想',
-                confirmText: '感谢老师',
-                confirmColor: this.data.bgColor,
-                success: res => {
-                    if (res.confirm) {
-                        this.hiddenTip()
-                        if (!this.data.scopeRes) {
-                            getSetting('scope.userInfo').then(scopeRes => {
-                                if (scopeRes) {
-                                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                                    getUserInfo().then(userInfo => {
-                                        // 获取用户信息成功
-                                        const user = userInfo.userInfo
-                                        const userImgUrl = user.avatarUrl
-                                        const nickname = user.nickName
-                                        const param = {
-                                            userImgUrl: userImgUrl,
-                                            nickname: nickname
-                                        }
+            this.triggerEvent('showCallTeacherSheetEvent')
 
-                                        userService.userUpdate({
-                                            avatar: userImgUrl,
-                                            nickname: nickname
-                                        }).then(res => {
-                                            const user = {
-                                                ...res
-                                            }
-                                            userBase.setGlobalData(user)
-                                            socialService.callTeacher(this.data.postCode).then(() => {
-                                                this.triggerEvent('overlayShowEventWithInfo', param)
-                                            }).catch(err => {
-                                                if (err && err.state && err.state.code === '60001') {
-                                                    this.setData({
-                                                        showCallGurid: true
-                                                    })
-                                                    wx.showModal({
-                                                        content: '每天只能点赞两次哦',
-                                                        showCancel: false
-                                                    })
-                                                } else {
-                                                    wx.showModal({
-                                                        content: '点赞失败，请重试',
-                                                        showCancel: false
-                                                    })
-                                                }
-                                            })
-                                            wx.setStorage({
-                                                key: "sessionId",
-                                                data: {
-                                                    ...user,
-                                                    updateTime: new Date().getTime()
-                                                }
-                                            })
-                                        }).catch(() => {
-                                            wx.showModal({
-                                                content: '点赞失败，请重试',
-                                                showCancel: false
-                                            })
-                                        })
-                                    })
-                                } else {
-                                    wx.showModal({
-                                        content: '请同意授权用户信息',
-                                        showCancel: false
-                                    })
-                                }
-                            }).catch(() => {
-                                wx.showModal({
-                                    content: '请同意授权用户信息',
-                                    showCancel: false
-                                })
-                            })
-                        } else {
-                            socialService.callTeacher(this.data.postCode).then(() => {
-                                this.triggerEvent('overlayShowEvent')
-                            }).catch(err => {
-                                if (err && err.state && err.state.code === '60001') {
-                                    this.setData({
-                                        showCallGurid: true
-                                    })
-                                    wx.showModal({
-                                        content: '每天只能点赞两次哦',
-                                        showCancel: false
-                                    })
-                                } else {
-                                    wx.showModal({
-                                        content: '点赞失败，请重试',
-                                        showCancel: false
-                                    })
-                                }
-                            })
-                        }
-                    }
-                }
-            })
+            // wx.showModal({
+            //     content: '每天只有两次点赞的机会哦！是否要投上您神圣的一票，对ta说声谢谢呢？',
+            //     cancelText: '我再想想',
+            //     confirmText: '感谢老师',
+            //     confirmColor: this.data.bgColor,
+            //     success: res => {
+            //         if (res.confirm) {
+            //             this.hiddenTip()
+            //             if (!this.data.scopeRes) {
+            //                 getSetting('scope.userInfo').then(scopeRes => {
+            //                     if (scopeRes) {
+            //                         // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+            //                         getUserInfo().then(userInfo => {
+            //                             // 获取用户信息成功
+            //                             const user = userInfo.userInfo
+            //                             const userImgUrl = user.avatarUrl
+            //                             const nickname = user.nickName
+            //                             const param = {
+            //                                 userImgUrl: userImgUrl,
+            //                                 nickname: nickname
+            //                             }
+            //
+            //                             userService.userUpdate({
+            //                                 avatar: userImgUrl,
+            //                                 nickname: nickname
+            //                             }).then(res => {
+            //                                 const user = {
+            //                                     ...res
+            //                                 }
+            //                                 userBase.setGlobalData(user)
+            //                                 socialService.callTeacher(this.data.postCode).then(() => {
+            //                                     this.triggerEvent('overlayShowEventWithInfo', param)
+            //                                 }).catch(err => {
+            //                                     if (err && err.state && err.state.code === '60001') {
+            //                                         this.setData({
+            //                                             showCallGurid: true
+            //                                         })
+            //                                         wx.showModal({
+            //                                             content: '每天只能点赞两次哦',
+            //                                             showCancel: false
+            //                                         })
+            //                                     } else {
+            //                                         wx.showModal({
+            //                                             content: '点赞失败，请重试',
+            //                                             showCancel: false
+            //                                         })
+            //                                     }
+            //                                 })
+            //                                 wx.setStorage({
+            //                                     key: "sessionId",
+            //                                     data: {
+            //                                         ...user,
+            //                                         updateTime: new Date().getTime()
+            //                                     }
+            //                                 })
+            //                             }).catch(() => {
+            //                                 wx.showModal({
+            //                                     content: '点赞失败，请重试',
+            //                                     showCancel: false
+            //                                 })
+            //                             })
+            //                         })
+            //                     } else {
+            //                         wx.showModal({
+            //                             content: '请同意授权用户信息',
+            //                             showCancel: false
+            //                         })
+            //                     }
+            //                 }).catch(() => {
+            //                     wx.showModal({
+            //                         content: '请同意授权用户信息',
+            //                         showCancel: false
+            //                     })
+            //                 })
+            //             } else {
+            //                 socialService.callTeacher(this.data.postCode).then(() => {
+            //                     this.triggerEvent('overlayShowEvent')
+            //                 }).catch(err => {
+            //                     if (err && err.state && err.state.code === '60001') {
+            //                         this.setData({
+            //                             showCallGurid: true
+            //                         })
+            //                         wx.showModal({
+            //                             content: '每天只能点赞两次哦',
+            //                             showCancel: false
+            //                         })
+            //                     } else {
+            //                         wx.showModal({
+            //                             content: '点赞失败，请重试',
+            //                             showCancel: false
+            //                         })
+            //                     }
+            //                 })
+            //             }
+            //         }
+            //     }
+            // })
         },
         formatData(data) {
             data.forEach(item => {

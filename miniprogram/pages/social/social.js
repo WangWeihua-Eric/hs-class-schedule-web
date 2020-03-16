@@ -29,7 +29,8 @@ Page({
         postCode: '',
         posterSrc: null,
         show: false,
-        scopeRes: false
+        scopeRes: false,
+        showCallTeacherSheet: false
     },
 
     /**
@@ -61,7 +62,9 @@ Page({
             this.refresh(postCode)
         }
         if (uid) {
-            socialService.invited(uid, postCode).then(() => {}).catch(() => {})
+            socialService.invited(uid, postCode).then(() => {
+            }).catch(() => {
+            })
         }
     },
 
@@ -138,7 +141,7 @@ Page({
     },
 
     onOverlayShowEvent() {
-        this.setData({ show: true });
+        this.setData({show: true});
         this.refreshHeaderAndList()
     },
 
@@ -162,10 +165,11 @@ Page({
     },
 
     onClickHide() {
-        this.setData({ show: false });
+        this.setData({show: false});
     },
 
-    noop() {},
+    noop() {
+    },
 
     savePoster() {
         saveImg(this.data.posterSrc).then(() => {
@@ -355,7 +359,8 @@ Page({
 
             //  头部卡页刷新
             this.refreshCard(res)
-        }).catch(() => {})
+        }).catch(() => {
+        })
         //  刷新铁粉
         this.refreshFans(postCode)
     },
@@ -365,7 +370,8 @@ Page({
             this.setData({
                 fansList: res
             })
-        }).catch(() => {})
+        }).catch(() => {
+        })
     },
 
     /**
@@ -377,7 +383,8 @@ Page({
             this.setData({
                 socialList: res
             })
-        }).catch(() => {})
+        }).catch(() => {
+        })
     },
 
     /**
@@ -390,10 +397,26 @@ Page({
     },
 
     onShowSheet() {
-        this.setData({ showSheet: true });
+        this.setData({showSheet: true});
     },
 
     onCloseSheet() {
-        this.setData({ showSheet: false });
+        this.setData({showSheet: false});
     },
+
+    onShowCallTeacherSheetEvent() {
+        this.onShowCallTeacherSheet()
+    },
+
+    onShowCallTeacherSheet() {
+        this.setData({
+            showCallTeacherSheet: true
+        });
+    },
+
+    onCloseCallTeacherSheet() {
+        this.setData({
+            showCallTeacherSheet: false
+        });
+    }
 })
