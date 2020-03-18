@@ -2,7 +2,21 @@
     <canvas class="posterview-canvas" canvas-id="festivalCanvas"></canvas>
 
     <app-teacher-card socialData="{{socialData}}" bgColor="{{bgColor}}" fansList="{{fansList}}" postCode="{{postCode}}"></app-teacher-card>
-    <app-social-list socialData="{{socialData}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}" bind:overlayShowEvent="onOverlayShowEvent" bind:showCallTeacherSheetEvent="onShowCallTeacherSheetEvent" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo"></app-social-list>
+
+    <view class="tag-list">
+        <view class="tag-list-item" wx:for="{{tagList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="selectedTag" data-value="{{index}}">
+            <view class="tag-text" style="color: {{item.active ? bgColor : '#333333'}}">
+                {{item.text}}
+            </view>
+            <view wx:if="{{index < (tagList.length - 1)}}" class="tag-line"></view>
+        </view>
+    </view>
+
+    <app-social-list socialData="{{socialData}}" bgColor="{{bgColor}}" postCode="{{postCode}}" socialList="{{socialList}}"></app-social-list>
+
+    <view>
+        <mp-tabbar current="{{active}}" style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange" bind:showCallTeacherSheetEvent="onShowCallTeacherSheetEvent"></mp-tabbar>
+    </view>
 
     <view wx:if="{{posterSrc && show}}" class="posterview-imageview" bindtap="onClickHide">
         <image class="posterview-image" src="{{posterSrc}}" mode="aspectFit" show-menu-by-longpress="{{true}}" catch:tap="noop"></image>
@@ -24,7 +38,19 @@
         <app-call-teacher-rule bgColor="{{bgColor}}"></app-call-teacher-rule>
     </van-action-sheet>
 
-    <van-action-sheet show="{{ true }}" bind:close="onCloseCallTeacherSheet">
-        <app-call-teacher-input></app-call-teacher-input>
+    <van-action-sheet show="{{ showCallTeacherSheet }}" safe-area-inset-bottom="{{false}}" bind:close="onCloseCallTeacherSheet">
+        <app-call-teacher-input postCode="{{postCode}}" userSelectList="{{userSelectList}}" scopeRes="{{scopeRes}}" bgColor="{{bgColor}}" bind:overlayShowEventWithInfo="OnoverlayShowEventWithInfo" bind:callErrorEvent="OnCallErrorEvent" bind:overlayShowEvent="onOverlayShowEvent"></app-call-teacher-input>
     </van-action-sheet>
+
+    <view class="call-teacher-info" wx:if="{{showCallGurid}}">
+        <image class="call-teacher-gurid" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-pop.png"></image>
+        <view class="call-teacher-gurid-text">邀请好友一起来支持老师吧！</view>
+    </view>
+
+    <view wx:if="{{tipShow}}" class="s-and-l-pop">
+        <van-image class="l-pop" width="352rpx" height="80rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/lpop.png"></van-image>
+    </view>
+    <view wx:if="{{tipShow}}" class="s-and-l-pop">
+        <view class="l-pop-text">点击这里感谢老师</view>
+    </view>
 </view>

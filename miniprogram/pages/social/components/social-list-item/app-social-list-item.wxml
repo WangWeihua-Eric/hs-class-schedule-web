@@ -8,7 +8,7 @@
                 <view class="user-name">{{socialData.userName ? socialData.userName : '匿名用户'}}</view>
                 <view class="creat-time">{{socialData.createTime}}</view>
             </view>
-            <view class="call-number">{{socialData.callNumber}}</view>
+            <view wx:if="{{socialData.replyType !== 2}}" class="call-number">{{socialData.callNumber}}</view>
             <view wx:if="{{!postCode}}" class="call-des">{{socialData.callDes}}</view>
             <view wx:if="{{postCode}}" class="call-join">
                 <view>
@@ -16,6 +16,10 @@
                     <view class="call-join-des">(已进群同学无需重复添加)</view>
                 </view>
                 <button class="call-join-btn" style="color: {{bgColor}}; border: 1rpx solid {{bgColor}}" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=joinins&code=' + postCode}}" send-message-img="{{serviceImgUrl}}">进群</button>
+            </view>
+            <view wx:if="{{socialData.replyType === 2}}" class="reply">
+                <view class="reolyer">高松:</view>
+                <view>谢谢您，感谢支持！</view>
             </view>
         </view>
     </view>

@@ -1,16 +1,16 @@
-<view>
-    <view>
+<view class="content">
+    <view class="user-input">
         <van-field
+                custom-style="width: 100%; height:100%; background:rgba(239,239,239,1); border-radius: 80rpx; font-size:32rpx; font-family:PingFangSC-Regular,PingFang SC; color:rgba(175,174,174,1); display: flex; justify-content: flex-start; align-items: center; padding: 0 27rpx;"
                 value="{{ value }}"
                 confirm-type="send"
-                confirm-hold="{{true}}"
                 clearable="{{true}}"
-                placeholder="请输入用户名"
+                placeholder="点击此处输入您对老师的感谢"
                 border="{{ false }}"
                 bind:confirm="onConfirm"
         />
     </view>
-    <view>
-        1212122
+    <view class="user-select-list">
+        <button wx:for="{{userSelectList}}" wx:for-item="item" wx:for-index="index" wx:key="index" class="user-select-item" bind:tap="selectItem" data-value="{{item}}">{{item}}</button>
     </view>
 </view>

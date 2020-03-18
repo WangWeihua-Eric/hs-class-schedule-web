@@ -1,0 +1,24 @@
+<view class="content" bindtap="onFocusEvent">
+    <view class="header-right">
+        <view class="send-btn" style="background-color: {{bgColor}}" bindtap="onSendQuestion">发布问题</view>
+    </view>
+    <view>
+        <van-field
+                custom-style="font-size:32rpx; font-family:PingFangSC-Regular,PingFang SC; color:rgba(51,51,51,1); padding: 20rpx"
+                cursor-spacing="170"
+                maxlength="200"
+                value="{{ value }}"
+                focus="{{focus}}"
+                hold-keyboard="{{true}}"
+                show-confirm-bar="{{false}}"
+                type="textarea"
+                autosize
+                placeholder="请输入您的问题..."
+                border="{{ false }}"
+                bind:input="onInputEvent"
+        />
+    </view>
+    <view wx:if="{{false}}" class="img-list">
+        <van-uploader image-fit="aspectFill" preview-size="200rpx" catch:tap="nonp" max-count="9" multiple="{{true}}" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="onDeleteEvent"/>
+    </view>
+</view>

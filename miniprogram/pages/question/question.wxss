@@ -1,0 +1,39 @@
+Page {
+    background-color: white;
+    height: 100%;
+}
+
+image {
+    margin: 3rpx;
+}
+
+.content {
+    padding: 20rpx;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.send-btn {
+    width: 180rpx;
+    height: 72rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 14rpx;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.img-list {
+    box-sizing: border-box;
+    padding: 30rpx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}

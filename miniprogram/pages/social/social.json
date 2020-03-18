@@ -8,6 +8,7 @@
     "van-toast": "@vant/weapp/toast/index",
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "app-call-teacher-rule": "../../../components/active-rule/app-call-teacher-rule",
-    "app-call-teacher-input": "./components/call-teacher-input/app-call-teacher-input"
+    "app-call-teacher-input": "./components/call-teacher-input/app-call-teacher-input",
+    "mp-tabbar": "../../miniprogram_npm/weui-miniprogram/tabbar/tabbar"
   }
 }

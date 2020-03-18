@@ -76,3 +76,76 @@ Page {
     right: 6rpx;
     bottom: 323rpx;
 }
+
+.call-teacher-info {
+    position: absolute;
+    top: 398rpx;
+    right: 127rpx;
+}
+
+.call-teacher-gurid {
+    width: 272rpx;
+    height: 150rpx;
+}
+
+.call-teacher-gurid-text {
+    width: 224rpx;
+    height: 90rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    top: 35rpx;
+    left: 24rpx;
+}
+
+.s-and-l-pop {
+    position: fixed;
+    bottom: 155rpx;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+    margin-left: -30rpx;
+}
+
+.l-pop {
+    margin-right: 250rpx;
+}
+
+.l-pop-text {
+    width:352rpx;
+    height:80rpx;
+    margin-right: 250rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20rpx;
+    color: white;
+}
+
+.tag-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tag-list-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag-text {
+    padding: 20rpx 30rpx 0 30rpx;
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+}
+
+.tag-line {
+    margin-top: 20rpx;
+    width: 1rpx;
+    height: 27rpx;
+    background-color: #979797;
+}

@@ -7,40 +7,40 @@ const rp = require('request-promise');
 cloud.init()
 
 // 云函数入口函数
-exports.main = async(event, context) => {
-  const wxContext = cloud.getWXContext()
+exports.main = async (event, context) => {
+    const wxContext = cloud.getWXContext()
 
-  const method = event.method
-  const header = event.header
-  const param = event.param
+    const method = event.method
+    const header = event.header
+    const param = event.param
 
-  const options = {
-    uri: event.url,
-    json: true // Automatically parses the JSON string in the response
-  };
+    const options = {
+        uri: event.url,
+        json: true // Automatically parses the JSON string in the response
+    };
 
-  switch (method) {
-    case 'GET': {
-      options.qs = param
-      options.headers = {
-        'User-Agent': 'Request-Promise'
-      }
+    switch (method) {
+        case 'GET': {
+            options.qs = param
+            options.headers = {
+                'User-Agent': 'Request-Promise'
+            }
 
-      break;
+            break;
+        }
+        case 'POST': {
+            options.method = method
+            options.formData = param
+            options.headers = header
+            break;
+        }
     }
-    case 'POST': {
-      options.method = method
-      options.formData = param
-      options.headers = header
-      break;
-    }
-  }
 
-  return await rp(options)
-    .then((res) => {
-      return res
-    })
-    .catch((err) => {
-      return err
-    });
+    return await rp(options)
+        .then((res) => {
+            return res
+        })
+        .catch((err) => {
+            return err
+        });
 }

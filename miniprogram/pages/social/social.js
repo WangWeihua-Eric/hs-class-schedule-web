@@ -1,11 +1,19 @@
-import {getOnlineFile, getSetting, getUserInfo, saveImg} from "../../utils/wx-utils/wx-base-utils";
+import {
+    getOnlineFile,
+    getSetting,
+    getStorage,
+    getUserInfo,
+    pageJump,
+    saveImg
+} from "../../utils/wx-utils/wx-base-utils";
 import ImageSynthesis from "../../utils/image-utils/image-synthesis";
 import {socilColorList} from "../../style/color-palette/social-color";
-import {formatTime} from "../../utils/time-utils/time-utils";
+import {debounceForFunction, formatTime} from "../../utils/time-utils/time-utils";
 import Toast from '@vant/weapp/toast/toast';
 import {SocialService} from "./service/socialService";
 import {UserBase} from "../../utils/user-utils/user-base";
 import {FansService} from "../../service/fansService";
+import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
 
 const socialService = new SocialService()
 const fansService = new FansService()
@@ -14,6 +22,8 @@ const userBase = new UserBase()
 let addLoding = false
 let teacherData = ''
 let cardImgUrlData = ''
+let socialListAll = []
+let socialListQuestion = []
 
 Page({
 
@@ -21,16 +31,53 @@ Page({
      * 页面的初始数据
      */
     data: {
+        active: -1,
         bgColor: socilColorList[0],
         socialData: {},
         showSheet: false,
         socialList: [],
+        tagList: [
+            {
+                text: '查看全部',
+                active: true
+            },
+            {
+                text: '只看提问',
+                active: false
+            }
+        ],
         fansList: [],
         postCode: '',
         posterSrc: null,
         show: false,
         scopeRes: false,
-        showCallTeacherSheet: false
+        showCallTeacherSheet: false,
+        userSelectList: [],
+        showCallGurid: false,
+        tipShow: false,
+        list: [
+            {
+                "text": "提问",
+                "iconPath": "/images/Q&A.png",
+                "page": "social",
+                "w": "36rpx",
+                "h": "36rpx",
+                "mb": "10rpx"
+            },
+            {
+                "text": "感谢老师",
+                "bgColor": socilColorList[0],
+                "page": "social"
+            },
+            {
+                "text": "看视频",
+                "iconPath": "/images/look-vlog.png",
+                "page": "social",
+                "w": "36rpx",
+                "h": "27rpx",
+                "mb": "19rpx"
+            }
+        ],
     },
 
     /**
@@ -51,8 +98,11 @@ Page({
         const postCode = options.postCode
         const uid = options.uid
         if (bgColor) {
+            const list = this.data.list
+            list[1].bgColor = bgColor
             this.setData({
-                bgColor: bgColor
+                bgColor: bgColor,
+                list: list
             })
         }
         if (postCode) {
@@ -66,6 +116,11 @@ Page({
             }).catch(() => {
             })
         }
+        getStorage('tipShow').then(() => {}).catch(() => {
+            this.setData({
+                tipShow: true
+            })
+        })
     },
 
     /**
@@ -141,11 +196,17 @@ Page({
     },
 
     onOverlayShowEvent() {
-        this.setData({show: true});
+        this.setData({
+            show: true,
+            showCallTeacherSheet: false
+        });
         this.refreshHeaderAndList()
     },
 
     OnoverlayShowEventWithInfo(event) {
+        this.setData({
+            showCallTeacherSheet: false
+        })
 
         this.toastStart()
 
@@ -162,6 +223,13 @@ Page({
         })
 
         this.refreshHeaderAndList()
+    },
+
+    OnCallErrorEvent() {
+        this.setData({
+            showCallTeacherSheet: false,
+            showCallGurid: true
+        })
     },
 
     onClickHide() {
@@ -332,6 +400,17 @@ Page({
         })
     },
 
+    refreshUserSelect(authorName) {
+        getWithWhere('userSelectDefault', {userName: authorName}).then(selectList => {
+            if (selectList.length) {
+                const selectDefaultList = JSON.parse(selectList[0].selectList)
+                this.setData({
+                    userSelectList: selectDefaultList
+                })
+            }
+        })
+    },
+
     /**
      * 刷新卡片
      */
@@ -359,6 +438,9 @@ Page({
 
             //  头部卡页刷新
             this.refreshCard(res)
+
+            //  刷新默认话术
+            this.refreshUserSelect(res.authorName)
         }).catch(() => {
         })
         //  刷新铁粉
@@ -418,5 +500,63 @@ Page({
         this.setData({
             showCallTeacherSheet: false
         });
+    },
+
+    tabChange(event) {
+        if (debounceForFunction()) {
+            this.setData({
+                active: -1
+            })
+            return;
+        }
+        const index = event.detail.index
+        switch (index) {
+            case 0: {
+                const url = `../question/question?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
+                pageJump(url).then(() => {}).catch(() => {})
+                break
+            }
+            case 1: {
+                this.hiddenTip()
+                break
+            }
+            case 2: {
+                this.hiddenTip()
+                let path = ''
+                if (this.data.socialData.authorVlog) {
+                    path = this.data.socialData.authorVlog
+                }
+
+                wx.navigateToMiniProgram({
+                    appId: 'wxbe86c353682cdb84',
+                    path: path,
+                    success() {}
+                })
+                break
+            }
+        }
+        this.setData({
+            active: -1
+        })
+    },
+    hiddenTip() {
+        this.setData({
+            tipShow: false
+        })
+        wx.setStorage({
+            key:"tipShow",
+            data: true
+        })
+    },
+
+    selectedTag(event) {
+        const selectedIndex = event.currentTarget.dataset.value
+        const tagList = this.data.tagList
+        tagList.forEach((item, index) => {
+            item.active = index === selectedIndex
+        })
+        this.setData({
+            tagList: tagList
+        })
     }
 })

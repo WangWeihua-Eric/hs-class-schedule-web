@@ -5,6 +5,7 @@ import {UserBase} from "../../utils/user-utils/user-base";
 import {HttpUtil} from "../../utils/http-utils/http-util";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
 import {ScheduleService} from "./service/scheduleService";
+import {debounceForFunction} from "../../utils/time-utils/time-utils";
 
 const userBase = new UserBase()
 const http = new HttpUtil()
@@ -433,6 +434,10 @@ Page({
             }
             case 1: {
                 const nowActive = this.data.active
+                const lessonData = this.data.list[1]
+                if (lessonData && lessonData.jump) {
+                    this.jumpMini()
+                }
                 this.setData({
                     active: nowActive
                 })
@@ -453,6 +458,15 @@ Page({
                 break
             }
         }
+    },
+    jumpMini() {
+        if (debounceForFunction()) {
+            return;
+        }
+        wx.navigateToMiniProgram({
+            appId: 'wxbe86c353682cdb84',
+            success() {}
+        })
     },
     //  获取弹窗
     setDialog() {

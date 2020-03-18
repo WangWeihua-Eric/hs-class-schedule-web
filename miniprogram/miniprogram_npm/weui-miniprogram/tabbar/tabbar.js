@@ -92,8 +92,6 @@ module.exports =
 
 "use strict";
 
-let timeHandler = false
-
 Component({
     options: {
         addGlobalClass: true
@@ -114,14 +112,7 @@ Component({
     },
     methods: {
         tabChange: function tabChange(e) {
-            var index = e.currentTarget.dataset.index;
-
-            if (index === 1) {
-                const lessonData = this.data.list[1]
-                if (lessonData && lessonData.jump) {
-                    this.jumpMini()
-                }
-            }
+            const index = e.currentTarget.dataset.index;
 
             if (index === this.data.current) {
                 return;
@@ -131,19 +122,8 @@ Component({
             });
             this.triggerEvent('change', { index: index, item: this.data.list[index] });
         },
-        jumpMini() {
-            if (timeHandler) {
-                return
-            } else {
-                timeHandler = true
-                wx.navigateToMiniProgram({
-                    appId: 'wxbe86c353682cdb84',
-                    success() {}
-                })
-                setTimeout(() => {
-                    timeHandler = false
-                }, 1000)
-            }
+        onClickShow() {
+            this.triggerEvent('showCallTeacherSheetEvent')
         }
     }
 });

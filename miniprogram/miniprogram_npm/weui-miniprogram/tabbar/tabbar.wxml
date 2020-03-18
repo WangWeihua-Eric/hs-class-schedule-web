@@ -1,32 +1,46 @@
 <view class="weui-tabbar {{extClass}}">
     <!-- 选中的时候往weui-tabbar__item加class:weui-bar__item_on -->
     <view data-index='{{index}}' bindtap="tabChange" wx:for="{{list}}" wx:key="index" class="weui-tabbar__item {{index === current ? 'weui-bar__item_on' : ''}}">
-        <view wx:if="{{index !== 1}}">
-            <view style="position: relative;display:inline-block;">
-                <view>
-                    <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
-                    <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+        <view wx:if="{{item.page === 'social'}}">
+            <view wx:if="{{index !== 1}}">
+                <view style="position: relative;display:inline-block;">
+                    <view>
+                        <image src="{{item.iconPath}}" class="weui-tabbar__icon" style="width: {{item.w}}; height: {{item.h}}; margin-bottom: {{item.mb}};"></image>
+                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+                    </view>
                 </view>
+                <view class="weui-tabbar__label" style="color:rgba(0,0,0,0.9)">{{item.text}}</view>
             </view>
-            <view class="weui-tabbar__label">{{item.text}}</view>
+            <button wx:else class="call-teacher-tab-btn" style="background: {{item.bgColor}}" open-type="getUserInfo" bindgetuserinfo="onClickShow">{{item.text}}</button>
         </view>
-        <button wx:if="{{index === 1 && item.jump}}" class="tab-service-btn">
-            <view style="position: relative;display:inline-block;">
-                <view>
-                    <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
-                    <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+        <view wx:else>
+            <view wx:if="{{index !== 1}}">
+                <view style="position: relative;display:inline-block;">
+                    <view>
+                        <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
+                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+                    </view>
                 </view>
+                <view class="weui-tabbar__label">{{item.text}}</view>
             </view>
-            <view class="weui-tabbar__label">{{item.text}}</view>
-        </button>
-        <button wx:if="{{index === 1 && !item.jump}}" class="tab-service-btn" open-type="contact" show-message-card="true" send-message-img="{{item.serviceImgUrl}}" send-message-title="红松课表" session-from="{{item.sessionFrom}}">
-            <view style="position: relative;display:inline-block;">
-                <view>
-                    <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
-                    <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+            <button wx:if="{{index === 1 && item.jump}}" class="tab-service-btn">
+                <view style="position: relative;display:inline-block;">
+                    <view>
+                        <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
+                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+                    </view>
                 </view>
-            </view>
-            <view class="weui-tabbar__label">{{item.text}}</view>
-        </button>
+                <view class="weui-tabbar__label">{{item.text}}</view>
+            </button>
+            <button wx:if="{{index === 1 && !item.jump}}" class="tab-service-btn" open-type="contact" show-message-card="true" send-message-img="{{item.serviceImgUrl}}" send-message-title="红松课表" session-from="{{item.sessionFrom}}">
+                <view style="position: relative;display:inline-block;">
+                    <view>
+                        <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
+                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
+                    </view>
+                </view>
+                <view class="weui-tabbar__label">{{item.text}}</view>
+            </button>
+        </view>
     </view>
 </view>

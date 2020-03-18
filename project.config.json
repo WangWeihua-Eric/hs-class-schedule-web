@@ -65,10 +65,10 @@
 					"scene": 1001
 				},
 				{
-					"id": -1,
-					"name": "小程序模版消息",
-					"pathName": "pages/schedule/schedule",
-					"query": "",
+					"id": 2,
+					"name": "提问",
+					"pathName": "pages/question/question",
+					"query": "postCode=post100",
 					"scene": 1014
 				},
 				{
@@ -85,7 +85,7 @@
 					"id": 4,
 					"name": "打卡详情页",
 					"pathName": "pages/social/social",
-					"query": "postCode=post104",
+					"query": "postCode=post100",
 					"scene": 1058
 				}
 			]

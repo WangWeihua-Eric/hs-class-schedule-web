@@ -2,83 +2,6 @@
     width: 100%;
 }
 
-.social-bottom {
-    position: fixed;
-    bottom: 51rpx;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    margin-left: -30rpx;
-}
-
-.s-and-l-pop {
-    position: fixed;
-    bottom: 155rpx;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    box-sizing: border-box;
-    margin-left: -30rpx;
-}
-
-.l-pop {
-    margin-right: 38rpx;
-}
-
-.l-pop-text {
-    width:352rpx;
-    height:80rpx;
-    margin-right: 38rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20rpx;
-    color: white;
-}
-
-.s-pop {
-    margin-right: 35rpx;
-}
-
-.s-pop-text {
-    width:140rpx;
-    height:80rpx;
-    margin-right: 35rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20rpx;
-    color: white;
-}
-
-.call-teacher {
-    width:380rpx;
-    height:104rpx;
-    border-radius:52px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size:48rpx;
-    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
-    font-weight:500;
-    color:rgba(255,255,255,1);
-}
-
-.call-teacher-player {
-    font-size: 104rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFFFFF;
-    position: absolute;
-    right: 47rpx;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
 .no-list {
     width: 100%;
     padding: 255rpx 0 0 0;
@@ -165,26 +88,4 @@
     border-radius:14px;
     overflow: hidden;
     margin-bottom: 200rpx;
-}
-
-.call-teacher-info {
-    position: absolute;
-    top: 398rpx;
-    right: 127rpx;
-}
-
-.call-teacher-gurid {
-    width: 272rpx;
-    height: 150rpx;
-}
-
-.call-teacher-gurid-text {
-    width: 224rpx;
-    height: 90rpx;
-    font-size:32rpx;
-    font-family:PingFangSC-Regular,PingFang SC;
-    color:rgba(255,255,255,1);
-    position: absolute;
-    top: 35rpx;
-    left: 24rpx;
 }

@@ -46,4 +46,33 @@ export class FansService {
             })
         })
     }
+
+    /**
+     * 给老师点赞
+     */
+    callTeacher(params) {
+        const url = '/forum/api/postreply'
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.post(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.result && res.result.state && res.result.state.code === '0') {
+                            resolve(res.result.data)
+                        } else {
+                            reject(res.result)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+
+        })
+    }
 }
