@@ -124,7 +124,8 @@ Page({
 
             fansService.callTeacher(params).then(res => {
                 wx.showModal({
-                    content: '提问成功，老师将在一天内帮您解答！',
+                    title: '提问成功',
+                    content: '老师将在一天内帮您解答!',
                     showCancel: false,
                     success: (res) => {
                         if (res.confirm) {
