@@ -110,6 +110,8 @@
     font-size:32rpx;
     font-family:PingFangSC-Regular,PingFang SC;
     color:rgba(87,107,148,1);
+    min-width: 64rpx;
+    margin-left: 10rpx;
 }
 
 .call-join-des {
