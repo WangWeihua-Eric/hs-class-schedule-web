@@ -1,15 +1,21 @@
-<view class="cell">
+<view class="cell" bindtap="onReplyEvent">
     <view class="cell-item">
         <view class="item-left">
             <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg ? socialData.userImg : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-defrot.png'}}"></van-image>
         </view>
         <view class="item-right">
             <view class="item-user-name">
-                <view class="user-name">{{socialData.userName ? socialData.userName : '匿名用户'}}</view>
+                <view class="item-user-left">
+                    <view class="user-name">{{socialData.userName ? socialData.userName : '匿名用户'}}</view>
+                    <view wx:if="{{socialData.replyType === 2}}" class="item-tag" style="background-color: {{bgColor}};">提问</view>
+                </view>
                 <view class="creat-time">{{socialData.createTime}}</view>
             </view>
             <view wx:if="{{socialData.replyType !== 2}}" class="call-number">{{socialData.callNumber}}</view>
-            <view wx:if="{{!postCode}}" class="call-des">{{socialData.callDes}}</view>
+            <view class="item-des-info">
+                <view wx:if="{{!postCode}}" class="call-des">{{socialData.callDes}}</view>
+                <view wx:if="{{socialData.replyType === 2}}" class="reply-tag">评论</view>
+            </view>
             <view wx:if="{{postCode}}" class="call-join">
                 <view>
                     <view class="call-join-des">{{socialData.callDes}}</view>
@@ -17,11 +23,36 @@
                 </view>
                 <button class="call-join-btn" style="color: {{bgColor}}; border: 1rpx solid {{bgColor}}" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=joinins&code=' + postCode}}" send-message-img="{{serviceImgUrl}}">进群</button>
             </view>
-            <view wx:if="{{socialData.replyType === 2}}" class="reply">
-                <view class="reolyer">高松:</view>
-                <view>谢谢您，感谢支持！</view>
+            <view wx:if="{{socialData.replyType === 2}}">
+                <view class="reply" wx:for="{{replyDataList}}" wx:for-item="item" wx:for-index="index" wx:key="index" catch:tap="OnReplyToUser" data-value="{{item}}">
+                    <view class="reply-top">
+                        <view class="reolyer">{{item.remarkName}}</view>
+                        <view wx:if="{{item.remarkName !== item.toName}}" class="reply-text">回复</view>
+                        <view wx:if="{{item.remarkName !== item.toName}}" class="reolyer">{{item.toName}}</view>
+                    </view>
+                    <view class="reply-text">{{item.content}}</view>
+                </view>
             </view>
         </view>
     </view>
     <view wx:if="{{showBottomLine}}" class="bottom-line"></view>
+
+
+    <van-action-sheet show="{{ replySheetShow }}" safe-area-inset-bottom="{{false}}" bind:close="onCloseReplySheet" catch:tap="nonp">
+        <view class="user-input">
+            <van-field
+                    focus="{{true}}"
+                    custom-style="width: 100%; height:100%; background:rgba(239,239,239,1); border-radius: 80rpx; font-size:32rpx; font-family:PingFangSC-Regular,PingFang SC; color:rgba(175,174,174,1); display: flex; justify-content: flex-start; align-items: center; padding: 0 27rpx;"
+                    value="{{ value }}"
+                    confirm-type="send"
+                    clearable="{{true}}"
+                    placeholder="{{placeholder ? placeholder : '点击此处回复提问'}}"
+                    border="{{ false }}"
+                    bind:confirm="onConfirm"
+            />
+        </view>
+        <view class="user-select-list">
+            <button wx:for="{{userSelectList}}" wx:for-item="item" wx:for-index="index" wx:key="index" class="user-select-item" bind:tap="selectItem" data-value="{{item}}">{{item}}</button>
+        </view>
+    </van-action-sheet>
 </view>

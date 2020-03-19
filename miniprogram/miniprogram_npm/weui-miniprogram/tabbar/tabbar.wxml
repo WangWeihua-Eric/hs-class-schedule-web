@@ -1,17 +1,18 @@
 <view class="weui-tabbar {{extClass}}">
     <!-- 选中的时候往weui-tabbar__item加class:weui-bar__item_on -->
     <view data-index='{{index}}' bindtap="tabChange" wx:for="{{list}}" wx:key="index" class="weui-tabbar__item {{index === current ? 'weui-bar__item_on' : ''}}">
-        <view wx:if="{{item.page === 'social'}}">
-            <view wx:if="{{index !== 1}}">
-                <view style="position: relative;display:inline-block;">
-                    <view>
-                        <image src="{{item.iconPath}}" class="weui-tabbar__icon" style="width: {{item.w}}; height: {{item.h}}; margin-bottom: {{item.mb}};"></image>
-                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
-                    </view>
+        <view wx:if="{{item.page === 'social'}}" style="height: 100%">
+            <button wx:if="{{index === 0}}" style="height: 100%" open-type="getUserInfo" bindgetuserinfo="onClickShow">
+                <view style="position: relative;display:inline-block; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <image src="{{item.iconPath}}" class="img-text"></image>
                 </view>
-                <view class="weui-tabbar__label" style="color:rgba(0,0,0,0.9)">{{item.text}}</view>
-            </view>
-            <button wx:else class="call-teacher-tab-btn" style="background: {{item.bgColor}}" open-type="getUserInfo" bindgetuserinfo="onClickShow">{{item.text}}</button>
+            </button>
+            <view wx:elif="{{index === 1}}" class="call-teacher-tab-btn" style="background: {{item.bgColor}}">{{item.text}}</view>
+            <button wx:else style="height: 100%">
+                <view style="position: relative;display:inline-block; height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <image src="{{item.iconPath}}" class="img-text"></image>
+                </view>
+            </button>
         </view>
         <view wx:else>
             <view wx:if="{{index !== 1}}">

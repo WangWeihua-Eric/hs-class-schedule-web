@@ -54,7 +54,7 @@ Page({
                 "jump": false
             },
             {
-                "text": "感谢老师",
+                "text": "老师家族",
                 "iconPath": "/images/thx.png",
                 "selectedIconPath": "/images/thx-active.png"
             },
@@ -445,7 +445,7 @@ Page({
             }
             case 2: {
                 wx.setNavigationBarTitle({
-                    title: '感谢老师'
+                    title: '老师家族'
                 })
                 this.setData({active: index})
                 break

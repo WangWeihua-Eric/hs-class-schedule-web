@@ -115,6 +115,9 @@ Component({
                                 }
                                 userBase.setGlobalData(user)
                                 fansService.callTeacher(params).then(() => {
+                                    this.setData({
+                                        value: ''
+                                    })
                                     this.triggerEvent('overlayShowEventWithInfo', param)
                                 }).catch(err => {
                                     if (err && err.state && err.state.code === '60001') {
@@ -162,6 +165,9 @@ Component({
                 })
             } else {
                 fansService.callTeacher(params).then(() => {
+                    this.setData({
+                        value: ''
+                    })
                     this.triggerEvent('overlayShowEvent')
                 }).catch(err => {
                     if (err && err.state && err.state.code === '60001') {

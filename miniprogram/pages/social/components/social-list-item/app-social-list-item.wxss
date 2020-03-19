@@ -52,11 +52,37 @@
     width: 100%;
 }
 
+.item-user-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .user-name {
     font-size:32rpx;
     font-family:PingFangSC-Medium,PingFang SC;
     font-weight:500;
     color:rgba(7,7,7,1);
+}
+
+.item-tag {
+    width:68rpx;
+    height:31rpx;
+    border-radius:5rpx;
+    font-size:24rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(255,255,255,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8rpx;
+}
+
+.item-des-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .creat-time {
@@ -80,6 +106,12 @@
     margin-top: 14rpx;
 }
 
+.reply-tag {
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(87,107,148,1);
+}
+
 .call-join-des {
     font-size:32rpx;
     font-family:PingFangSC-Regular,PingFang SC;
@@ -96,22 +128,59 @@
 
 .reply {
     width:526rpx;
-    height:64rpx;
+    min-height:64rpx;
     background:rgba(237,237,237,1);
     border-radius:10rpx;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     box-sizing: border-box;
     padding: 10rpx 16rpx;
     margin-top: 10rpx;
     font-size:32rpx;
-    font-family:PingFangSC-Medium,PingFang SC;
-    font-weight:500;
     color:#333333;
+}
+
+.reply-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .reolyer {
     color: #BD6E14;
     margin-right: 10rpx;
+    white-space: nowrap;
+    font-weight:500;
+    font-family:PingFangSC-Medium,PingFang SC;
+}
+
+.reply-text {
+    font-family:PingFangSC-Regular,PingFang SC;
+}
+
+.user-input {
+    width: 100%;
+    height:141rpx;
+    background:rgba(255,255,255,1);
+    box-sizing: border-box;
+    padding: 35rpx 28rpx 28rpx 28rpx;
+}
+
+.user-select-item {
+    font-size:32rpx;
+    font-family:PingFangSC-Regular,PingFang SC;
+    color:rgba(17,17,17,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 125rpx;
+    border-bottom: 1rpx solid #E5E5E5;
+}
+
+.user-select-list {
+    background-color: rgb(247, 247, 249);
+    box-sizing: border-box;
+    padding-bottom: 50rpx;
 }

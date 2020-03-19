@@ -53,6 +53,17 @@
 .call-teacher-tab-btn {
     color: white;
     border-radius:80rpx;
+    width: 268rpx;
+    height: 81rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32rpx;
+}
+
+.img-text {
+    width: 86rpx;
+    height: 68rpx;
 }
 
 .weui-tabbar__icon{display:inline-block;width:28px;height:28px;margin-bottom:2px}i.weui-tabbar__icon,.weui-tabbar__icon>i{font-size:60rpx;color:rgba(0,0,0,0.5)}.weui-tabbar__icon image{width:100%;height:100%}.weui-tabbar__label{color:rgba(0,0,0,0.9);font-size:28rpx;line-height:1.4}

@@ -86,7 +86,6 @@ Page({
     },
 
     afterRead(event) {
-        console.log(event)
         const files = event.detail.file;
         files.forEach(item => {
             item['url'] = item.path
@@ -124,10 +123,16 @@ Page({
             }
 
             fansService.callTeacher(params).then(res => {
-                console.log(res)
                 wx.showModal({
-                    content: '发布问题成功',
-                    showCancel: false
+                    content: '提问成功，老师将在一天内帮您解答！',
+                    showCancel: false,
+                    success: (res) => {
+                        if (res.confirm) {
+                            wx.navigateBack({
+                                delta: 1
+                            })
+                        }
+                    }
                 })
             }).catch(() => {
                 wx.showModal({

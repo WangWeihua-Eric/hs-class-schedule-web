@@ -49,12 +49,13 @@ export class SocialService {
     /**
      * 获取 SocialList
      */
-    querySocialList(postCode, loadType = 0, seqno = 0) {
+    querySocialList(postCode, loadType = 0, seqno = 0, replyType = 0) {
         const url = '/forum/api/queryreply'
         const params = {
             postCode: postCode,
             loadType: loadType,
-            seqno: seqno
+            seqno: seqno,
+            replyType: replyType
         }
 
 
@@ -126,5 +127,71 @@ export class SocialService {
                 this.http.post(url, params, this.userBase.getGlobalData().sessionId).then(() => {}).catch(() => {})
             }
         }).catch(() => {})
+    }
+
+    /**
+     * 回复提问
+     */
+    postRemark(replyCode, toUserId, content) {
+        const url = '/forum/api/postremark'
+
+        const params = {
+            replyCode: replyCode,
+            toUserId: toUserId,
+            content: content
+        }
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.post(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.result && res.result.state && res.result.state.code === '0') {
+                            resolve(res.result.data)
+                        } else {
+                            reject(res.result)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
+    /**
+     * 查询回复
+     */
+    queryRemark(codes) {
+        const url = '/forum/api/queryremark'
+
+        const params = {
+            codes: codes
+        }
+
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.get(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.state && res.state.code === '0') {
+                            resolve(res.data)
+                        } else {
+                            reject(res)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 }

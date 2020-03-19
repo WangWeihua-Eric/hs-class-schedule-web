@@ -24,6 +24,7 @@ let teacherData = ''
 let cardImgUrlData = ''
 let socialListAll = []
 let socialListQuestion = []
+let nowSelectIndex = 0
 
 Page({
 
@@ -57,25 +58,17 @@ Page({
         tipShow: false,
         list: [
             {
-                "text": "提问",
-                "iconPath": "/images/Q&A.png",
-                "page": "social",
-                "w": "36rpx",
-                "h": "36rpx",
-                "mb": "10rpx"
+                "iconPath": "/images/thx-text.png",
+                "page": "social"
             },
             {
-                "text": "感谢老师",
+                "text": "向老师提问",
                 "bgColor": socilColorList[0],
                 "page": "social"
             },
             {
-                "text": "看视频",
                 "iconPath": "/images/look-vlog.png",
-                "page": "social",
-                "w": "36rpx",
-                "h": "27rpx",
-                "mb": "19rpx"
+                "page": "social"
             }
         ],
     },
@@ -116,7 +109,8 @@ Page({
             }).catch(() => {
             })
         }
-        getStorage('tipShow').then(() => {}).catch(() => {
+        getStorage('tipShow').then(() => {
+        }).catch(() => {
             this.setData({
                 tipShow: true
             })
@@ -140,14 +134,15 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        if (this.data.postCode) {
+            this.refreshListContent(this.data.postCode)
+        }
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
-
     },
 
     /**
@@ -342,12 +337,26 @@ Page({
     },
 
     addDataList(postCode, seqno) {
-        socialService.querySocialList(postCode, 1, seqno).then(res => {
+        let replyType = 0
+        if (nowSelectIndex === 1) {
+            replyType = 2
+        }
+        socialService.querySocialList(postCode, 1, seqno, replyType).then(res => {
             addLoding = false
             this.formatSocialListData(res)
             this.setData({
                 socialList: [...this.data.socialList, ...res]
             })
+            switch (nowSelectIndex) {
+                case 0: {
+                    socialListAll = this.data.socialList
+                    break;
+                }
+                case 1: {
+                    socialListQuestion = this.data.socialList
+                    break
+                }
+            }
         }).catch(() => {
             addLoding = false
         })
@@ -400,15 +409,28 @@ Page({
         })
     },
 
-    refreshUserSelect(authorName) {
-        getWithWhere('userSelectDefault', {userName: authorName}).then(selectList => {
+    refreshUserSelect(dataInfo) {
+        getWithWhere('userSelectDefault', {userName: 'teacher'}).then(selectList => {
             if (selectList.length) {
                 const selectDefaultList = JSON.parse(selectList[0].selectList)
                 this.setData({
-                    userSelectList: selectDefaultList
+                    userSelectList: this.formatSelectList(selectDefaultList, dataInfo)
                 })
             }
         })
+    },
+
+    /**
+     * 格式化感谢话术
+     */
+    formatSelectList(selectDefaultList, dataInfo) {
+        const authorName = dataInfo.authorName
+        const courseName = dataInfo.courseName
+        const list = []
+        selectDefaultList.forEach(item => {
+            list.push(item.replace('{0}', authorName).replace('{1}', courseName))
+        })
+        return list
     },
 
     /**
@@ -440,7 +462,7 @@ Page({
             this.refreshCard(res)
 
             //  刷新默认话术
-            this.refreshUserSelect(res.authorName)
+            this.refreshUserSelect(res)
         }).catch(() => {
         })
         //  刷新铁粉
@@ -460,11 +482,38 @@ Page({
      * 刷新 list 内容
      */
     refreshListContent(postCode) {
+        this.refreshSocialListAll(postCode)
+        this.refreshSocialListQuestion(postCode)
+    },
+
+    /**
+     * 刷新全部 list
+     */
+    refreshSocialListAll(postCode) {
         socialService.querySocialList(postCode).then(res => {
             this.formatSocialListData(res)
-            this.setData({
-                socialList: res
-            })
+            if (nowSelectIndex === 0) {
+                this.setData({
+                    socialList: res
+                })
+            }
+            socialListAll = res
+        }).catch(() => {
+        })
+    },
+
+    /**
+     * 刷新提问 list
+     */
+    refreshSocialListQuestion(postCode) {
+        socialService.querySocialList(postCode, 0, 0, 2).then(res => {
+            this.formatSocialListData(res)
+            if (nowSelectIndex === 1) {
+                this.setData({
+                    socialList: res
+                })
+            }
+            socialListQuestion = res
         }).catch(() => {
         })
     },
@@ -512,12 +561,14 @@ Page({
         const index = event.detail.index
         switch (index) {
             case 0: {
-                const url = `../question/question?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
-                pageJump(url).then(() => {}).catch(() => {})
+                this.hiddenTip()
                 break
             }
             case 1: {
-                this.hiddenTip()
+                const url = `../question/question?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
+                pageJump(url).then(() => {
+                }).catch(() => {
+                })
                 break
             }
             case 2: {
@@ -530,7 +581,8 @@ Page({
                 wx.navigateToMiniProgram({
                     appId: 'wxbe86c353682cdb84',
                     path: path,
-                    success() {}
+                    success() {
+                    }
                 })
                 break
             }
@@ -544,19 +596,33 @@ Page({
             tipShow: false
         })
         wx.setStorage({
-            key:"tipShow",
+            key: "tipShow",
             data: true
         })
     },
 
     selectedTag(event) {
         const selectedIndex = event.currentTarget.dataset.value
+        nowSelectIndex = selectedIndex
         const tagList = this.data.tagList
         tagList.forEach((item, index) => {
             item.active = index === selectedIndex
         })
-        this.setData({
-            tagList: tagList
-        })
+        switch (selectedIndex) {
+            case 0: {
+                this.setData({
+                    socialList: socialListAll,
+                    tagList: tagList
+                })
+                break
+            }
+            case 1: {
+                this.setData({
+                    socialList: socialListQuestion,
+                    tagList: tagList
+                })
+                break
+            }
+        }
     }
 })
