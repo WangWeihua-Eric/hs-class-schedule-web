@@ -121,11 +121,15 @@ Page({
 
         if (!this.data.showLoak) {
             getStorage('rankDialog').then(res => {
+                let dialog = false
                 const day = new Date()
                 const num = day.getDay()
+                if (num) {
+                    dialog = true
+                }
                 day.setDate(day.getDate() + 1 - num)
                 day.setHours(0, 0, 0, 0)
-                if (res < day.getTime()) {
+                if (res < day.getTime() && dialog) {
                     this.getRankDialog()
                 }
             }).catch(() => {
