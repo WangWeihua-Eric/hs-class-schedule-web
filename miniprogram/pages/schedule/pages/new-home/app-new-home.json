@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "app-audience-room-card": "./components/audience-room-card/app-audience-room-card",
+    "app-audience-swiper": "./components/audience-swiper/app-audience-swiper"
+  }
+}

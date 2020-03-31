@@ -1,0 +1,74 @@
+<view>
+    <swiper circular="{{true}}" next-margin="92rpx" previous-margin="92rpx">
+        <swiper-item>
+            <view class="swiper-content f-c-jc-as">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/wx.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/vr.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/iqiyi.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/iqiyi.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/iqiyi.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/iqiyi.png"></image>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <view class="swiper-content">
+                <view class="card-header f-js-ac">
+                    <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
+                    <view class="open-time">09:30 开始</view>
+                    <view class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - -</view>
+                </view>
+                <image class="lesson-img" lazy-load="{{true}}" src="../../../../../../images-test/iqiyi.png"></image>
+            </view>
+        </swiper-item>
+    </swiper>
+</view>

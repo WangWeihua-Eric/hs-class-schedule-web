@@ -1,0 +1,50 @@
+@import '../../../../../../style/flex-base.wxss'
+
+swiper {
+    width: 100%;
+    height: 409rpx;
+}
+
+swiper image {
+    width: 100%;
+    height: 432rpx;
+}
+
+.swiper-content {
+    width: 100%;
+    height: 409rpx;
+    padding: 21rpx 10rpx;
+    box-sizing: border-box;
+}
+
+.card-header{
+    width: 100%;
+    margin-bottom: 23rpx;
+}
+
+.time-tag {
+    width: 22rpx;
+    height: 22rpx;
+}
+
+.open-time {
+    font-size:30rpx;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:rgba(0,0,0,1);
+    margin-left: 11rpx;
+}
+
+.line {
+    width: 344rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 17rpx;
+    color: #979797;
+    font-size: 20rpx;
+}
+
+.lesson-img {
+    width: 536rpx;
+    height: 300rpx;
+}

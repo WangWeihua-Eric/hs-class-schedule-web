@@ -1,0 +1,10 @@
+<view class="content">
+    <view class="swiper-list">
+        <app-audience-swiper></app-audience-swiper>
+    </view>
+    <view class="room-list f-js-as-w">
+        <view class="card-item" wx:for="{{roomList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+            <app-audience-room-card></app-audience-room-card>
+        </view>
+    </view>
+</view>
