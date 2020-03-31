@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/test/test",
     "pages/schedule/schedule",
     "pages/social/social",
     "pages/ranking/ranking",

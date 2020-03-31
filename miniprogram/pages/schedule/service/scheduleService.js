@@ -15,31 +15,6 @@ export class ScheduleService {
         singletonPattern = this
     }
 
-    testtt() {
-        const url = '/vlog/api/authorization'
-
-        return new Promise((resolve, reject) => {
-            isSessionReady().then(res => {
-                if (res) {
-                    this.http.get(url, {}, this.userBase.getGlobalData().sessionId).then(res => {
-                        if (res && res.state && res.state.code === '0') {
-                            resolve(res.data)
-                        } else {
-                            reject(res)
-                        }
-                    }).catch((err) => {
-                        reject(err)
-                    })
-                } else {
-                    // 获取 sessionId 失败
-                    reject('获取 sessionId 失败')
-                }
-            }).catch(err => {
-                reject(err)
-            })
-        })
-    }
-
     /**
      * 查询上周明星讲师
      */
