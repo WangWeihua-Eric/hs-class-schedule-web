@@ -17,14 +17,14 @@ export class CosService {
 
     /**
      * 上传文件接口，文本信息转为 txt 上传
-     * @param sessionId: String      鉴权
+     * @param sessionId: String     鉴权
      * @param filePaths: String[]   文件路径
      * @param category: Number      类别
      * @param url: String           上传文件接口
      * @param bizcode: String       消息回复板块
      * @param scope: Number         目前不用关心
      * @param ext: Object           自定义扩展字段
-     * @returns {Promise<unknown>}
+     * @returns {Promise<any>}
      */
     uploadFiles(sessionId, filePaths, category, url, bizcode = 'dianping', scope = 0, ext = {}) {
         return new Promise((resolve, reject) => {
