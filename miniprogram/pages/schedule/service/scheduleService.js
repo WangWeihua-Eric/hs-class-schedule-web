@@ -1,6 +1,7 @@
 import {HttpUtil} from "../../../utils/http-utils/http-util";
 import {UserBase} from "../../../utils/user-utils/user-base";
 import {isSessionReady} from "../../../utils/user-utils/user-base-utils";
+import {formatTime} from "../../../utils/time-utils/time-utils";
 
 let singletonPattern = null;
 
@@ -40,6 +41,41 @@ export class ScheduleService {
             }).catch(err => {
                 reject(err)
             })
+        })
+    }
+
+    /**
+     * 获取轮播
+     */
+    queryRecently() {
+        const url = '/course/api/query/recently'
+        const params = {}
+        return this.http.newGet(url, params).then(res => {
+            this.formatSwiper(res)
+            return res
+        })
+    }
+
+    /**
+     * 按类别获取课表
+     */
+    queryCategory(category = 0, seqno = '0') {
+        const url = '/course/api/query/category'
+        const params = {
+            category: category,
+            seqno: seqno
+        }
+        return this.http.newGet(url, params)
+    }
+
+    formatSwiper(data) {
+        data.sort((a, b) => {
+            let value1 = a['start']
+            let value2 = b['start']
+            return value1 - value2
+        })
+        data.forEach(item => {
+            item.openTime = `${formatTime(item.start)} 开始`
         })
     }
 }

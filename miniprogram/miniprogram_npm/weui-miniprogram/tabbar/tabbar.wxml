@@ -24,16 +24,7 @@
                 </view>
                 <view class="weui-tabbar__label">{{item.text}}</view>
             </view>
-            <button wx:if="{{index === 1 && item.jump}}" class="tab-service-btn">
-                <view style="position: relative;display:inline-block;">
-                    <view>
-                        <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>
-                        <mp-badge wx:if="{{item.badge}}" content="{{item.badge}}" style="position: absolute;top:-2px;left:calc(100% - 3px)"></mp-badge>
-                    </view>
-                </view>
-                <view class="weui-tabbar__label">{{item.text}}</view>
-            </button>
-            <button wx:if="{{index === 1 && !item.jump}}" class="tab-service-btn" open-type="contact" show-message-card="true" send-message-img="{{item.serviceImgUrl}}" send-message-title="红松课表" session-from="{{item.sessionFrom}}">
+            <button wx:if="{{index === 1}}" class="tab-service-btn">
                 <view style="position: relative;display:inline-block;">
                     <view>
                         <image src="{{current === index ? item.selectedIconPath : item.iconPath}}" class="weui-tabbar__icon"></image>

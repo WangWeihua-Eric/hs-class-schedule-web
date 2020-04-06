@@ -34,18 +34,6 @@ Component({
         }
     },
 
-    lifetimes: {
-        // attached() {
-        //     isSessionReady().then(res => {
-        //         if (res) {
-        //             this.refresh()
-        //         } else {
-        //             // 获取 sessionId 失败
-        //         }
-        //     })
-        // }
-    },
-
     /**
      * 组件的方法列表
      */

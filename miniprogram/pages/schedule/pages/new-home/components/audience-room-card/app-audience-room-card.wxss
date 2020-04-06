@@ -14,7 +14,7 @@
 
 .room-name {
     width: 100%;
-    font-size:34rpx;
+    font-size:29rpx;
     font-family:SourceHanSansCN-Medium,SourceHanSansCN;
     font-weight:500;
     color:rgba(51,51,51,1);

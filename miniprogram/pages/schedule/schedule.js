@@ -20,7 +20,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        showCallTeacher: false,
         rankDialogInfo: {},
         showRank: false,
         guide: false,
@@ -35,7 +34,6 @@ Page({
         sessionFrom: 'type=course',
         serviceImgUrl: '../../images/clickme.jpeg',
         showLoak: false,
-        miniJump: false,
         btnTitle: '',
         img: '',
         title: '',
@@ -48,10 +46,7 @@ Page({
             {
                 "text": "上课",
                 "iconPath": "/images/in-class.png",
-                "selectedIconPath": "/images/in-class-active.png",
-                "serviceImgUrl": '../../images/clickme.jpeg',
-                "sessionFrom": 'type=courselist',
-                "jump": false
+                "selectedIconPath": "/images/in-class-active.png"
             },
             {
                 "text": "老师家族",
@@ -64,10 +59,56 @@ Page({
                 "selectedIconPath": "/images/me-active.png"
             }
         ],
-        aid: '',
-        gdt_vid: '',
-        weixinadinfo: '',
-        from: ''
+        from: '',
+        swiperList: [],
+        roomList: []
+    },
+
+    refresh() {
+        const index = this.data.active
+        switch (index) {
+            case 0: {
+                this.refreshHome()
+                break
+            }
+            case 2: {
+                break
+            }
+            case 3: {
+                break
+            }
+        }
+    },
+
+    /**
+     * 刷新首页
+     */
+    refreshHome() {
+        this.refreshSwiper()
+        this.refreshLessonList()
+    },
+
+    /**
+     * 刷新首页轮播
+     */
+    refreshSwiper() {
+        scheduleService.queryRecently().then(res => {
+            this.setData({
+                swiperList: res
+            })
+        }).catch(() => {})
+    },
+
+    /**
+     * 刷新课表种类
+     */
+    refreshLessonList() {
+        scheduleService.queryCategory().then(res => {
+            console.log(res)
+            this.setData({
+                roomList: res
+            })
+        }).catch(() => {})
     },
 
     /**
@@ -83,31 +124,12 @@ Page({
             })
         }
 
-        // url参数中可以获取到gdt_vid、weixinadinfo参数值
-        const gdt_vid = options.gdt_vid
-        const weixinadinfo = options.weixinadinfo
-        // 获取广告id
-        let aid = 0
-        if (weixinadinfo) {
-            const weixinadinfoArr = weixinadinfo.split('.')
-            aid = weixinadinfoArr[0]
-        }
         const from = options.from
 
-        if (gdt_vid) {
+        if (from) {
             this.setData({
-                aid: aid,
-                gdt_vid: gdt_vid,
-                weixinadinfo: weixinadinfo,
                 from: from
             })
-        }
-
-
-        if (from) {
-            wx.reportAnalytics('page_lode_from', {
-                from: from,
-            });
         }
 
         getStorage('notFirst').then(() => {
@@ -136,6 +158,8 @@ Page({
                 this.getRankDialog()
             })
         }
+
+        this.checkAppGlobalData()
     },
 
     getRankDialog() {
@@ -181,8 +205,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getTabbarItemInfo()
-        this.checkAppGlobalData()
+        this.refresh()
     },
 
     /**
@@ -366,58 +389,6 @@ Page({
             if (!userBase.getGlobalData().authed) {
                 this.setDialog()
             }
-
-            // getStorage('callTeacher').then(res => {
-            //     if (res) {
-            //         if (res.dayNumber < 3) {
-            //             const nowDay = new Date()
-            //             if (res.day !== nowDay.getDate()) {
-            //                 // 展示
-            //                 this.setData({
-            //                     showCallTeacher: true
-            //                 })
-            //                 wx.setStorage({
-            //                     key: "callTeacher",
-            //                     data: {
-            //                         dayNumber: 2,
-            //                         day: nowDay.getDate(),
-            //                         showNumber: 1
-            //                     }
-            //                 })
-            //             } else {
-            //                 if (res.showNumber < 2) {
-            //                     // 展示
-            //                     this.setData({
-            //                         showCallTeacher: true
-            //                     })
-            //
-            //                     wx.setStorage({
-            //                         key: "callTeacher",
-            //                         data: {
-            //                             dayNumber: res.dayNumber === 2 ? 3 : res.dayNumber,
-            //                             day: nowDay.getDate(),
-            //                             showNumber: 2
-            //                         }
-            //                     })
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }).catch(() => {
-            //     this.setData({
-            //         showCallTeacher: true
-            //     })
-            //     const nowDay = new Date()
-            //     wx.setStorage({
-            //         key: "callTeacher",
-            //         data: {
-            //             dayNumber: 1,
-            //             day: nowDay.getDate(),
-            //             showNumber: 1
-            //         }
-            //     })
-            // })
-
         }
         if (index === 3) {
             this.setSimpleUserModel()
@@ -439,7 +410,7 @@ Page({
             case 1: {
                 const nowActive = this.data.active
                 const lessonData = this.data.list[1]
-                if (lessonData && lessonData.jump) {
+                if (lessonData) {
                     this.jumpMini()
                 }
                 this.setData({
@@ -496,12 +467,6 @@ Page({
         })
     },
 
-    onClickHideCallTeacher() {
-        this.setData({
-            showCallTeacher: false
-        })
-    },
-
     onClickHideRank() {
         this.setData({
             showRank: false
@@ -545,28 +510,6 @@ Page({
                     }).catch(() => {
                         this.closeOverlay()
                     })
-
-
-                    if (this.data.gdt_vid) {
-                        const aid = this.data.aid
-                        const gdt_vid = this.data.gdt_vid
-                        const weixinadinfo = this.data.weixinadinfo
-                        const from = this.data.from
-                        wx.reportAnalytics('wx_gongzhonghao', {
-                            aid: aid,
-                            gdt_vid: gdt_vid,
-                            weixinadinfo: weixinadinfo,
-                            from: from,
-                        });
-                        const params = {
-                            appSign: 'hongsonggongzhonghao',
-                            setid: '1110214397',
-                            url: 'http://www.' + app.globalData.path + '?gdt_vid=' + gdt_vid + '&weixinadinfo=' + weixinadinfo,
-                            gdtvid: gdt_vid
-                        }
-                        http.post('/ad/api/user/actions/add', params).then(() => {
-                        })
-                    }
                 })
             } else {
                 // 拒绝
@@ -596,13 +539,6 @@ Page({
     checkAppGlobalData() {
         if (app && app.globalData) {
             if (app.globalData.query) {
-                if (app.globalData.query.from) {
-                    const tabbarList = this.data.list
-                    tabbarList[1].sessionFrom = this.data.list[1].sessionFrom + '&from=' + app.globalData.query.from
-                    this.setData({
-                        list: tabbarList
-                    })
-                }
                 if (app.globalData.query.event === 'course') {
                     const code = app.globalData.query.code
                     if (code) {
@@ -621,14 +557,6 @@ Page({
                         })
                     }
                 }
-            }
-            if (app.globalData.scene) {
-
-                const tabbarList = this.data.list
-                tabbarList[1].sessionFrom = this.data.list[1].sessionFrom + '&scenes=' + app.globalData.scene
-                this.setData({
-                    list: tabbarList
-                })
             }
         }
     },
@@ -692,23 +620,6 @@ Page({
             appId: 'wxbe86c353682cdb84',
             path: path,
             success() {
-            }
-        })
-    },
-
-    //  获取 tabbarInfo
-    getTabbarItemInfo() {
-        getWithWhere('tabbar', {position: 'tabbar'}).then(tabbarInfo => {
-            if (tabbarInfo && tabbarInfo.length) {
-                const jumpItem = tabbarInfo[0].jump
-                this.setData({
-                    miniJump: jumpItem
-                })
-                const tabbarList = this.data.list
-                tabbarList[1].jump = jumpItem
-                this.setData({
-                    list: tabbarList
-                })
             }
         })
     },

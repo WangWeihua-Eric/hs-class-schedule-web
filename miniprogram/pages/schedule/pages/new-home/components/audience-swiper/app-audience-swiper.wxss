@@ -44,7 +44,34 @@ swiper image {
     font-size: 20rpx;
 }
 
+.img-content {
+    position: relative;
+}
+
+.lesson-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.in-live-tag {
+    width: 179rpx;
+    height: 42rpx;
+}
+
+.room-pv {
+    font-size:22rpx;
+    font-family:SourceHanSansCN-Medium,SourceHanSansCN;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    left: 114rpx;
+    top: 0;
+    height: 42rpx;
+}
+
 .lesson-img {
     width: 536rpx;
     height: 300rpx;
+    border-radius: 15rpx;
 }

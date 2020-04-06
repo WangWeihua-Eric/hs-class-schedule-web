@@ -1,10 +1,10 @@
 <view>
     <view class="schedule-content" hidden="{{active !== 0}}">
-        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}"
-                bind:toastEvent="onToastEvent"
-                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">
-        </app-schedule>
-<!--        <app-new-home></app-new-home>-->
+<!--        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}"-->
+<!--                bind:toastEvent="onToastEvent"-->
+<!--                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">-->
+<!--        </app-schedule>-->
+        <app-new-home swiperList="{{swiperList}}" roomList="{{roomList}}"></app-new-home>
     </view>
     <view class="social-content" hidden="{{active !== 2}}">
         <app-social></app-social>
@@ -70,23 +70,9 @@
                             </view>
                         </view>
                         <view>
-                            <button wx:if="{{item.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
-                            <button wx:else class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&code=' + item.code}}" send-message-img="{{serviceImgUrl}}" bindtap="onLook" data-value="{{item}}">观看</button>
+                            <button wx:if="{{item.miniPath}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
                         </view>
                     </view>
-                </view>
-            </view>
-        </view>
-    </van-overlay>
-
-
-    <van-overlay z-index="3" show="{{ showCallTeacher }}" bind:click="onClickHideCallTeacher">
-        <view class="wrapper">
-            <view class="call-teacher-block" catch:tap="noop">
-                <van-image width="591rpx" height="794rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/call-teacher-poster.png"></van-image>
-                <view class="call-teacher-content">
-                    <view class="call-teacher-header">明星讲师您来选</view>
-                    <view class="call-teacher-text">红松周冠军、月冠军明星讲师，由你决定！！！</view>
                 </view>
             </view>
         </view>

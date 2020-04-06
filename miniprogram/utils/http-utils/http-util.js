@@ -1,8 +1,12 @@
 import {http} from "../wx-utils/wx-cloud-utils";
+import {isSessionReady} from "../user-utils/user-base-utils";
+import {UserBase} from "../user-utils/user-base";
 
 let singletonPattern = null;
 
 export class HttpUtil {
+    userBase = new UserBase()
+
     host = 'https://www.hongsong.club'
 
     constructor() {
@@ -82,6 +86,29 @@ export class HttpUtil {
             //     res.result.data[5].courses[1].finishTime = 'PM 22:00'
             // }
             return res.result
+        })
+    }
+
+    newGet(url, params) {
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.get(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.state && res.state.code === '0') {
+                            resolve(res.data)
+                        } else {
+                            reject(res)
+                        }
+                    }).catch((err) => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
         })
     }
 }

@@ -1,10 +1,30 @@
 <view class="content">
     <view class="swiper-list">
-        <app-audience-swiper></app-audience-swiper>
+        <app-audience-swiper swiperList="{{swiperList}}"></app-audience-swiper>
     </view>
+    <van-tabs active="{{ active }}" border="{{false}}" color="#A85347">
+        <van-tab title="推荐"></van-tab>
+        <van-tab title="养生"></van-tab>
+        <van-tab title="英语"></van-tab>
+        <van-tab title="电子琴"></van-tab>
+        <van-tab title="舞蹈"></van-tab>
+        <van-tab title="工笔画"></van-tab>
+        <van-tab title="健身"></van-tab>
+        <van-tab title="摄影"></van-tab>
+        <van-tab title="棋牌"></van-tab>
+        <van-tab title="书法"></van-tab>
+        <van-tab title="心理"></van-tab>
+        <van-tab title="声乐"></van-tab>
+        <van-tab title="葫芦丝"></van-tab>
+        <van-tab title="国画"></van-tab>
+        <van-tab title="数码"></van-tab>
+        <van-tab title="化妆"></van-tab>
+        <van-tab title="国学"></van-tab>
+        <van-tab title="瑜珈"></van-tab>
+    </van-tabs>
     <view class="room-list f-js-as-w">
         <view class="card-item" wx:for="{{roomList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
-            <app-audience-room-card></app-audience-room-card>
+            <app-audience-room-card roomData="{{item}}"></app-audience-room-card>
         </view>
     </view>
 </view>
