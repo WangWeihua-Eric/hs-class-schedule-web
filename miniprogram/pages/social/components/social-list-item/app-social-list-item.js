@@ -1,5 +1,6 @@
 import {SocialService} from "../../service/socialService";
 import {debounceForFunction} from "../../../../utils/time-utils/time-utils";
+import {getOnlineFile, previewImage, readFile} from "../../../../utils/wx-utils/wx-base-utils";
 
 const app = getApp()
 const socialService = new SocialService()
@@ -37,10 +38,16 @@ Component({
                 if (code !== this.codeTemp) {
                     this.codeTemp = code
                     this.refreshReplyData()
+                    if(data.contentType === 3) {
+                        this.refreshImgData()
+                    }
                 }
             } else {
                 this.codeTemp = code
                 this.refreshReplyData()
+                if(data.contentType === 3) {
+                    this.refreshImgData()
+                }
             }
         }
     },
@@ -74,7 +81,9 @@ Component({
         replySheetShow: false,
         replyDataList: [],
         userSelectList: ['谢谢您，感谢支持！','您可以点击右下方「看视频」，查看详细课程！'],
-        placeholder: ''
+        placeholder: '',
+        txt: '',
+        imgList: []
     },
 
     /**
@@ -82,7 +91,7 @@ Component({
      */
     methods: {
         onReplyEvent() {
-            if (this.data.socialData.replyType !== 2 || this.data.replySheetShow) {
+            if (!(this.data.socialData.replyType === 2 || this.data.socialData.contentType === 3) || this.data.replySheetShow) {
                 return
             }
             this.setData({
@@ -142,7 +151,7 @@ Component({
             this.setData({
                 replyDataList: []
             })
-            if (this.data.socialData && this.data.socialData.replyType === 2) {
+            if (this.data.socialData && (this.data.socialData.replyType === 2 || this.data.socialData.replyType === 3)) {
                 const code = this.data.socialData.code
                 socialService.queryRemark(code).then(res => {
                     if (res[code]) {
@@ -152,6 +161,58 @@ Component({
                     }
                 }).catch(() => {})
             }
+        },
+
+        refreshImgData() {
+            this.setData({
+                txt: '',
+                imgList: []
+            })
+            const extDataStr = this.data.socialData.extData
+            if (extDataStr) {
+                const extDataList = JSON.parse(extDataStr)
+                this.formatImgData(extDataList)
+            }
+        },
+        formatImgData(extDataList) {
+            const prePath = this.data.socialData.content
+            const imgList = []
+            if (prePath && extDataList && extDataList.length) {
+                extDataList.forEach(item => {
+                    if (item.indexOf('txt') > -1) {
+                        // 文本
+                        this.toDownLoadTxt(prePath, item)
+                    } else {
+                        imgList.push(prePath + item)
+                    }
+                })
+                this.setData({
+                    imgList: imgList
+                })
+            }
+        },
+        toDownLoadTxt(prePath, fileName) {
+            const fileUrl = prePath + fileName
+            getOnlineFile(fileUrl).then(res => {
+                const resFile = res.tempFilePath
+                readFile(resFile).then(info => {
+                    this.setData({
+                        txt: info.data
+                    })
+                }).catch(() => {})
+            }).catch(() => {
+
+            })
+        },
+
+        onShowImg(event) {
+            if(debounceForFunction()){
+                return
+            }
+            const current = event.currentTarget.dataset.value
+            previewImage(this.data.imgList, current).then(res => {
+            }).catch(() => {
+            })
         },
 
         nonp() {

@@ -82,6 +82,38 @@ export class SocialService {
     }
 
     /**
+     * 获取我的发布
+     */
+    querMyReply(postCode, loadType = 0, seqno = 0) {
+        const url = '/forum/api/querymyreply'
+        const params = {
+            postCode: postCode,
+            loadType: loadType,
+            seqno: seqno,
+        }
+        return new Promise((resolve, reject) => {
+            isSessionReady().then(res => {
+                if (res) {
+                    this.http.get(url, params, this.userBase.getGlobalData().sessionId).then(res => {
+                        if (res && res.state && res.state.code === '0') {
+                            resolve(res.data)
+                        } else {
+                            reject(res)
+                        }
+                    }).catch(err => {
+                        reject(err)
+                    })
+                } else {
+                    // 获取 sessionId 失败
+                    reject('获取 sessionId 失败')
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
+    /**
      * 关系链绑定
      */
     invited(uid, postCode) {

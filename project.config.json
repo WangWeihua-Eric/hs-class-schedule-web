@@ -68,7 +68,7 @@
 					"id": 2,
 					"name": "提问",
 					"pathName": "pages/question/question",
-					"query": "postCode=post100",
+					"query": "postCode=post100&type=homework",
 					"scene": 1014
 				},
 				{

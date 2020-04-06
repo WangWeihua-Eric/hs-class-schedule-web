@@ -2,6 +2,7 @@
   "navigationBarTitleText": "提问",
   "usingComponents": {
     "van-field": "@vant/weapp/field/index",
-    "van-uploader": "@vant/weapp/uploader/index"
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-toast": "@vant/weapp/toast/index"
   }
 }

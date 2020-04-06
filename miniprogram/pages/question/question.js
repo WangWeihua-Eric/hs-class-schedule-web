@@ -1,10 +1,17 @@
 import {socilColorList} from "../../style/color-palette/social-color";
 import {FansService} from "../../service/fansService";
+import {CosService} from "../../utils/cos-utils/cosService/cosService";
+import {UserBase} from "../../utils/user-utils/user-base";
+import {writeFile} from "../../utils/wx-utils/wx-base-utils";
+import Toast from '@vant/weapp/toast/toast';
 
 const fansService = new FansService()
+const cosService = new CosService()
+const userBase = new UserBase()
 
 let valueTemp = ''
 let postCode = ''
+let replyType = 2
 
 Page({
 
@@ -24,6 +31,18 @@ Page({
     onLoad: function (options) {
         const bgColor = options.bgColor
         const postCodeTemp = options.postCode
+        const type = options.type
+        switch (type) {
+            case 'question': {
+                replyType = 2
+                break
+            }
+            case 'homework': {
+                replyType = 3
+                break
+            }
+        }
+
         if (bgColor) {
             this.setData({
                 bgColor: bgColor
@@ -114,18 +133,30 @@ Page({
     },
 
     onSendQuestion() {
+        const fileList = this.data.fileList
+        if (fileList && fileList.length) {
+            Toast.loading({
+                message: '发布中...'
+            });
+            this.contentWithImg(fileList)
+        } else {
+            this.normalContent()
+        }
+    },
+
+    normalContent() {
         if (valueTemp && valueTemp.length) {
             const params = {
                 postCode: postCode,
                 contentType: 1,
-                replyType: 2,
+                replyType: replyType,
                 content: valueTemp
             }
 
             fansService.callTeacher(params).then(res => {
                 wx.showModal({
-                    title: '提问成功',
-                    content: '老师将在一天内帮您解答!',
+                    title: '发布成功',
+                    content: '老师将在一天内查看!',
                     showCancel: false,
                     success: (res) => {
                         if (res.confirm) {
@@ -147,6 +178,57 @@ Page({
                 showCancel: false
             })
         }
+    },
+
+    contentWithImg(fileList) {
+        const filePaths = []
+        const textPath = `${wx.env.USER_DATA_PATH}/question.txt`
+        if (valueTemp) {
+            filePaths.push(textPath)
+            writeFile(textPath, valueTemp).then(() => {
+                this.readySend(filePaths, fileList)
+            }).catch(() => {
+                Toast.clear()
+                wx.showModal({
+                    content: '上传失败',
+                    showCancel: false
+                })
+            })
+        } else {
+            this.readySend(filePaths, fileList)
+        }
+    },
+    readySend(filePaths, fileList) {
+        fileList.forEach(item => {
+            filePaths.push(item.path)
+        })
+
+        const ext = {
+            replyType: replyType,
+            postCode: postCode
+        }
+        cosService.uploadFiles(userBase.getGlobalData().sessionId, filePaths, '/forum/api/multipostreply', ext).then(res => {
+            Toast.clear()
+            wx.showModal({
+                title: '发布成功',
+                content: '老师将在一天内查看!',
+                showCancel: false,
+                success: (res) => {
+                    valueTemp = ''
+                    if (res.confirm) {
+                        wx.navigateBack({
+                            delta: 1
+                        })
+                    }
+                }
+            })
+        }).catch(err => {
+            Toast.clear()
+            wx.showModal({
+                content: '上传失败',
+                showCancel: false
+            })
+        })
     },
 
     onInputEvent(event) {

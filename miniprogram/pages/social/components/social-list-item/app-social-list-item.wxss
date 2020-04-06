@@ -1,3 +1,5 @@
+@import '../../../../style/flex-base.wxss'
+
 .cell {
     background:rgba(249,249,249,1);
 }
@@ -85,6 +87,13 @@
     width: 100%;
 }
 
+.content-img {
+    width: 150rpx;
+    height: 150rpx;
+    margin-left: 10rpx;
+    margin-bottom: 10rpx;
+}
+
 .creat-time {
     font-size:28rpx;
     font-family:PingFangSC-Light,PingFang SC;
@@ -104,6 +113,7 @@
     font-family:PingFangSC-Regular,PingFang SC;
     color:rgba(7,7,7,1);
     margin-top: 14rpx;
+    word-break: break-word;
 }
 
 .reply-tag {

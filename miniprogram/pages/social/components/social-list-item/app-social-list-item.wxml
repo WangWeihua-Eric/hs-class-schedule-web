@@ -1,20 +1,25 @@
 <view class="cell" bindtap="onReplyEvent">
     <view class="cell-item">
         <view class="item-left">
-            <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg ? socialData.userImg : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-defrot.png'}}"></van-image>
+            <van-image width="82rpx" height="82rpx" lazy-load="{{true}}" round="{{true}}" src="{{socialData.userImg ? socialData.userImg : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/define.png'}}"></van-image>
         </view>
         <view class="item-right">
             <view class="item-user-name">
                 <view class="item-user-left">
                     <view class="user-name">{{socialData.userName ? socialData.userName : '匿名用户'}}</view>
                     <view wx:if="{{socialData.replyType === 2}}" class="item-tag" style="background-color: {{bgColor}};">提问</view>
+                    <view wx:if="{{socialData.replyType === 3}}" class="item-tag" style="background-color: {{bgColor}};">作业</view>
                 </view>
                 <view class="creat-time">{{socialData.createTime}}</view>
             </view>
-            <view wx:if="{{socialData.replyType !== 2}}" class="call-number">{{socialData.callNumber}}</view>
+            <view wx:if="{{!(socialData.replyType === 2 || socialData.replyType === 3)}}" class="call-number">{{socialData.callNumber}}</view>
             <view class="item-des-info">
-                <view wx:if="{{!postCode}}" class="call-des">{{socialData.callDes}}</view>
-                <view wx:if="{{socialData.replyType === 2}}" class="reply-tag">评论</view>
+                <view wx:if="{{!postCode && socialData.contentType !== 3}}" class="call-des">{{socialData.callDes}}</view>
+                <view wx:if="{{socialData.contentType === 3}}" class="call-des">{{txt}}</view>
+                <view wx:if="{{socialData.replyType === 2 || socialData.contentType === 3}}" class="reply-tag">评论</view>
+            </view>
+            <view class="f-js-as-w" wx:if="{{socialData.contentType === 3}}">
+                <image lazy-load="{{true}}" mode="aspectFill" class="content-img" wx:for="{{imgList}}" wx:for-item="item" wx:for-index="index" wx:key="index" src="{{item}}" catch:tap="onShowImg" data-value="{{item}}"></image>
             </view>
             <view wx:if="{{postCode}}" class="call-join">
                 <view>
@@ -23,7 +28,7 @@
                 </view>
                 <button class="call-join-btn" style="color: {{bgColor}}; border: 1rpx solid {{bgColor}}" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=joinins&code=' + postCode}}" send-message-img="{{serviceImgUrl}}">进群</button>
             </view>
-            <view wx:if="{{socialData.replyType === 2}}">
+            <view wx:if="{{socialData.replyType === 2 || socialData.replyType === 3}}">
                 <view class="reply" wx:for="{{replyDataList}}" wx:for-item="item" wx:for-index="index" wx:key="index" catch:tap="OnReplyToUser" data-value="{{item}}">
                     <view class="reply-top">
                         <view class="reolyer">{{item.remarkName}}</view>

@@ -9,11 +9,9 @@
                 <view class="cell-title">{{socialData.title}}</view>
                 <view class="cell-total">
                     <view class="cell-total-title" style="color: {{bgColor}}">
-                        总赞:
+                        总人气:
                         <text class="call-total-text">{{socialData.replyCnt}}</text>
-                        月赞:
-                        <text class="call-total-text">{{socialData.monthCounter}}</text>
-                        周赞:
+                        周人气:
                         <text class="call-total-text">{{socialData.weekCounter}}</text>
                     </view>
                 </view>
@@ -33,7 +31,7 @@
             <view class="user-fan-img-list">
                 <view class="user-fan-img-info" wx:for="{{fansList}}" wx:for-item="item" wx:for-index="index"
                       wx:key="index">
-                    <van-image width="51rpx" height="51rpx" lazy-load="{{true}}" round="{{true}}" src="{{item.avatar ? item.avatar : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/user-img-defrot.png'}}"></van-image>
+                    <van-image width="51rpx" height="51rpx" lazy-load="{{true}}" round="{{true}}" src="{{item.avatar ? item.avatar : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/define.png'}}"></van-image>
                 </view>
             </view>
         </view>

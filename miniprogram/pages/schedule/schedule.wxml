@@ -1,10 +1,10 @@
 <view>
     <view class="schedule-content" hidden="{{active !== 0}}">
-<!--        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}"-->
-<!--                bind:toastEvent="onToastEvent"-->
-<!--                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">-->
-<!--        </app-schedule>-->
-        <app-new-home></app-new-home>
+        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}"
+                bind:toastEvent="onToastEvent"
+                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">
+        </app-schedule>
+<!--        <app-new-home></app-new-home>-->
     </view>
     <view class="social-content" hidden="{{active !== 2}}">
         <app-social></app-social>

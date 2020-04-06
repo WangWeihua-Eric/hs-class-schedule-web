@@ -1,6 +1,6 @@
 <view class="content" bindtap="onFocusEvent">
     <view class="header-right">
-        <view class="send-btn" style="background-color: {{bgColor}}" bindtap="onSendQuestion">发布问题</view>
+        <view class="send-btn" style="background-color: {{bgColor}}" bindtap="onSendQuestion">发布</view>
     </view>
     <view>
         <van-field
@@ -13,12 +13,14 @@
                 show-confirm-bar="{{false}}"
                 type="textarea"
                 autosize
-                placeholder="请输入您的问题..."
+                placeholder="请输入内容..."
                 border="{{ false }}"
                 bind:input="onInputEvent"
         />
     </view>
-    <view wx:if="{{false}}" class="img-list">
+    <view class="img-list">
         <van-uploader image-fit="aspectFill" preview-size="200rpx" catch:tap="nonp" max-count="9" multiple="{{true}}" file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="onDeleteEvent"/>
     </view>
+
+    <van-toast id="van-toast" />
 </view>

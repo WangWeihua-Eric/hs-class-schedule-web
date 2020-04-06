@@ -145,7 +145,7 @@ Page {
 
 .tag-line {
     margin-top: 20rpx;
-    width: 1rpx;
+    width: 2rpx;
     height: 27rpx;
     background-color: #979797;
 }

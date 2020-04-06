@@ -14,16 +14,20 @@ import {SocialService} from "./service/socialService";
 import {UserBase} from "../../utils/user-utils/user-base";
 import {FansService} from "../../service/fansService";
 import {getWithWhere} from "../../utils/wx-utils/wx-db-utils";
+import {UserService} from "../../service/userService";
 
 const socialService = new SocialService()
 const fansService = new FansService()
 const userBase = new UserBase()
+const userService = new UserService()
 
 let addLoding = false
 let teacherData = ''
 let cardImgUrlData = ''
 let socialListAll = []
 let socialListQuestion = []
+let socialListWork = []
+let socialListMe = []
 let nowSelectIndex = 0
 
 Page({
@@ -39,11 +43,19 @@ Page({
         socialList: [],
         tagList: [
             {
-                text: '查看全部',
+                text: '全部',
                 active: true
             },
             {
-                text: '只看提问',
+                text: '看提问',
+                active: false
+            },
+            {
+                text: '看作业',
+                active: false
+            },
+            {
+                text: '我发布的',
                 active: false
             }
         ],
@@ -62,7 +74,7 @@ Page({
                 "page": "social"
             },
             {
-                "text": "向老师提问",
+                "text": "提问/发作业",
                 "bgColor": socilColorList[0],
                 "page": "social"
             },
@@ -71,6 +83,15 @@ Page({
                 "page": "social"
             }
         ],
+        showQuestion: false,
+        actions: [
+            {
+                name: '提交作业'
+            },
+            {
+                name: '我要提问'
+            }
+        ]
     },
 
     /**
@@ -87,6 +108,13 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        const tagList = this.data.tagList
+        tagList.forEach((item, index) => {
+            item.active = index === nowSelectIndex
+        })
+        this.setData({
+            tagList: tagList
+        })
         const bgColor = options.bgColor
         const postCode = options.postCode
         const uid = options.uid
@@ -338,28 +366,51 @@ Page({
 
     addDataList(postCode, seqno) {
         let replyType = 0
-        if (nowSelectIndex === 1) {
-            replyType = 2
-        }
-        socialService.querySocialList(postCode, 1, seqno, replyType).then(res => {
-            addLoding = false
-            this.formatSocialListData(res)
-            this.setData({
-                socialList: [...this.data.socialList, ...res]
-            })
-            switch (nowSelectIndex) {
-                case 0: {
-                    socialListAll = this.data.socialList
-                    break;
-                }
-                case 1: {
-                    socialListQuestion = this.data.socialList
-                    break
-                }
+        switch (nowSelectIndex) {
+            case 1: {
+                replyType = 2
+                break
             }
-        }).catch(() => {
-            addLoding = false
-        })
+            case 2: {
+                replyType = 3
+                break
+            }
+        }
+        if (nowSelectIndex === 3) {
+            socialService.querMyReply(postCode, 1, seqno).then(res => {
+                addLoding = false
+                this.formatSocialListData(res)
+                this.setData({
+                    socialList: [...this.data.socialList, ...res]
+                })
+                socialListMe = this.data.socialList
+            }).catch(() => {})
+
+        } else {
+            socialService.querySocialList(postCode, 1, seqno, replyType).then(res => {
+                addLoding = false
+                this.formatSocialListData(res)
+                this.setData({
+                    socialList: [...this.data.socialList, ...res]
+                })
+                switch (nowSelectIndex) {
+                    case 0: {
+                        socialListAll = this.data.socialList
+                        break;
+                    }
+                    case 1: {
+                        socialListQuestion = this.data.socialList
+                        break
+                    }
+                    case 2: {
+                        socialListWork = this.data.socialList
+                        break
+                    }
+                }
+            }).catch(() => {
+                addLoding = false
+            })
+        }
     },
 
     formatSocialListData(data) {
@@ -484,6 +535,8 @@ Page({
     refreshListContent(postCode) {
         this.refreshSocialListAll(postCode)
         this.refreshSocialListQuestion(postCode)
+        this.refreshSocialListWork(postCode)
+        this.refreshSocialListMe(postCode)
     },
 
     /**
@@ -519,6 +572,37 @@ Page({
     },
 
     /**
+     * 刷新作业
+     */
+    refreshSocialListWork(postCode) {
+        socialService.querySocialList(postCode, 0, 0, 3).then(res => {
+            this.formatSocialListData(res)
+            if (nowSelectIndex === 2) {
+                this.setData({
+                    socialList: res
+                })
+            }
+            socialListWork = res
+        }).catch(() => {
+        })
+    },
+
+    /**
+     * 刷新我的发布
+     */
+    refreshSocialListMe(postCode) {
+        socialService.querMyReply(postCode).then(res => {
+            this.formatSocialListData(res)
+            if (nowSelectIndex === 3) {
+                this.setData({
+                    socialList: res
+                })
+            }
+            socialListMe = res
+        }).catch(() => {})
+    },
+
+    /**
      * 设置授权状态
      */
     setScopeRes(status) {
@@ -536,7 +620,8 @@ Page({
     },
 
     onShowCallTeacherSheetEvent() {
-        this.onShowCallTeacherSheet()
+        this.callTeacher()
+        // this.onShowCallTeacherSheet()
     },
 
     onShowCallTeacherSheet() {
@@ -565,10 +650,7 @@ Page({
                 break
             }
             case 1: {
-                const url = `../question/question?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
-                pageJump(url).then(() => {
-                }).catch(() => {
-                })
+                this.setData({ showQuestion: true });
                 break
             }
             case 2: {
@@ -623,6 +705,141 @@ Page({
                 })
                 break
             }
+            case 2: {
+                this.setData({
+                    socialList: socialListWork,
+                    tagList: tagList
+                })
+                break
+            }
+            case 3: {
+                this.setData({
+                    socialList: socialListMe,
+                    tagList: tagList
+                })
+                break
+            }
+        }
+    },
+
+    onCloseQuestion() {
+        this.setData({ showQuestion: false });
+    },
+
+    onSelectSheet(event) {
+        console.log(event.detail);
+        const typeName = event.detail.name
+
+        let url = `../question/question?bgColor=${this.data.bgColor}&postCode=${this.data.postCode}`
+        switch (typeName) {
+            case '提交作业': {
+                url = `${url}&type=homework`
+                break
+            }
+            case '我要提问': {
+                url = `${url}&type=question`
+                break
+            }
+        }
+
+        pageJump(url).then(() => {
+        }).catch(() => {
+        })
+    },
+
+    callTeacher() {
+        let params = {
+            postCode: this.data.postCode,
+            contentType: 0
+        }
+
+        if (!this.data.scopeRes) {
+            getSetting('scope.userInfo').then(scopeRes => {
+                if (scopeRes) {
+                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                    getUserInfo().then(userInfo => {
+                        // 获取用户信息成功
+                        const user = userInfo.userInfo
+                        const userImgUrl = user.avatarUrl
+                        const nickname = user.nickName
+                        const param = {
+                            userImgUrl: userImgUrl,
+                            nickname: nickname
+                        }
+
+                        userService.userUpdate({
+                            avatar: userImgUrl,
+                            nickname: nickname
+                        }).then(res => {
+                            const user = {
+                                ...res
+                            }
+                            userBase.setGlobalData(user)
+                            fansService.callTeacher(params).then(() => {
+                                wx.showModal({
+                                    title: '谢谢您为老师点赞',
+                                    content: '老师已经收到你的感谢啦！',
+                                    showCancel: false
+                                })
+                            }).catch(err => {
+                                if (err && err.state && err.state.code === '60001') {
+                                    wx.showModal({
+                                        content: '每天只能点赞两次哦',
+                                        showCancel: false
+                                    })
+                                } else {
+                                    wx.showModal({
+                                        content: '点赞失败，请重试',
+                                        showCancel: false
+                                    })
+                                }
+                            })
+                            wx.setStorage({
+                                key: "sessionId",
+                                data: {
+                                    ...user,
+                                    updateTime: new Date().getTime()
+                                }
+                            })
+                        }).catch(() => {
+                            wx.showModal({
+                                content: '点赞失败，请重试',
+                                showCancel: false
+                            })
+                        })
+                    })
+                } else {
+                    wx.showModal({
+                        content: '请同意授权用户信息',
+                        showCancel: false
+                    })
+                }
+            }).catch(() => {
+                wx.showModal({
+                    content: '请同意授权用户信息',
+                    showCancel: false
+                })
+            })
+        } else {
+            fansService.callTeacher(params).then(() => {
+                wx.showModal({
+                    title: '谢谢您为老师点赞',
+                    content: '老师已经收到你的感谢啦！',
+                    showCancel: false
+                })
+            }).catch(err => {
+                if (err && err.state && err.state.code === '60001') {
+                    wx.showModal({
+                        content: '每天只能点赞两次哦',
+                        showCancel: false
+                    })
+                } else {
+                    wx.showModal({
+                        content: '点赞失败，请重试',
+                        showCancel: false
+                    })
+                }
+            })
         }
     }
 })

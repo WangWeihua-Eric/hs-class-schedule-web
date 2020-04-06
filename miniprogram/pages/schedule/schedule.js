@@ -367,56 +367,56 @@ Page({
                 this.setDialog()
             }
 
-            getStorage('callTeacher').then(res => {
-                if (res) {
-                    if (res.dayNumber < 3) {
-                        const nowDay = new Date()
-                        if (res.day !== nowDay.getDate()) {
-                            // 展示
-                            this.setData({
-                                showCallTeacher: true
-                            })
-                            wx.setStorage({
-                                key: "callTeacher",
-                                data: {
-                                    dayNumber: 2,
-                                    day: nowDay.getDate(),
-                                    showNumber: 1
-                                }
-                            })
-                        } else {
-                            if (res.showNumber < 2) {
-                                // 展示
-                                this.setData({
-                                    showCallTeacher: true
-                                })
-
-                                wx.setStorage({
-                                    key: "callTeacher",
-                                    data: {
-                                        dayNumber: res.dayNumber === 2 ? 3 : res.dayNumber,
-                                        day: nowDay.getDate(),
-                                        showNumber: 2
-                                    }
-                                })
-                            }
-                        }
-                    }
-                }
-            }).catch(() => {
-                this.setData({
-                    showCallTeacher: true
-                })
-                const nowDay = new Date()
-                wx.setStorage({
-                    key: "callTeacher",
-                    data: {
-                        dayNumber: 1,
-                        day: nowDay.getDate(),
-                        showNumber: 1
-                    }
-                })
-            })
+            // getStorage('callTeacher').then(res => {
+            //     if (res) {
+            //         if (res.dayNumber < 3) {
+            //             const nowDay = new Date()
+            //             if (res.day !== nowDay.getDate()) {
+            //                 // 展示
+            //                 this.setData({
+            //                     showCallTeacher: true
+            //                 })
+            //                 wx.setStorage({
+            //                     key: "callTeacher",
+            //                     data: {
+            //                         dayNumber: 2,
+            //                         day: nowDay.getDate(),
+            //                         showNumber: 1
+            //                     }
+            //                 })
+            //             } else {
+            //                 if (res.showNumber < 2) {
+            //                     // 展示
+            //                     this.setData({
+            //                         showCallTeacher: true
+            //                     })
+            //
+            //                     wx.setStorage({
+            //                         key: "callTeacher",
+            //                         data: {
+            //                             dayNumber: res.dayNumber === 2 ? 3 : res.dayNumber,
+            //                             day: nowDay.getDate(),
+            //                             showNumber: 2
+            //                         }
+            //                     })
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }).catch(() => {
+            //     this.setData({
+            //         showCallTeacher: true
+            //     })
+            //     const nowDay = new Date()
+            //     wx.setStorage({
+            //         key: "callTeacher",
+            //         data: {
+            //             dayNumber: 1,
+            //             day: nowDay.getDate(),
+            //             showNumber: 1
+            //         }
+            //     })
+            // })
 
         }
         if (index === 3) {

@@ -1,4 +1,8 @@
+import {CosCloudService} from "./cosCloudService";
+
 const COS = require('./cos-wx-sdk-v5');
+
+const cosCloudService = new CosCloudService()
 
 let bucket = ''
 let region = ''
@@ -26,9 +30,9 @@ export class CosService {
      * @param ext: Object           自定义扩展字段
      * @returns {Promise<any>}
      */
-    uploadFiles(sessionId, filePaths, category, url, bizcode = 'dianping', scope = 0, ext = {}) {
+    uploadFiles(sessionId, filePaths, url, ext = {}, category = 0, bizcode = 'dianping', scope = 0) {
         return new Promise((resolve, reject) => {
-            if (!sessionId || !filePaths || !category || ! url) {
+            if (!sessionId || !filePaths || !url) {
                 reject('参数错误')
             }
 
@@ -39,7 +43,7 @@ export class CosService {
                 scope: scope,
                 category: category
             }
-            httpRequest(url, params).then(cosInitInfo => {
+            cosCloudService.getToken(url, params).then(cosInitInfo => {
                 const res = cosInitInfo.credential
                 cosUpdateCode = cosInitInfo.vlogCode
 
@@ -48,6 +52,7 @@ export class CosService {
                 prefix = res.prefix
 
                 cos = new COS({
+                    ForcePathStyle: true,
                     getAuthorization: function (options, callback) {
                         callback({
                             TmpSecretId: res.tmpSecretId,
@@ -68,10 +73,13 @@ export class CosService {
                 })
 
                 Promise.all(allPromise).then(res => {
-                    commitUpLoad(params, url, 1)
-                    resolve(res)
+                    commitUpLoad(params, url, 1).then(() => {
+                        resolve(res)
+                    }).catch(() => {
+                        reject('回调失败')
+                    })
                 }).catch(err => {
-                    commitUpLoad(params, url, 0)
+                    commitUpLoad(params, url, 0).then(() => {})
                     reject(err)
                 })
             }).catch(err => {
@@ -81,14 +89,14 @@ export class CosService {
     }
 }
 
-function commitUpLoad(params, url, vsSatus) {
+function commitUpLoad(params, url, vstatus) {
     const commitUrl = `${url}/callback`
     const sendParams = {
         ...params,
         code: cosUpdateCode,
-        vsSatus: vsSatus
+        vstatus: vstatus
     }
-    httpRequest(commitUrl, sendParams).then(() => {}).catch(() => {})
+    return cosCloudService.commitUpLoad(commitUrl, sendParams)
 }
 
 function upLoadFile(filePath, filename) {

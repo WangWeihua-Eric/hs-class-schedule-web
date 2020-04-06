@@ -194,3 +194,59 @@ export function saveImg(filePath) {
         })
     })
 }
+
+/**
+ * 写文件
+ */
+export function writeFile(filePath, data) {
+    const manager = wx.getFileSystemManager()
+    return new Promise((resolve, reject) => {
+        manager.writeFile({
+            filePath: filePath,
+            data: data,
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}
+
+/**
+ * 读文件
+ */
+export function readFile(filePath, encoding = 'utf8') {
+    const manager = wx.getFileSystemManager()
+    return new Promise((resolve, reject) => {
+        manager.readFile({
+            filePath: filePath,
+            encoding: encoding,
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}
+
+/**
+ * 图片预览
+ */
+export function previewImage(urls, current) {
+    return new Promise((resolve, reject) => {
+        wx.previewImage({
+            urls: urls,
+            current: current,
+            success: res => {
+                resolve(res)
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
+}

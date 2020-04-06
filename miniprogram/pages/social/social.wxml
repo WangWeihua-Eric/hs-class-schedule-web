@@ -53,4 +53,11 @@
     <view wx:if="{{tipShow}}" class="s-and-l-pop">
         <view class="l-pop-text">点击这里向老师提问</view>
     </view>
+
+    <van-action-sheet
+            show="{{ showQuestion }}"
+            actions="{{ actions }}"
+            bind:close="onCloseQuestion"
+            bind:select="onSelectSheet"
+    />
 </view>
