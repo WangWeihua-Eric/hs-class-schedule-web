@@ -1,4 +1,20 @@
 <view class="card-content f-c-js-ac">
+    <view class="card-info f-c-jb-as">
+        <view class="lesson-tag">
+            <image wx:if="{{roomData.roomStatus === 0}}" class="book-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/book-tag.png"></image>
+            <image wx:else class="live-tag" lazy-load="{{true}}" src="{{roomData.roomStatus === 3 ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/re-look.png' : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/in-live.png'}}"></image>
+            <view wx:if="{{roomData.roomStatus === 0}}" class="book-tag-text f-js-ac">{{roomData.openTime}}  {{roomData.subscribed ? '已预约' : '未预约' }}</view>
+            <view wx:else class="room-pv f-jc-ac">{{roomData.pv}}</view>
+        </view>
+        <view class="card-bottom f-jb-ac">
+            <view class="f-js-ac">
+                <image class="user-img" lazy-load="{{true}}" src="{{roomData.lecturer.avatar}}"></image>
+                <view class="user-name">{{roomData.lecturer.name}}</view>
+                <view class="sub-tag f-jc-ac">{{roomData.category.name}}</view>
+            </view>
+            <image class="book-btn-img" wx:if="{{roomData.roomStatus === 0 && roomData.subscribed === 0}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/to-book-btn.png" catch:tap="onBookEvent"></image>
+        </view>
+    </view>
     <image class="room-img" mode="aspectFill" lazy-load="{{true}}" src="{{roomData.roomCoverImg}}"></image>
     <view class="room-name f-js-ac">{{roomData.title}}</view>
 </view>

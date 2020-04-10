@@ -1,4 +1,9 @@
-// pages/audience-room-list/components/audience-swiper/app-audience-swiper.js
+import {getSetting, getUserInfo} from "../../../../../../utils/wx-utils/wx-base-utils";
+import {UserBase} from "../../../../../../utils/user-utils/user-base";
+import {debounceForFunction} from "../../../../../../utils/time-utils/time-utils";
+
+const userBase = new UserBase()
+
 Component({
     /**
      * 组件的属性列表
@@ -18,5 +23,62 @@ Component({
     /**
      * 组件的方法列表
      */
-    methods: {}
+    methods: {
+        onBookEvent(event) {
+            console.log(event)
+            const bookInfo = event.currentTarget.dataset.value
+            this.triggerEvent('cardBookEvent', bookInfo)
+        },
+        onJumpMini(event) {
+            if (debounceForFunction()) {
+                return
+            }
+
+            const value = event.currentTarget.dataset.value
+            switch (value.linkto) {
+                case 0: {
+                    this.jumpOldLook(value)
+                    break;
+                }
+                case 1: {
+                    this.jumpNewLook(value)
+                    break
+                }
+            }
+        },
+        jumpOldLook(value) {
+            const path = value.miniPath
+            wx.navigateToMiniProgram({
+                appId: 'wxbe86c353682cdb84',
+                path: path,
+                success() {
+                }
+            })
+        },
+        jumpNewLook(value) {
+            getSetting('scope.userInfo').then(res => {
+                if (res) {
+                    getUserInfo().then(userData => {
+                        const userInfo = userData.userInfo
+                        const userBaseInfo = userBase.getGlobalData()
+                        const sessionId = userBaseInfo.sessionId
+                        const userId = userBaseInfo.userId
+                        const userName = userInfo.nickName
+                        const userAvatar = userInfo.avatarUrl
+                        const roomID = value.roomId
+                        const roomName = value.title
+                        const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
+                        const path = `pages/mlvb-live-room-demo/live-room-page/room?userId=${userId}&userName=${userName}&userAvatar=${userAvatar}&roomID=${roomID}&roomName=${roomName}&sessionId=${sessionId}`
+                        wx.navigateToMiniProgram({
+                            appId: appid,
+                            path: path,
+                            envVersion: 'trial',
+                            success() {
+                            }
+                        })
+                    })
+                }
+            })
+        }
+    }
 })

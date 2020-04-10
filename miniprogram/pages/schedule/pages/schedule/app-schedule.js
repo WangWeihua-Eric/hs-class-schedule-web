@@ -1,6 +1,11 @@
 import {UserBase} from "../../../../utils/user-utils/user-base";
 import {HttpUtil} from "../../../../utils/http-utils/http-util";
-import {getSettingWithSubscriptions, wxSubscribeMessage} from "../../../../utils/wx-utils/wx-base-utils";
+import {
+    getSetting,
+    getSettingWithSubscriptions,
+    getUserInfo,
+    wxSubscribeMessage
+} from "../../../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../../../utils/wx-utils/wx-db-utils";
 import {isSessionReady} from "../../../../utils/user-utils/user-base-utils";
 
@@ -30,6 +35,10 @@ Component({
         active: {
             type: Number,
             value: null
+        },
+        bookInfo: {
+            type: Object,
+            value: {}
         }
     },
 
@@ -50,29 +59,40 @@ Component({
         scrollBtnShow: true
     },
 
-    pageLifetimes: {
-        show: function () {
-            this.refresh()
+    observers: {
+        "bookInfo": function (bookInfo) {
+            const params = {
+                currentTarget: {
+                    dataset: {
+                        value: bookInfo
+                    }
+                }
+            }
+            if (bookInfo && bookInfo.code) {
+                this.onBooking(params)
+            }
         }
     },
 
-    refresh() {
-        this.setData({
-            sessionFrom: ''
-        })
-        if (app && app.globalData) {
-            if (app.globalData.scene) {
-                this.setData({
-                    sessionFrom: 'scenes=' + app.globalData.scene
-                })
+    pageLifetimes: {
+        show: function () {
+            this.setData({
+                sessionFrom: ''
+            })
+            if (app && app.globalData) {
+                if (app.globalData.scene) {
+                    this.setData({
+                        sessionFrom: 'scenes=' + app.globalData.scene
+                    })
+                }
+                if (app.globalData.query && app.globalData.query.from) {
+                    this.setData({
+                        sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
+                    })
+                }
             }
-            if (app.globalData.query && app.globalData.query.from) {
-                this.setData({
-                    sessionFrom: this.data.sessionFrom + '&from=' + app.globalData.query.from
-                })
-            }
+            this.sessionIdReady()
         }
-        this.sessionIdReady()
     },
 
     /**
@@ -113,15 +133,48 @@ Component({
 
         onJumpLook(event) {
             const value = event.currentTarget.dataset.value
-            let path = ''
-            if (value.miniPath) {
-                path = value.miniPath
+            switch (value.linkto) {
+                case 0: {
+                    this.jumpOldLook(value)
+                    break;
+                }
+                case 1: {
+                    this.jumpNewLook(value)
+                    break
+                }
             }
-
+        },
+        jumpOldLook(value) {
+            const path = value.miniPath
             wx.navigateToMiniProgram({
                 appId: 'wxbe86c353682cdb84',
                 path: path,
                 success() {
+                }
+            })
+        },
+        jumpNewLook(value) {
+            getSetting('scope.userInfo').then(res => {
+                if (res) {
+                    getUserInfo().then(userData => {
+                        const userInfo = userData.userInfo
+                        const userBaseInfo = userBase.getGlobalData()
+                        const sessionId = userBaseInfo.sessionId
+                        const userId = userBaseInfo.userId
+                        const userName = userInfo.nickName
+                        const userAvatar = userInfo.avatarUrl
+                        const roomID = value.roomId
+                        const roomName = value.title
+                        const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
+                        const path = `pages/mlvb-live-room-demo/live-room-page/room?userId=${userId}&userName=${userName}&userAvatar=${userAvatar}&roomID=${roomID}&roomName=${roomName}&sessionId=${sessionId}`
+                        wx.navigateToMiniProgram({
+                            appId: appid,
+                            path: path,
+                            envVersion: 'trial',
+                            success() {
+                            }
+                        })
+                    })
                 }
             })
         },
@@ -235,6 +288,7 @@ Component({
                         title: '预约成功',
                         message: '我们会在课前 30 分钟通知您进直播间上课哦！'
                     }
+                    this.triggerEvent('refresh')
                     this.triggerEvent('dialogEvent', param)
                     break
                 }

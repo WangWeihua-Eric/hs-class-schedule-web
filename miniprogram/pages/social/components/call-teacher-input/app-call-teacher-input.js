@@ -137,7 +137,7 @@ Component({
                                 wx.setStorage({
                                     key: "sessionId",
                                     data: {
-                                        ...user,
+                                        ...userBase.getGlobalData(),
                                         updateTime: new Date().getTime()
                                     }
                                 })

@@ -1,17 +1,20 @@
 <view>
     <swiper circular="{{true}}" next-margin="92rpx" previous-margin="92rpx">
-        <swiper-item wx:for="{{swiperList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+        <swiper-item wx:for="{{swiperList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onJumpMini" data-value="{{item}}">
             <view class="swiper-content f-c-jc-as">
                 <view class="card-header f-js-ac">
                     <image class="time-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/time-tag.png"></image>
-                    <view class="open-time">{{item.openTime}}</view>
+                    <view class="open-time">{{item.openTime}} 开始</view>
                 </view>
                 <view class="img-content">
-                    <image class="lesson-img" lazy-load="{{true}}" src="{{item.roomCoverImg}}"></image>
+                    <image class="lesson-img" lazy-load="{{true}}" src="{{item.coverImg}}"></image>
                     <view class="lesson-tag">
-                        <image class="in-live-tag" lazy-load="{{true}}" src="{{item.roomStatus === 0 ? '' : item.roomStatus === 3 ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/re-look.png' : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/in-live.png'}}"></image>
-                        <view wx:if="{{item.roomStatus !== 0}}" class="room-pv f-jc-ac">{{item.pv}}</view>
+                        <image wx:if="{{item.roomStatus === 0}}" class="book-tag" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/book-tag.png"></image>
+                        <image wx:else class="live-tag" lazy-load="{{true}}" src="{{item.roomStatus === 3 ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/re-look.png' : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/in-live.png'}}"></image>
+                        <view wx:if="{{item.roomStatus === 0}}" class="book-tag-text f-js-ac">{{item.openTime}} {{item.subscribed ? '已预约' : '未预约' }}</view>
+                        <view wx:else class="room-pv f-jc-ac">{{item.pv}}</view>
                     </view>
+                    <image class="book-btn-img" wx:if="{{item.roomStatus === 0 && item.subscribed === 0}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/to-book-btn.png" catch:tap="onBookEvent" data-value="{{item}}"></image>
                 </view>
             </view>
         </swiper-item>

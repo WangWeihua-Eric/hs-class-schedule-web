@@ -1,15 +1,15 @@
 /**
  * 格式化时间戳为 M:D H:M
  */
-export function formatTime(time) {
+export function formatTime(time, space = false) {
     const thisTime = new Date(time)
     const startTime = new Date(new Date().toLocaleDateString()).getTime() // 当天 0 点
     const endTime = new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 // 当天 24 点
 
     if (startTime < time && time < endTime) {
-        return `今天 ${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}`
+        return space ? `今天${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}` : `今天 ${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}`
     } else {
-        return `${thisTime.getMonth() + 1}月${thisTime.getDate()}日 ${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}`
+        return space ? `${thisTime.getMonth() + 1}月${thisTime.getDate()}日${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}` : `${thisTime.getMonth() + 1}月${thisTime.getDate()}日 ${addZeroForDay(thisTime.getHours())}:${addZeroForDay(thisTime.getMinutes())}`
     }
 }
 

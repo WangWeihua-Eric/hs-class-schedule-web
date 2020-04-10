@@ -17,5 +17,9 @@ Component({
     /**
      * 组件的方法列表
      */
-    methods: {}
+    methods: {
+        onBookEvent() {
+            this.triggerEvent('cardBookEvent', this.data.roomData)
+        }
+    }
 })

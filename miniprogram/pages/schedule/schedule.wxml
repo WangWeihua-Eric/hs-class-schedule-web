@@ -1,11 +1,18 @@
-<view>
+<view class="content">
     <view class="schedule-content" hidden="{{active !== 0}}">
-<!--        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}"-->
-<!--                bind:toastEvent="onToastEvent"-->
-<!--                bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent" bind:openLessonEvent="onOpenLessonEvent">-->
-<!--        </app-schedule>-->
-        <app-new-home swiperList="{{swiperList}}" roomList="{{roomList}}"></app-new-home>
+        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}" bookInfo="{{bookInfo}}"
+                      bind:refresh="refreshHome"
+                      bind:toastEvent="onToastEvent"
+                      bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent"
+                      bind:openLessonEvent="onOpenLessonEvent">
+        </app-schedule>
     </view>
+
+    <view class="schedule-content" hidden="{{active !== -1}}">
+        <app-new-home swiperList="{{swiperList}}" roomList="{{roomList}}" active="{{nowCategory}}"
+                      bind:changeTabEvent="onChangeTabEvent" bind:onBook="onBookEvent"></app-new-home>
+    </view>
+
     <view class="social-content" hidden="{{active !== 2}}">
         <app-social></app-social>
     </view>
@@ -13,21 +20,27 @@
         <app-me simpleUserModel="{{simpleUserModel}}"></app-me>
     </view>
     <view>
-        <mp-tabbar current="{{active}}" style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}"
-                bindchange="tabChange"></mp-tabbar>
+        <mp-tabbar current="{{tabActive}}" style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}"
+                   bindchange="tabChange"></mp-tabbar>
     </view>
+
+    <image class="switch-btn" hidden="{{!(active === 0 || active === -1)}}"
+           src="{{active === 0 ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/switch-1.png' : 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/switch-2.png'}}"
+           bindtap="onSwitchActive"></image>
 
     <van-toast id="van-toast"/>
 
     <van-dialog id="van-dialog"/>
 
     <view class="guide" wx:if="{{guide}}" bindtap="onCloseTip">
-        <image class="guide-img" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/guide.png">
+        <image class="guide-img"
+               src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/guide.png">
             <view class="guide-des">
                 <view class="guide-title">
                     <view class="guide-text">点击</view>
                     <view>
-                        <van-image class="point" width="37rpx" height="13rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/point.png"></van-image>
+                        <van-image class="point" width="37rpx" height="13rpx" lazy-load="{{true}}"
+                                   src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/point.png"></van-image>
                     </view>
                 </view>
                 <view class="guide-text">“添加到我的小程序”</view>
@@ -44,7 +57,9 @@
                 <van-image width="651rpx" height="840rpx" lazy-load="{{true}}" src="{{img}}"></van-image>
                 <view class="welcome-join-info">
                     <view class="welcome-title">{{title}}</view>
-                    <button hover-class="none" class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">{{btnTitle}}</button>
+                    <button hover-class="none" class="join-btn" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+                        {{btnTitle}}
+                    </button>
                 </view>
             </view>
         </view>
@@ -53,24 +68,30 @@
     <van-overlay z-index="3" show="{{ showOpenLesson }}" bind:click="onClickHideOpenLesson">
         <view class="wrapper">
             <view class="block" catch:tap="noop">
-                <van-image width="538rpx" height="{{welcomeBgHeight}}rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/border-line.png"></van-image>
+                <van-image width="538rpx" height="{{welcomeBgHeight}}rpx" lazy-load="{{true}}"
+                           src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/border-line.png"></van-image>
                 <view class="welcome-content">
                     <view class="welcome-content-title">
                         <view class="welcome-content-title-header">开课啦!</view>
                         <view class="welcome-content-title-des">去和老师打个招呼吧</view>
                     </view>
                     <view class="welcome-content-cell" wx:for="{{openLesson}}" wx:for-index="index" wx:for-item="item"
-                            wx:key="index">
-                        <van-image class="star-line-img" width="432rpx" height="21rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-line.png"></van-image>
+                          wx:key="index">
+                        <van-image class="star-line-img" width="432rpx" height="21rpx" lazy-load="{{true}}"
+                                   src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/start-line.png"></van-image>
                         <view class="welcome-content-cell-item">
-                            <view class="item-tag" style="background-color: {{item.category.color}}">{{item.category.name}}</view>
+                            <view class="item-tag" style="background-color: {{item.category.color}}">
+                                {{item.category.name}}
+                            </view>
                             <view class="welcome-content-cell-item-desc">
                                 <view class="item-title">{{item.title}}</view>
                                 <view class="item-teacher">{{item.lecturer.name + ' | ' + item.lecturer.titles}}</view>
                             </view>
                         </view>
                         <view>
-                            <button wx:if="{{item.miniPath}}" class="look-btn" bindtap="onJumpLook" data-value="{{item}}">观看</button>
+                            <button wx:if="{{item.miniPath}}" class="look-btn" bindtap="onJumpLook"
+                                    data-value="{{item}}">观看
+                            </button>
                         </view>
                     </view>
                 </view>
@@ -81,7 +102,8 @@
     <van-overlay z-index="3" show="{{ showRank }}" bind:click="onClickHideRank">
         <view class="wrapper">
             <view class="show-rank-block" catch:tap="noop">
-                <van-image width="629rpx" height="1016rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rank-week-img.png"></van-image>
+                <van-image width="629rpx" height="1016rpx" lazy-load="{{true}}"
+                           src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rank-week-img.png"></van-image>
                 <view class="show-rank-content">
                     <view class="rank-title">{{rankDialogInfo.begin + ' - ' + rankDialogInfo.end}}</view>
                     <view class="rank-head">
@@ -92,7 +114,8 @@
                     <view class="rank-body">
                         <view class="body-left">
                             <view>
-                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-1.png"></van-image>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}"
+                                           src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-1.png"></van-image>
                             </view>
                             <view class="user-name">{{rankDialogInfo.details[2].authorName}}</view>
                         </view>
@@ -101,7 +124,8 @@
                     <view class="rank-body">
                         <view class="body-left">
                             <view>
-                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-2.png"></van-image>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}"
+                                           src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-2.png"></van-image>
                             </view>
                             <view class="user-name">{{rankDialogInfo.details[1].authorName}}</view>
                         </view>
@@ -110,7 +134,8 @@
                     <view class="rank-body">
                         <view class="body-left">
                             <view>
-                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-3.png"></van-image>
+                                <van-image width="36rpx" height="46rpx" lazy-load="{{true}}"
+                                           src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/ranking-dialog-no-3.png"></van-image>
                             </view>
                             <view class="user-name">{{rankDialogInfo.details[0].authorName}}</view>
                         </view>
@@ -122,7 +147,8 @@
     </van-overlay>
 
     <view hidden="{{active !== 2}}" class="rule-img-btn" bindtap="onShowSheet">
-        <van-image width="148rpx" height="184rpx" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>
+        <van-image width="148rpx" height="184rpx" lazy-load="{{true}}"
+                   src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>
     </view>
 
     <van-action-sheet show="{{ showSheet }}" bind:close="onCloseSheet">

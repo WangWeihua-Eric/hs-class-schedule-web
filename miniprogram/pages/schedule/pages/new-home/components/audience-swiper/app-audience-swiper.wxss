@@ -44,6 +44,16 @@ swiper image {
     font-size: 20rpx;
 }
 
+.book-tag {
+    width: 270rpx;
+    height: 42rpx;
+}
+
+.live-tag {
+    width: 179rpx;
+    height: 42rpx;
+}
+
 .img-content {
     position: relative;
 }
@@ -54,9 +64,27 @@ swiper image {
     left: 0;
 }
 
+.book-btn-img {
+    width: 84rpx;
+    height: 42rpx;
+    position: absolute;
+    bottom: 25rpx;
+    right: 16rpx;
+}
+
 .in-live-tag {
     width: 179rpx;
     height: 42rpx;
+}
+
+.book-tag-text {
+    font-size:22rpx;
+    font-family:SourceHanSansCN-Bold,SourceHanSansCN;
+    font-weight:bold;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    left: 6rpx;
+    top: 6rpx;
 }
 
 .room-pv {

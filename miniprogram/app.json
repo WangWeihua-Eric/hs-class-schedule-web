@@ -14,6 +14,8 @@
   },
   "sitemapLocation": "sitemap.json",
   "navigateToMiniProgramAppIdList": [
-    "wxbe86c353682cdb84"
+    "wxbe86c353682cdb84",
+    "wx7854b9c2baa260f7",
+    "wxe347be7e0dda5309"
   ]
 }

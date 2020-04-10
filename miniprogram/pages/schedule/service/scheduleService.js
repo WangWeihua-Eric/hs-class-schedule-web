@@ -51,6 +51,11 @@ export class ScheduleService {
         const url = '/course/api/query/recently'
         const params = {}
         return this.http.newGet(url, params).then(res => {
+            res.sort((a, b) => {
+                let value1 = a['start']
+                let value2 = b['start']
+                return value1 - value2
+            })
             this.formatSwiper(res)
             return res
         })
@@ -65,17 +70,15 @@ export class ScheduleService {
             category: category,
             seqno: seqno
         }
-        return this.http.newGet(url, params)
+        return this.http.newGet(url, params).then(res => {
+            this.formatSwiper(res, true)
+            return res
+        })
     }
 
-    formatSwiper(data) {
-        data.sort((a, b) => {
-            let value1 = a['start']
-            let value2 = b['start']
-            return value1 - value2
-        })
+    formatSwiper(data, space = false) {
         data.forEach(item => {
-            item.openTime = `${formatTime(item.start)} 开始`
+            item.openTime = `${formatTime(item.start, space)}`
         })
     }
 }

@@ -1,4 +1,4 @@
-import {getSetting, getStorage, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
+import {getSetting, getStorage, getUserInfo, wxLogin} from "../../utils/wx-utils/wx-base-utils";
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 import {UserBase} from "../../utils/user-utils/user-base";
@@ -14,6 +14,10 @@ const scheduleService = new ScheduleService()
 
 let lessonDialogFirstTime = null
 let lessonDialogNumber = 0
+let category = 0
+let lesson = {}
+let addLoding = false
+let activeTmp = -1
 
 Page({
     /**
@@ -24,7 +28,8 @@ Page({
         showRank: false,
         guide: false,
         scrollTop: null,
-        active: 0,
+        active: -1,
+        tabActive: 0,
         show: false,
         showSheet: false,
         showOpenLesson: false,
@@ -61,13 +66,18 @@ Page({
         ],
         from: '',
         swiperList: [],
-        roomList: []
+        roomList: [],
+        nowCategory: 0,
+        bookInfo: {}
     },
 
     refresh() {
         const index = this.data.active
         switch (index) {
-            case 0: {
+            case -1: {
+                this.setData({
+                    nowCategory: category
+                })
                 this.refreshHome()
                 break
             }
@@ -103,8 +113,8 @@ Page({
      * 刷新课表种类
      */
     refreshLessonList() {
-        scheduleService.queryCategory().then(res => {
-            console.log(res)
+        scheduleService.queryCategory(category).then(res => {
+            lesson[category] = res
             this.setData({
                 roomList: res
             })
@@ -112,15 +122,56 @@ Page({
     },
 
     /**
+     * 加载课种类
+     */
+    addRoomList(seqno) {
+        scheduleService.queryCategory(category, seqno).then(res => {
+            const list = [...this.data.roomList, ...res]
+            lesson[category] = list
+            this.setData({
+                roomList: list
+            })
+            addLoding = false
+        }).catch(() => {})
+    },
+
+    onSwitchActive() {
+        const index = this.data.active
+        switch (index) {
+            case -1: {
+                activeTmp = 0
+                this.setData({
+                    active: 0
+                })
+                break;
+            }
+            case 0: {
+                activeTmp = -1
+                this.setData({
+                    active: -1
+                })
+                break;
+            }
+        }
+    },
+
+    onBookEvent(event) {
+        this.setData({
+            bookInfo: event.detail
+        })
+    },
+
+    /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
         const active = options.active
-        if (active) {
+        if (active > 0) {
             const index = parseInt(active)
             this.setNavTitle(index)
             this.setData({
-                active: index
+                active: index,
+                tabActive: index
             })
         }
 
@@ -131,6 +182,8 @@ Page({
                 from: from
             })
         }
+
+        this.getAppId()
 
         getStorage('notFirst').then(() => {
             // 非首次登陆
@@ -160,6 +213,17 @@ Page({
         }
 
         this.checkAppGlobalData()
+    },
+
+    getAppId() {
+        getWithWhere('appid', {position: 'appid'}).then(appidList => {
+            if (appidList.length) {
+                const appid = appidList[0].appid
+                userBase.setGlobalData({
+                    appid: appid
+                })
+            }
+        })
     },
 
     getRankDialog() {
@@ -199,7 +263,9 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () { },
+    onReady: function () {
+
+    },
 
     /**
      * 生命周期函数--监听页面显示
@@ -239,7 +305,11 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-
+        if (!addLoding && this.data.active === -1) {
+            addLoding = true
+            const seqno = this.data.roomList[this.data.roomList.length - 1].seqno
+            this.addRoomList(seqno)
+        }
     },
 
     /**
@@ -373,7 +443,7 @@ Page({
 
     tabChange(event) {
         const index = event.detail.index
-        const nowActive = this.data.active
+        const nowActive = this.data.tabActive
         if (index === nowActive) {
             return
         }
@@ -404,17 +474,22 @@ Page({
                 wx.setNavigationBarTitle({
                     title: '红松课表'
                 })
-                this.setData({active: index})
+                this.setData({
+                    nowCategory: category,
+                    active: activeTmp,
+                    tabActive: index
+                })
+                this.refreshHome()
                 break;
             }
             case 1: {
-                const nowActive = this.data.active
+                const nowActive = this.data.tabActive
                 const lessonData = this.data.list[1]
                 if (lessonData) {
                     this.jumpMini()
                 }
                 this.setData({
-                    active: nowActive
+                    tabActive: nowActive
                 })
                 break
             }
@@ -422,14 +497,20 @@ Page({
                 wx.setNavigationBarTitle({
                     title: '老师家族'
                 })
-                this.setData({active: index})
+                this.setData({
+                    active: index,
+                    tabActive: index
+                })
                 break
             }
             case 3: {
                 wx.setNavigationBarTitle({
                     title: '我'
                 })
-                this.setData({active: index})
+                this.setData({
+                    active: index,
+                    tabActive: index
+                })
                 break
             }
         }
@@ -493,13 +574,12 @@ Page({
                             const user = {
                                 ...res.result.data
                             }
-
                             userBase.setGlobalData(user)
 
                             wx.setStorage({
                                 key: "sessionId",
                                 data: {
-                                    ...user,
+                                    ...userBase.getGlobalData(),
                                     updateTime: new Date().getTime()
                                 }
                             })
@@ -513,11 +593,16 @@ Page({
                 })
             } else {
                 // 拒绝
-                this.setData({active: 0})
+                this.setData({
+                    active: 0
+                })
                 this.closeOverlay()
             }
         }).catch(() => {
-            this.setData({active: 0})
+            this.setData({
+                active: activeTmp,
+                tabActive: 0
+            })
             this.closeOverlay()
         })
     },
@@ -599,27 +684,52 @@ Page({
     },
 
     onJumpLook(event) {
-        const value = event.currentTarget.dataset.value
-
-        const lessonCode = value.code
-        wx.setStorage({
-            key: 'lessonCode',
-            data: lessonCode
-        })
-        this.setData({
-            showOpenLesson: false,
-            openLesson: []
-        })
-
-        let path = ''
-        if (value.miniPath) {
-            path = value.miniPath
+        if (debounceForFunction()) {
+            return
         }
-
+        const value = event.currentTarget.dataset.value
+        switch (value.linkto) {
+            case 0: {
+                this.jumpOldLook(value)
+                break;
+            }
+            case 1: {
+                this.jumpNewLook(value)
+                break
+            }
+        }
+    },
+    jumpOldLook(value) {
+        const path = value.miniPath
         wx.navigateToMiniProgram({
             appId: 'wxbe86c353682cdb84',
             path: path,
             success() {
+            }
+        })
+    },
+    jumpNewLook(value) {
+        getSetting('scope.userInfo').then(res => {
+            if (res) {
+                getUserInfo().then(userData => {
+                    const userInfo = userData.userInfo
+                    const userBaseInfo = userBase.getGlobalData()
+                    const sessionId = userBaseInfo.sessionId
+                    const userId = userBaseInfo.userId
+                    const userName = userInfo.nickName
+                    const userAvatar = userInfo.avatarUrl
+                    const roomID = value.roomId
+                    const roomName = value.title
+                    const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
+                    const path = `pages/mlvb-live-room-demo/live-room-page/room?userId=${userId}&userName=${userName}&userAvatar=${userAvatar}&roomID=${roomID}&roomName=${roomName}&sessionId=${sessionId}`
+                    wx.navigateToMiniProgram({
+                        appId: appid,
+                        path: path,
+                        envVersion: 'trial',
+                        success() {
+                        }
+                    })
+                })
             }
         })
     },
@@ -631,4 +741,22 @@ Page({
     onCloseSheet() {
         this.setData({showSheet: false});
     },
+
+    onChangeTabEvent(event) {
+        const index = event.detail.index
+        category = index
+        this.setData({
+            nowCategory: category
+        })
+        if (lesson && lesson[index] && lesson[index].length) {
+            this.setData({
+                roomList: lesson[index]
+            })
+        } else {
+            this.setData({
+                roomList: []
+            })
+            this.refreshLessonList()
+        }
+    }
 })
