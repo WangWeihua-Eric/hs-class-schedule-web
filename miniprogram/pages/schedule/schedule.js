@@ -118,7 +118,10 @@ Page({
             this.setData({
                 roomList: res
             })
-        }).catch(() => {})
+            addLoding = false
+        }).catch(() => {
+            addLoding = false
+        })
     },
 
     /**
@@ -132,7 +135,9 @@ Page({
                 roomList: list
             })
             addLoding = false
-        }).catch(() => {})
+        }).catch(() => {
+            addLoding = false
+        })
     },
 
     onSwitchActive() {

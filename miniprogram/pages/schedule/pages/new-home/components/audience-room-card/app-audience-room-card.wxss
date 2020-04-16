@@ -8,7 +8,7 @@
 
 .card-info {
     width: 344rpx;
-    height: 330rpx;
+    height: 340rpx;
     border-radius: 10rpx;
     position: absolute;
     top: 0;
@@ -23,6 +23,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 14rpx 16rpx 14rpx 12rpx;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0, 0.71) 100%);
 }
 
 .user-img {

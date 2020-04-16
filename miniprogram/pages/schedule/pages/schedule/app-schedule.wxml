@@ -80,10 +80,10 @@
                                 </view>
                             </view>
                             <view class="cell-item-right">
-                                <button wx:if="{{(coursesItem.isEnd || coursesItem.booked === 2) && coursesItem.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{coursesItem}}">观看</button>
-                                <button wx:elif="{{(coursesItem.isEnd || coursesItem.booked === 2) && !(coursesItem.miniPath && miniJump)}}" class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=course&code=' + coursesItem.code}}" send-message-img="{{serviceImgUrl}}" bindtap="onSetContact">观看</button>
+                                <button wx:if="{{(coursesItem.isEnd || coursesItem.booked === 2) && coursesItem.miniPath}}" class="look-btn" bindtap="onJumpLook" data-value="{{coursesItem}}">观看</button>
+                                <button wx:elif="{{(coursesItem.isEnd || coursesItem.booked === 2) && !coursesItem.miniPath}}" class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=course&code=' + coursesItem.code}}" send-message-img="{{serviceImgUrl}}" bindtap="onSetContact">观看</button>
                                 <view wx:elif="{{coursesItem.booked === 0}}" class="booking-btn" bindtap="onBooking" data-value="{{coursesItem}}">预约</view>
-                                <button wx:elif="{{coursesItem.booked === 1 && coursesItem.miniPath && miniJump}}" class="look-btn" bindtap="onJumpLook" data-value="{{coursesItem}}">看详情</button>
+                                <button wx:elif="{{coursesItem.booked === 1 && coursesItem.miniPath}}" class="look-btn" bindtap="onJumpLook" data-value="{{coursesItem}}">看详情</button>
                                 <button wx:else class="look-btn" open-type="contact" show-message-card="true" session-from="{{sessionFrom + '&type=course&code=' + coursesItem.code}}" send-message-img="{{serviceImgUrl}}" bindtap="onSetContact">看详情</button>
                             </view>
                         </view>

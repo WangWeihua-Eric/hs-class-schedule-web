@@ -28,10 +28,6 @@ Component({
             type: Number,
             value: null
         },
-        miniJump: {
-            type: Boolean,
-            value: false
-        },
         active: {
             type: Number,
             value: null
@@ -498,6 +494,8 @@ Component({
                     }
                     isContactBack = false
                 }
+            }).catch(() => {
+                this.triggerEvent('toastEvent', {action: 'close'})
             })
         },
 

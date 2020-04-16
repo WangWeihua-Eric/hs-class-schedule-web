@@ -1,6 +1,6 @@
 <view class="content">
     <view class="schedule-content" hidden="{{active !== 0}}">
-        <app-schedule scrollTop="{{scrollTop}}" miniJump="{{miniJump}}" active="{{active}}" bookInfo="{{bookInfo}}"
+        <app-schedule scrollTop="{{scrollTop}}" active="{{active}}" bookInfo="{{bookInfo}}"
                       bind:refresh="refreshHome"
                       bind:toastEvent="onToastEvent"
                       bind:dialogEvent="onDialogEvent" bind:overlayEvent="onOverlayEvent"
