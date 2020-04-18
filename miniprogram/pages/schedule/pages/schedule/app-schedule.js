@@ -1,9 +1,7 @@
 import {UserBase} from "../../../../utils/user-utils/user-base";
 import {HttpUtil} from "../../../../utils/http-utils/http-util";
 import {
-    getSetting,
     getSettingWithSubscriptions,
-    getUserInfo,
     wxSubscribeMessage
 } from "../../../../utils/wx-utils/wx-base-utils";
 import {getWithWhere} from "../../../../utils/wx-utils/wx-db-utils";
@@ -150,27 +148,15 @@ Component({
             })
         },
         jumpNewLook(value) {
-            getSetting('scope.userInfo').then(res => {
-                if (res) {
-                    getUserInfo().then(userData => {
-                        const userInfo = userData.userInfo
-                        const userBaseInfo = userBase.getGlobalData()
-                        const sessionId = userBaseInfo.sessionId
-                        const userId = userBaseInfo.userId
-                        const userName = userInfo.nickName
-                        const userAvatar = userInfo.avatarUrl
-                        const roomID = value.roomId
-                        const roomName = value.title
-                        const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
-                        const path = `pages/mlvb-live-room-demo/live-room-page/room?userId=${userId}&userName=${userName}&userAvatar=${userAvatar}&roomID=${roomID}&roomName=${roomName}&sessionId=${sessionId}`
-                        wx.navigateToMiniProgram({
-                            appId: appid,
-                            path: path,
-                            envVersion: 'trial',
-                            success() {
-                            }
-                        })
-                    })
+            const roomID = value.roomId
+            const roomName = value.title
+            const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
+            const path = `pages/mlvb-live-room-demo/live-room-page/room?roomID=${roomID}&roomName=${roomName}`
+            wx.navigateToMiniProgram({
+                appId: appid,
+                path: path,
+                envVersion: 'trial',
+                success() {
                 }
             })
         },

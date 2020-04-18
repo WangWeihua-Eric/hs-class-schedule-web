@@ -1,4 +1,4 @@
-import {getSetting, getStorage, getUserInfo, wxLogin} from "../../utils/wx-utils/wx-base-utils";
+import {getSetting, getStorage, getUserInfo} from "../../utils/wx-utils/wx-base-utils";
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 import {UserBase} from "../../utils/user-utils/user-base";
@@ -17,6 +17,7 @@ let lessonDialogNumber = 0
 let category = 0
 let lesson = {}
 let addLoding = false
+let healthLoding = false
 let activeTmp = -1
 
 Page({
@@ -54,7 +55,12 @@ Page({
                 "selectedIconPath": "/images/in-class-active.png"
             },
             {
-                "text": "老师家族",
+                "text": "连线调理",
+                "iconPath": "/images/health-link.png",
+                "selectedIconPath": "/images/health-link-active.png"
+            },
+            {
+                "text": "讨论组",
                 "iconPath": "/images/thx.png",
                 "selectedIconPath": "/images/thx-active.png"
             },
@@ -68,7 +74,8 @@ Page({
         swiperList: [],
         roomList: [],
         nowCategory: 0,
-        bookInfo: {}
+        bookInfo: {},
+        healthList: []
     },
 
     refresh() {
@@ -82,6 +89,7 @@ Page({
                 break
             }
             case 2: {
+                this.refreshHealth()
                 break
             }
             case 3: {
@@ -96,6 +104,20 @@ Page({
     refreshHome() {
         this.refreshSwiper()
         this.refreshLessonList()
+    },
+
+    /**
+     * 刷新健康首页
+     */
+    refreshHealth() {
+        scheduleService.queryCategory(100).then(res => {
+            this.setData({
+                healthList: res
+            })
+            healthLoding = false
+        }).catch(() => {
+            healthLoding = false
+        })
     },
 
     /**
@@ -315,6 +337,23 @@ Page({
             const seqno = this.data.roomList[this.data.roomList.length - 1].seqno
             this.addRoomList(seqno)
         }
+        if (!healthLoding && this.data.active === 2) {
+            healthLoding = true
+            const seqno = this.data.healthList[this.data.healthList.length - 1].seqno
+            this.addHealthList(seqno)
+        }
+    },
+
+    addHealthList(seqno) {
+        scheduleService.queryCategory(100, seqno).then(res => {
+            const list = [...this.data.healthList, ...res]
+            this.setData({
+                healthList: list
+            })
+            healthLoding = false
+        }).catch(() => {
+            healthLoding = false
+        })
     },
 
     /**
@@ -452,7 +491,7 @@ Page({
         if (index === nowActive) {
             return
         }
-        if ((index === 0 && nowActive === 2) || (index === 2 && nowActive === 0)) {
+        if ( index !== nowActive && (index !== 1  || index !== 4)) {
             if (wx.pageScrollTo) {
                 wx.pageScrollTo({
                     scrollTop: 0,
@@ -460,12 +499,12 @@ Page({
                 })
             }
         }
-        if (index === 2) {
+        if (index === 2 || index === 3) {
             if (!userBase.getGlobalData().authed) {
                 this.setDialog()
             }
         }
-        if (index === 3) {
+        if (index === 4) {
             this.setSimpleUserModel()
             if (!userBase.getGlobalData().authed) {
                 this.setDialog()
@@ -499,8 +538,9 @@ Page({
                 break
             }
             case 2: {
+                this.refreshHealth()
                 wx.setNavigationBarTitle({
-                    title: '老师家族'
+                    title: '连线调理'
                 })
                 this.setData({
                     active: index,
@@ -509,6 +549,16 @@ Page({
                 break
             }
             case 3: {
+                wx.setNavigationBarTitle({
+                    title: '讨论组'
+                })
+                this.setData({
+                    active: index,
+                    tabActive: index
+                })
+                break
+            }
+            case 4: {
                 wx.setNavigationBarTitle({
                     title: '我'
                 })
@@ -714,27 +764,15 @@ Page({
         })
     },
     jumpNewLook(value) {
-        getSetting('scope.userInfo').then(res => {
-            if (res) {
-                getUserInfo().then(userData => {
-                    const userInfo = userData.userInfo
-                    const userBaseInfo = userBase.getGlobalData()
-                    const sessionId = userBaseInfo.sessionId
-                    const userId = userBaseInfo.userId
-                    const userName = userInfo.nickName
-                    const userAvatar = userInfo.avatarUrl
-                    const roomID = value.roomId
-                    const roomName = value.title
-                    const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
-                    const path = `pages/mlvb-live-room-demo/live-room-page/room?userId=${userId}&userName=${userName}&userAvatar=${userAvatar}&roomID=${roomID}&roomName=${roomName}&sessionId=${sessionId}`
-                    wx.navigateToMiniProgram({
-                        appId: appid,
-                        path: path,
-                        envVersion: 'trial',
-                        success() {
-                        }
-                    })
-                })
+        const roomID = value.roomId
+        const roomName = value.title
+        const appid = userBase.getGlobalData().appid ? userBase.getGlobalData().appid : 'wx7854b9c2baa260f7'
+        const path = `pages/mlvb-live-room-demo/live-room-page/room?roomID=${roomID}&roomName=${roomName}`
+        wx.navigateToMiniProgram({
+            appId: appid,
+            path: path,
+            envVersion: 'trial',
+            success() {
             }
         })
     },

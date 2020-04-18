@@ -14,9 +14,13 @@
     </view>
 
     <view class="social-content" hidden="{{active !== 2}}">
+        <app-health-link healthList="{{healthList}}"></app-health-link>
+    </view>
+
+    <view class="social-content" hidden="{{active !== 3}}">
         <app-social></app-social>
     </view>
-    <view class="me-content" hidden="{{active !== 3}}">
+    <view class="me-content" hidden="{{active !== 4}}">
         <app-me simpleUserModel="{{simpleUserModel}}"></app-me>
     </view>
     <view>
@@ -146,7 +150,7 @@
         </view>
     </van-overlay>
 
-    <view hidden="{{active !== 2}}" class="rule-img-btn" bindtap="onShowSheet">
+    <view hidden="{{active !== 3}}" class="rule-img-btn" bindtap="onShowSheet">
         <van-image width="148rpx" height="184rpx" lazy-load="{{true}}"
                    src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/rule-log.png"></van-image>
     </view>

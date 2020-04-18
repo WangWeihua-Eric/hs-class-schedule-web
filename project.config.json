@@ -87,6 +87,13 @@
 					"pathName": "pages/social/social",
 					"query": "postCode=post100",
 					"scene": 1058
+				},
+				{
+					"id": -1,
+					"name": "连线调理",
+					"pathName": "pages/schedule/schedule",
+					"query": "active=2",
+					"scene": null
 				}
 			]
 		}

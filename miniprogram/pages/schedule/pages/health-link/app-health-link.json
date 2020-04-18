@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "app-health-card": "./components/app-health-card"
+  }
+}

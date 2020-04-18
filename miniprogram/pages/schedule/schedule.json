@@ -11,6 +11,7 @@
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "app-call-teacher-rule": "../../../components/active-rule/app-call-teacher-rule",
     "van-image": "@vant/weapp/image/index",
-    "app-new-home": "./pages/new-home/app-new-home"
+    "app-new-home": "./pages/new-home/app-new-home",
+    "app-health-link": "./pages/health-link/app-health-link"
   }
 }

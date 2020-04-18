@@ -1,0 +1,10 @@
+<view class="card-content">
+    <image class="card-img" lazy-load="{{true}}" src="{{cardData.coverImg}}"></image>
+    <view class="card-info f-c-jb-as">
+        <image class="card-tag" lazy-load="{{true}}" src="{{(cardData.roomStatus === 1 || cardData.roomStatus === 2) ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/health-in-live.png' : cardData.roomStatus === 0 ? 'cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/health-no-live.png' : ''}}"></image>
+        <view wx:if="{{cardData.lastTags}}" class="card-text-info f-js-ac">
+            <image class="card-in-play" lazy-load="{{true}}" src="cloud://hs-class-schedule-we-8wofx.6873-hs-class-schedule-we-8wofx-1301353511/live-play.gif"></image>
+            <view class="card-text">{{cardData.lastTags}}</view>
+        </view>
+    </view>
+</view>

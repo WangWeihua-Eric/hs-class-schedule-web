@@ -1,5 +1,5 @@
-import {UserBase} from "../../../../utils/user-utils/user-base";
 import {debounceForFunction} from "../../../../utils/time-utils/time-utils";
+import {UserBase} from "../../../../utils/user-utils/user-base";
 
 const userBase = new UserBase()
 
@@ -8,47 +8,28 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        swiperList: {
+        healthList: {
             type: Array,
             value: []
-        },
-        roomList: {
-            type: Array,
-            value: []
-        },
-        active: {
-            type: Number,
-            value: 0
         }
     },
 
     /**
      * 组件的初始数据
      */
-    data: {
-        categoryList: ['推荐', '声乐乐器', '运动健身', '书法绘画','数码生活', '美妆丽人','健康生活', '外语','其他']
-    },
+    data: {},
 
     /**
      * 组件的方法列表
      */
     methods: {
-        onCardBookEvent(event) {
-            this.triggerEvent('onBook', event.detail)
-        },
-        onChange(event) {
-            const index = event.detail.index
-            const params = {
-                index: index
-            }
-            this.triggerEvent('changeTabEvent', params)
-        },
         onJumpLook(event) {
             if (debounceForFunction()) {
                 return
             }
 
             const value = event.currentTarget.dataset.value
+            console.log(value)
             switch (value.linkto) {
                 case 0: {
                     this.jumpOldLook(value)
