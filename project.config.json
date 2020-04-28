@@ -90,7 +90,7 @@
 				},
 				{
 					"id": -1,
-					"name": "连线调理",
+					"name": "红松连线",
 					"pathName": "pages/schedule/schedule",
 					"query": "active=2",
 					"scene": null

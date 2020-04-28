@@ -55,7 +55,7 @@ Page({
                 "selectedIconPath": "/images/in-class-active.png"
             },
             {
-                "text": "连线调理",
+                "text": "红松连线",
                 "iconPath": "/images/health-link.png",
                 "selectedIconPath": "/images/health-link-active.png"
             },
@@ -540,7 +540,7 @@ Page({
             case 2: {
                 this.refreshHealth()
                 wx.setNavigationBarTitle({
-                    title: '连线调理'
+                    title: '红松连线'
                 })
                 this.setData({
                     active: index,
